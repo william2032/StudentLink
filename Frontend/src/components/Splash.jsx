@@ -20,7 +20,7 @@ const Splash = () => {
             <div
                 className="max-w-4xl w-full flex flex-col  justify-center  bg-[#F6F8FF] mx-4 rounded-2xl">
                 <div className="justify-start my-4 flex ml-[25px]">
-                    <h2 className="text-3xl  font-bold">Welcome</h2>
+                    <h2 className="text-2xl  font-bold"><span className="text-4xl font-semibold">W</span>elcome</h2>
                 </div>
 
                 <div className="flex space-x-4 mt-6 items-center justify-center">

@@ -9,8 +9,5 @@ export default defineConfig({
         watch: {
             usePolling: true, // Ensures changes are detected
         },
-        hmr: {
-            overlay: false, // Prevents error overlay from freezing reload
-        },
     },
 })
