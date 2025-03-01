@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 
 const Register = ({ onRegisterSuccess, onBackToLogin }) => {
   const [formData, setFormData] = useState({
@@ -12,9 +12,10 @@ const Register = ({ onRegisterSuccess, onBackToLogin }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleRegister = () => {
+  const handleRegister = (e) => {
     // Simulate successful registration
-    onRegisterSuccess();
+    
+      onRegisterSuccess();
   };
 
   return (
@@ -26,32 +27,32 @@ const Register = ({ onRegisterSuccess, onBackToLogin }) => {
 
       <div className="mb-4 flex items-center border rounded-lg p-2">
         <FaUser className="text-gray-500 mr-2" />
-        <input type="text" placeholder="First Name" className="w-full outline-none" />
+        <input type="text" placeholder="First Name" required className="w-full outline-none" />
       </div>
 
       <div className="mb-4 flex items-center border rounded-lg p-2">
         <FaUser className="text-gray-500 mr-2" />
-        <input type="text" placeholder="Last Name" className="w-full outline-none" />
+        <input type="text" placeholder="Last Name"  required className="w-full outline-none" />
       </div>
 
       <div className="mb-4 flex items-center border rounded-lg p-2">
         <FaUser className="text-gray-500 mr-2" />
-        <input type="text" placeholder="Username" className="w-full outline-none" />
+        <input type="text" placeholder="Username" required className="w-full outline-none" />
       </div>
 
       <div className="mb-4 flex items-center border rounded-lg p-2">
         <FaEnvelope className="text-gray-500 mr-2" />
-        <input type="email" placeholder="Enter email" className="w-full outline-none" />
+        <input type="email" placeholder="Enter email "required className="w-full outline-none" />
       </div>
 
       <div className="mb-4 flex items-center border rounded-lg p-2">
         <FaLock className="text-gray-500 mr-2" />
-        <input type="password" placeholder="Password" className="w-full outline-none" />
+        <input type="password" placeholder="Password"required className="w-full outline-none" />
       </div>
 
       <div className="mb-4 flex items-center border rounded-lg p-2">
         <FaLock className="text-gray-500 mr-2" />
-        <input type="password" placeholder="Repeat password" className="w-full outline-none" />
+        <input type="password" placeholder="Repeat password" required className="w-full outline-none" />
       </div>
 
       <button
