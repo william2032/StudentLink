@@ -3,8 +3,8 @@
 @import "tailwindcss";
 
 /* Body styles */
-body {
-    background-color: #ACE1AF;
+.splash {
+
     /* Adjusted opacity */
     font-family: "Roboto", sans-serif; /* Apply the imported font */
     margin: 0; /* Remove default margin */

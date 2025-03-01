@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
 
-const Register = ({ onRegisterSuccess }) => {
+const Register = ({ onRegisterSuccess, onBackToLogin }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -10,6 +10,7 @@ const Register = ({ onRegisterSuccess }) => {
     password: "",
     confirmPassword: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRegister = () => {
     // Simulate successful registration
@@ -18,6 +19,9 @@ const Register = ({ onRegisterSuccess }) => {
 
   return (
     <div className="p-6">
+      <div className="flex justify-start mb-4">
+        <button onClick={onBackToLogin} className="text-purple-500">← Back to Login</button>
+      </div>
       <h2 className="text-center text-2xl font-bold mb-6">STUDENTLINK</h2>
 
       <div className="mb-4 flex items-center border rounded-lg p-2">
@@ -53,6 +57,7 @@ const Register = ({ onRegisterSuccess }) => {
       <button
         onClick={handleRegister}
         className="w-full bg-purple-500 text-white py-2 rounded-lg mt-4"
+        disabled={isSubmitting}
       >
         Sign Up
       </button>
