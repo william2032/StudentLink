@@ -1,3 +1,15 @@
+
+import React from 'react';
+import Splash from "./Splash.jsx";
+
+const Login = () => {
+    return (
+        <section>
+            <div>
+                <Splash/>
+            </div>
+        </section>
+    );
 import { useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 
@@ -48,6 +60,7 @@ const Login = ({ openRegister }) => {
       </p>
     </div>
   );
+
 };
 
 export default Login;
