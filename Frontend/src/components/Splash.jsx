@@ -1,8 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {useNavigate} from "react-router-dom";
 
-const Splash = ({ onLoginClick, onSignupClick }) => {
+const Splash = () => {
+    const navigate = useNavigate();
     return (
         <div className=" flex  md:max-w-screen-xl  md:mx-auto   mt-10  relative overflow-hidden splash">
+            <div>
+
+            </div>
             <div
                 className="w-1/2 bg-gradient-to-r from-[#011638] to-[#53387E] bg-[#15121C]/50 text-white p-10 backdrop-blur-md h-[90vh] rounded-2xl">
                 {/*student logo*/}
@@ -32,7 +37,9 @@ const Splash = ({ onLoginClick, onSignupClick }) => {
 
                             <div>
                                 <p className="mt-2 text-2xl">Students</p>
-                                <button onClick={onLoginClick} className="mt-[30px] bg-purple-700 text-white px-4 py-2 rounded">Log in</button>
+                                <button onClick={() => navigate("/login")}
+                                        className="mt-[30px] bg-purple-700 text-white px-4 py-2 rounded">Log in
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -44,14 +51,16 @@ const Splash = ({ onLoginClick, onSignupClick }) => {
                             <span className="text-2xl"><img src="/company.svg" alt="company"/></span>
                             <div>
                                 <p className="mt-2 text-2xl">Company</p>
-                                <button onClick={onLoginClick} className="mt-[30px] bg-purple-700 text-white px-4 py-2 rounded">Log in</button>
+                                {/*<button onClick={onLoginClick}*/}
+                                {/*        className="mt-[30px] bg-purple-700 text-white px-4 py-2 rounded">Log in*/}
+                                {/*</button>*/}
                             </div>
                         </div>
                     </div>
                 </div>
-                <p className="mt-10 items-center justify-center sign">Don't have an account? <a href="#" 
-                                                                                                onClick={onSignupClick} className="text-purple-700 ">Sign
-                    up</a>
+                <p className="mt-10 items-center justify-center sign">Don't have an account?{" "} <span
+                    onClick={() => navigate("/login")} className='text-purple-700 cursor-pointer'>Sign
+                    up</span>
                 </p>
             </div>
         </div>
