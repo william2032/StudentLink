@@ -127,6 +127,7 @@ const Register = ({onRegisterSuccess}) => {
             </button>
         </div>
     );
+
 };
 
 export default Register;
