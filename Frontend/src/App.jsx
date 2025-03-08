@@ -4,6 +4,7 @@ import { useState } from "react";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Splash from "./components/Splash.jsx";
+import { Dashboard } from "./components/Dashboard.jsx";
 
 const App = () => {
     return (
@@ -13,6 +14,7 @@ const App = () => {
                 <Route path="/" element={ <Splash />} />
                 {/* Login route */}
                 <Route path="/login" element={<LoginScreen />} />
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
         </Router>
     );
