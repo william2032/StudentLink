@@ -24,7 +24,7 @@ const LoginScreen = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="flex items-center justify-center h-screen bg-gray-100 p-4">
+        <div className="flex items-center justify-center  h-full mt-20  pt-[100px]  p-4">
             {showRegister ? (
                 <Register onRegisterSuccess={() => setShowRegister(false)} onBackToLogin={() => setShowRegister(false)} />
             ) : (
