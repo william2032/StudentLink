@@ -4,10 +4,15 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {FaUser, FaLock} from "react-icons/fa";
 
-const Login = ({openRegister}) => {
+const Login = ({onLogin, openRegister}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+
+    const handleLogin = () => {
+        onLogin(username);
+        navigate("/dashboard");
+    };
 
     return (
         <div className="bg-white p-8 rounded-lg shadow-md w-96 space-y-4 login">
@@ -36,8 +41,8 @@ const Login = ({openRegister}) => {
             </div>
 
             <p className="text-right text-sm text-gray-500">Forgot password?</p>
-
-            <button onClick={() => navigate("/dashboard")}
+            {/* {handleLogin}  */}
+            <button onClick={() => navigate("/dashboard")} 
                     className="mt-[30px] bg-purple-700 text-white px-4 py-2 rounded cursor-pointer">Log in
             </button>
 
