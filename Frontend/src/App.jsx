@@ -16,7 +16,7 @@ const App = () => {
                 {/* Login route */}
                 <Route path="/login" element={<LoginScreen setUserName={setUserName}/>} />
                 <Route path="/dashboard" element={<Dashboard userName={userName}/>} />
-            </Routes>
+           </Routes>
         </Router>
     );
 };
