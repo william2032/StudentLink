@@ -1,6 +1,5 @@
 import React from 'react';
-import { FaBell, FaCaretDown } from "react-icons/fa";
-import { FaUserCircle } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 
 const Profile = ({ userName }) => {
    const [showDetails, setShowDetails] = useState(false);
@@ -25,7 +24,6 @@ const Profile = ({ userName }) => {
                     <div className="avatar-placeholder">
                         <img className="profile-img" src="/profile.png" alt="" />
                     </div>
-                </div>
                 <h2 className="text-lg text-black font-semibold mb-2">{ userName || "John"}</h2>
 {showDetails && <div className="text-gray-700 text-sm">
                     <p><span className="font-semibold">YEAR:</span> <span className="ml-10">3</span></p>

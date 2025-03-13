@@ -1,4 +1,4 @@
-|?'[p\'/.nm po09`    ']package com.wiseowls.StudentLink.Controllers;
+package com.wiseowls.StudentLink.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
