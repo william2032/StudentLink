@@ -1,22 +1,21 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { FaUser, FaLock, FaEnvelope, FaApple } from "react-icons/fa";
 
 const Register = ({ onRegisterSuccess }) => {
     const navigate = useNavigate();
 
-
     const handleLoginRedirect = () => {
         navigate("/"); // Redirect to login page
     };
+
     // State to manage form data
     const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
+        firstname: "",
+        lastname: "",
         username: "",
         email: "",
         password: "",
-        confirmPassword: "",
     });
 
     const [errors, setErrors] = useState({}); // Stores validation errors
@@ -52,11 +51,6 @@ const Register = ({ onRegisterSuccess }) => {
             newErrors.email = "Invalid email format";
         }
 
-        // Password validation
-        if (formData.password !== formData.confirmPassword) {
-            newErrors.confirmPassword = "Passwords do not match";
-        }
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -72,16 +66,36 @@ const Register = ({ onRegisterSuccess }) => {
         if (!validateForm()) return; // Stop submission if validation fails
         setIsSubmitting(true);
         setSuccessMessage("");
-
-        setTimeout(() => {
-            setSuccessMessage("Registration successful! Redirecting...");
-            setErrors({});
-
+        setErrors({});
+    
+        fetch('http://localhost:8080/api/students/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify(formData),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Registration successful:", data); // Debugging log
+            setSuccessMessage("Registration successful! Redirecting to login...");
             setTimeout(() => {
+                console.log("Redirecting to login..."); // Debugging log
                 setIsSubmitting(false);
                 navigate("/login");
-            }, 1500);
-        }, 1000);
+            }, 1500); // Redirect after 1.5 seconds
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            setErrors({ apiError: error.message });
+            setIsSubmitting(false);
+        });
     };
 
     return (
@@ -95,7 +109,6 @@ const Register = ({ onRegisterSuccess }) => {
                         <button className="flex items-center justify-center w-full p-3 border rounded-lg shadow-sm bg-gray-100 hover:bg-gray-200">
                             <img src="/google.svg" alt="Google" className="w-5 h-5 mr-2" /> Continue with Google
                         </button>
-
                     </div>
                     <div className="flex items-center my-4">
                         <hr className="flex-grow border-gray-300" />
@@ -105,12 +118,11 @@ const Register = ({ onRegisterSuccess }) => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {[
-                            { name: "firstName", placeholder: "Enter name", icon: <FaUser /> },
-                            { name: "lastName", placeholder: "Enter last name", icon: <FaUser /> },
+                            { name: "firstname", placeholder: "Enter name", icon: <FaUser /> },
+                            { name: "lastname", placeholder: "Enter last name", icon: <FaUser /> },
                             { name: "email", placeholder: "Enter email", icon: <FaEnvelope />, type: "email" },
                             { name: "username", placeholder: "Enter username", icon: <FaUser /> },
                             { name: "password", placeholder: "Enter password", icon: <FaLock />, type: "password" },
-                            { name: "confirmPassword", placeholder: "Enter confirm password", icon: <FaLock />, type: "password" },
                         ].map(({ name, placeholder, icon, type = "text" }) => (
                             <div key={name} className="flex flex-col">
                                 <div className={`flex items-center border rounded-lg p-2 ${errors[name] ? "border-red-500" : "border-gray-300"}`}>
@@ -137,6 +149,14 @@ const Register = ({ onRegisterSuccess }) => {
                     >
                         {isSubmitting ? "Signing Up..." : "Sign Up"}
                     </button>
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <div className="mt-4 text-green-500 text-center">
+                            {successMessage}
+                        </div>
+                    )}
+
                     {/* Redirect to Login Button */}
                     <div className="flex justify-center mt-4">
                         <button

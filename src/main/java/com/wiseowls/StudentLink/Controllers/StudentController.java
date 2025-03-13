@@ -3,6 +3,9 @@ package com.wiseowls.StudentLink.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +17,10 @@ import com.wiseowls.StudentLink.dtos.StudentRegistrationDTO;
 import com.wiseowls.StudentLink.models.Student;
 
 @RestController
+
+
+
+@CrossOrigin(origins = "http://localhost:5173") // Allow requests from this origin
 @RequestMapping("/api/students")
 public class StudentController {
     @Autowired
@@ -21,14 +28,23 @@ public class StudentController {
 
     // Endpoint to register a student
     @PostMapping("/register")
-    public String registerStudent(@RequestBody StudentRegistrationDTO registrationDTO) {
-        studentService.registerStudent(registrationDTO);
-        return "Student registered successfully!";
+    public ResponseEntity<String> registerStudent(@RequestBody StudentRegistrationDTO registrationDTO) {
+        try {
+            studentService.registerStudent(registrationDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Student registered successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register student: " + e.getMessage());
+        }
     }
 
     // Endpoint to fetch all registered students
     @GetMapping
-    public List<Student> getAllStudents() {
-        return studentService.getAllStudents();
+    public ResponseEntity<List<Student>> getAllStudents() {
+        try {
+            List<Student> students = studentService.getAllStudents();
+            return ResponseEntity.ok(students);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }
