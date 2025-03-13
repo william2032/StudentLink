@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaBell, FaCaretDown, FaUserCircle } from "react-icons/fa";
+import { FaBell, FaCaretDown } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 const Profile = ({ userName }) => {
     return (
         <div className="absolute top-4 left-230 bg-white p-6 rounded-lg shadow-lg w-80 border border-gray-300">
