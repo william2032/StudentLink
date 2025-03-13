@@ -100,7 +100,7 @@ const Register = ({ onRegisterSuccess }) => {
 
     return (
         <>
-            <div className=" w-full flex flex-row justify-center min-h-[150px] bg-gradient-to-b from-blue-600 to-blue-400  pt-[30px]  register">
+            <div className=" w-full flex flex-row justify-center min-h-[150px] bg-gradient-to-b from-purple-500 to-purple-400  pt-[30px]  register">
                 <h2 className="text-center text-3xl font-semibold mt-[10px]  text-white w-full">Create your free account</h2>
 
                 <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl mt-[60px] absolute">
