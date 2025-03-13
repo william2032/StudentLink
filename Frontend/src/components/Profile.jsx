@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaBell, FaCaretDown } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
+
 const Profile = ({ userName }) => {
     return (
         <div className="absolute top-4 left-230 bg-white p-6 rounded-lg shadow-lg w-80 border border-gray-300">
@@ -16,7 +17,6 @@ const Profile = ({ userName }) => {
                 <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border border-gray-300">
                 <FaUserCircle className="text-gray-500 ml-6 mt-6" size={50} />
                 </div>
-                <h2 className="text-lg text-black font-semibold mb-2">{ userName || "John"}</h2>
                 <h2 className="text-lg text-black font-semibold mb-2">{ userName || "John Doe"}</h2>
                 <div className="text-gray-700 text-sm">
                     <p><span className="font-semibold">YEAR:</span> <span className="ml-10">3</span></p>
