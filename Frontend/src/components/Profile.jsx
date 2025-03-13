@@ -26,7 +26,7 @@ const Profile = ({ userName }) => {
                         <img className="profile-img" src="/profile.png" alt="" />
                     </div>
                 </div>
-                <h2 className="text-lg text-black font-semibold mb-2">{ userName || "John"}</h2>
+                <h2 className="text-lg text-black font-semibold mb-2">{ userName || "John Doe"}</h2>
 {showDetails && <div className="text-gray-700 text-sm">
                     <p><span className="font-semibold">YEAR:</span> <span className="ml-10">3</span></p>
                     <p><span className="font-semibold">Admission No:</span> <span className="ml-4">EB1/61319/22</span></p>
