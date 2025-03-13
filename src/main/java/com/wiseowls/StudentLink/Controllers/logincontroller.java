@@ -1,4 +1,4 @@
-|?'[p\'/.nm po09`    ']package com.wiseowls.StudentLink.Controllers;
+package com.wiseowls.StudentLink.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class logincontroller {
 
     @PostMapping("/login")
     public ResponseEntity<loginResponseDTO> login(@RequestBody loginRequestDTO loginRequestDTO) {
-         loginResponseDTO response = loginService.validateUser(loginRequestDTO);
-         return  ResponseEntity.ok(response);
+        loginResponseDTO response = loginService.validateUser(loginRequestDTO);
+        return  ResponseEntity.ok(response);
     }
 }

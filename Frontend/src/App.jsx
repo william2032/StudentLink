@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Route, BrowserRouter as Router, Routes, useNavigate } from "react-router-dom";
+import Dashboard from "./components/Dashboard.jsx";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Splash from "./components/Splash.jsx";
-import Dashboard from "./components/Dashboard.jsx";
 
 const App = () => {
     const [userName, setUserName] = useState("");
@@ -13,16 +13,9 @@ const App = () => {
                 {/* Splash screen as the main landing page */}
                 <Route path="/" element={ <Splash />} />
                 {/* Login route */}
-<<<<<<< HEAD
-                <Route path="/login" element={<LoginScreen />} />
-                {/* Register route */}
-                {/* <Route path="/register" element={<RegisterScreen />} /> */}
-            </Routes>
-=======
                 <Route path="/login" element={<LoginScreen setUserName={setUserName}/>} />
                 <Route path="/dashboard" element={<Dashboard userName={userName}/>} />
-           </Routes>
->>>>>>> d6c2c2ce530449165e5cb88ef3f6d8da5db697f4
+            </Routes>
         </Router>
     );
 };
