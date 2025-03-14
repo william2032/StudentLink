@@ -30,12 +30,23 @@ public class StudentController {
     @PostMapping("/register")
     public ResponseEntity<String> registerStudent(@RequestBody StudentRegistrationDTO registrationDTO) {
         try {
+            // Check if the student is already registered by email or username
+            boolean isRegisteredByEmail = studentService.isStudentRegisteredByEmail(registrationDTO.getEmail());
+            boolean isRegisteredByUsername = studentService.isStudentRegisteredByUsername(registrationDTO.getUsername());
+            
+            if (isRegisteredByEmail || isRegisteredByUsername) {
+                // If the student is already registered, return a conflict response
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"error\": \"Student is already registered.\"}");
+            }
+            
+            // Register the student if they are not already registered
             studentService.registerStudent(registrationDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body("{}");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"error\": \"Failed to register student: " + e.getMessage() + "\"}");
         }
     }
+    
 
     // Endpoint to fetch all registered students
     @GetMapping
