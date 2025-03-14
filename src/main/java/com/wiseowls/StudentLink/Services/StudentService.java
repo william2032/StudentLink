@@ -1,13 +1,14 @@
 package com.wiseowls.StudentLink.Services;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.wiseowls.StudentLink.Repositories.StudentRepository;
 import com.wiseowls.StudentLink.dtos.StudentRegistrationDTO;
 import com.wiseowls.StudentLink.models.Student;
-import com.wiseowls.StudentLink.Repositories.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.List;
 
 @Service
 public class StudentService {
@@ -26,7 +27,17 @@ public class StudentService {
 
         return studentRepository.save(student);
     }
-
+    
+    public boolean isStudentRegisteredByEmail(String email) {
+        // Implement the logic to check if the student is already registered in the database by email
+        return studentRepository.existsByEmail(email);
+    }
+    
+    public boolean isStudentRegisteredByUsername(String username) {
+        // Implement the logic to check if the student is already registered in the database by username
+        return studentRepository.existsByUsername(username);
+    }
+    
     // Method to fetch all registered students
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
