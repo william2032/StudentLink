@@ -31,9 +31,9 @@ public class StudentController {
     public ResponseEntity<String> registerStudent(@RequestBody StudentRegistrationDTO registrationDTO) {
         try {
             studentService.registerStudent(registrationDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Student registered successfully!");
+            return ResponseEntity.status(HttpStatus.CREATED).body("{}");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register student: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"error\": \"Failed to register student: " + e.getMessage() + "\"}");
         }
     }
 
