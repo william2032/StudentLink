@@ -95,7 +95,7 @@ const Register = ({ onRegisterSuccess }) => {
         } catch (error) {
             console.error('Error:', error);
             setErrors({ apiError: error.message });
-            setSuccessMessage("Registration failed. Please try again.");
+            setSuccessMessage("The email or username is already in use.");
         } finally {
             setIsSubmitting(false);
         }
