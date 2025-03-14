@@ -11,10 +11,12 @@ const App = () => {
         <Router>
             <Routes>
                 {/* Splash screen as the main landing page */}
-                <Route path="/" element={ <Splash />} />
+                <Route path="/" element={<Splash />} />
                 {/* Login route */}
-                <Route path="/login" element={<LoginScreen setUserName={setUserName}/>} />
-                <Route path="/dashboard" element={<Dashboard userName={userName}/>} />
+                <Route path="/login" element={<LoginScreen setUserName={setUserName} />} />
+                <Route path="/dashboard" element={<Dashboard userName={userName} />} />
+                <Route path="/register" element={<Register onRegisterSuccess={() => setUserName(userName)} />} />
+
             </Routes>
         </Router>
     );
@@ -35,7 +37,7 @@ const LoginScreen = () => {
             {showRegister ? (
                 <Register onRegisterSuccess={() => setShowRegister(false)} onBackToLogin={() => setShowRegister(false)} />
             ) : (
-                <Login openRegister={() => setShowRegister(true)} onLogin={handleLogin}/>
+                <Login openRegister={() => navigate("/register")} onLogin={handleLogin} setUserName={() => setUserName} />
             )}
             <button onClick={() => navigate("/")} className="absolute top-4 left-4 text-purple-500">← Back</button>
         </div>

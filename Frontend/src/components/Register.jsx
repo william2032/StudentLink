@@ -4,20 +4,23 @@ import { useNavigate } from "react-router-dom";
 
 const Register = ({ onRegisterSuccess }) => {
     const navigate = useNavigate();
-
-    const handleLoginRedirect = () => {
-        navigate("/"); // Redirect to login page
-    };
+    const API_URL = "http://localhost:8080/api/students";
 
     // State to manage form data
-    const [formData, setFormData] = useState({
-        firstname: "",
-        lastname: "",
-        username: "",
-        email: "",
-        password: "",
-    });
+    function initialFormData() {
+        return {
+            firstname: "",
+            lastname: "",
+            username: "",
+            email: "",
+            password: "",
+        };
+    }
 
+    const handleLoginRedirect = () => {
+        navigate("/login"); // Redirect to login page
+    };
+    const [formData, setFormData] = useState(initialFormData());
     const [errors, setErrors] = useState({}); // Stores validation errors
     const [isSubmitting, setIsSubmitting] = useState(false); // Button disable state
     const [successMessage, setSuccessMessage] = useState(""); // Success message state
@@ -62,40 +65,45 @@ const Register = ({ onRegisterSuccess }) => {
     }, [formData]);
 
     // Handle registration
-    const handleRegister = () => {
+    const handleRegister = async () => {
         if (!validateForm()) return; // Stop submission if validation fails
         setIsSubmitting(true);
         setSuccessMessage("");
         setErrors({});
-    
-        fetch('http://localhost:8080/api/students/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify(formData),
-        })
-        .then(response => {
+
+        try {
+            const response = await fetch(`${API_URL}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(formData),
+            });
+
             if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
+                const errorText = await response.text();
+                throw new Error(errorText);
             }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Registration successful:", data); // Debugging log
+
+            await response.json();
             setSuccessMessage("Registration successful! Redirecting to login...");
+            onRegisterSuccess();
             setTimeout(() => {
-                console.log("Redirecting to login..."); // Debugging log
-                setIsSubmitting(false);
-                navigate("/login");
-            }, 1500); // Redirect after 1.5 seconds
-        })
-        .catch(error => {
+                navigate('/login');
+                resetFormData();
+            }, 1500)
+
+        } catch (error) {
             console.error('Error:', error);
             setErrors({ apiError: error.message });
+            setSuccessMessage("Registration failed. Please try again.");
+        } finally {
             setIsSubmitting(false);
-        });
+        }
+    };
+
+    // Reset form data
+    const resetFormData = () => {
+        setFormData(initialFormData());
     };
 
     return (
@@ -147,7 +155,13 @@ const Register = ({ onRegisterSuccess }) => {
                         className={`w-full py-2 mt-6 rounded-lg ${isButtonDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}`}
                         disabled={isButtonDisabled || isSubmitting}
                     >
-                        {isSubmitting ? "Signing Up..." : "Sign Up"}
+
+                        {isSubmitting ? (
+                            <div className="flex items-center justify-center">
+                                <div className="loader"></div>
+                                <span className="ml-2">Signing Up...</span>
+                            </div>
+                        ) : "Sign Up"}
                     </button>
 
                     {/* Success Message */}

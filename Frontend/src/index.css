@@ -1,114 +1,126 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
 /* Body styles */
 .splash {
-
-    /* Adjusted opacity */
-    font-family: "Roboto", sans-serif; /* Apply the imported font */
-    margin-left: 100px; /* Remove default margin */
-    height: 100vh; /* Ensure full height */
-    display: flex; /* Center content */
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
+  /* Adjusted opacity */
+  font-family: "Roboto", sans-serif; /* Apply the imported font */
+  margin-left: 100px; /* Remove default margin */
+  height: 100vh; /* Ensure full height */
+  display: flex; /* Center content */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
 }
 
 .register {
-    top: 0;
-    margin-top: -100px;
+  top: 0;
+  margin-top: -100px;
 }
 .sign {
-    text-align: center;
-    margin-left: 20px;
-    margin-top: 100px;
+  text-align: center;
+  margin-left: 20px;
+  margin-top: 100px;
 }
 
 .div-left {
-    max-height: 600px;
+  max-height: 600px;
 }
-
 
 .login {
-    padding: 50px;
-
+  padding: 50px;
 }
-
 
 /* Frontend/src/components/Profile.css */
 .profile-container {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    padding: 20px;
-    max-width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .profile-title {
-    text-align: left;
-    font-size: 24px;
-    margin-bottom: 20px;
+  text-align: left;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .profile-info {
-    text-align: center;
+  text-align: center;
 }
 
 .profile-avatar {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .avatar-placeholder {
-    font-size: 50px;
-    border-radius: 50%;
-    background-color: #e0e0e0;
-    width: 150px;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
+  font-size: 50px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
 }
 
 .profile-name {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 10px 0;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0;
 }
 
 .profile-details {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .detail-item {
-    display: flex;
-    justify-content: space-between;
-    margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
 }
 
 .detail-label {
-    color: #555;
+  color: #555;
 }
 
 .detail-value {
-    font-weight: bold;
-
+  font-weight: bold;
 }
 
 .update-button {
-    background-color: #925FE2;
-    text-align: center;
-    justify-items: center;
-    color: white;
-    margin-left: 70px;
-    border: none;
-    border-radius: 12px;
-    padding: 10px 40px;
-    cursor: pointer;
-    font-size: 16px;
-
+  background-color: #925fe2;
+  text-align: center;
+  justify-items: center;
+  color: white;
+  margin-left: 70px;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 40px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .update-button:hover {
-    background-color: #3700b3;
+  background-color: #3700b3;
+}
+
+/* Add this CSS to your styles */
+.loader {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
