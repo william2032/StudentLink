@@ -57,7 +57,7 @@ const Splash = () => {
                     </div>
                 </div>
                 <p className="mt-10  mb-5 items-center justify-center sign">Don't have an account?{" "} <span
-                    onClick={() => navigate("/login")} className='text-purple-700 cursor-pointer'>Sign
+                    onClick={() => navigate("/register")} className='text-purple-700 cursor-pointer'>Sign
                     up</span>
                 </p>
             </div>
