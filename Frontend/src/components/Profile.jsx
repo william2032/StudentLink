@@ -1,7 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaBell, FaCaretDown, FaUserCircle } from "react-icons/fa";
 
 const Profile = ({ userName }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [admissionNo, setAdmissionNo] = useState("");
+    const [programStudy, setProgramStudy] = useState("");
+
+    const handleUpdateProfile = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Handle form submission logic here
+        console.log("Admission No:", admissionNo);
+        console.log("Program Study:", programStudy);
+        handleCloseModal();
+    };
     return (
         <div className="absolute top-0 left-387 bg-white p-6 rounded-lg shadow-lg w-80 border border-gray-300">
             <div className="flex justify-between items-center mb-4">
@@ -18,14 +37,33 @@ const Profile = ({ userName }) => {
                 </div>
                 <h2 className="text-lg text-black font-semibold mb-2">{ userName || "John Doe"}</h2>
                 <div className="text-gray-700 text-sm">
-                    <p><span className="font-semibold">Personal Info.</span></p>
+                <p><span className="font-semibold">Personal Info.</span></p>
                     <p><span className="font-semibold">Education</span> </p>
                     <p><span className="font-semibold">Skills</span></p>
                     <p><span className="font-semibold">Interests</span></p>
                     <p><span className="font-semibold">Social Links</span></p>
                 </div>
-                <button className="bg-purple-500 text-white px-4 py-2 rounded mt-4 hover:bg-purple-600">Update Profile</button>
+                <button onClick={handleUpdateProfile} className="bg-purple-500 text-white px-4 py-2 rounded mt-4 hover:bg-purple-600">Update Profile</button>
             </div>
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-xl bg-black/40">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                        <h2 className="text-lg font-bold mb-4">Update Profile</h2>
+                        <form onSubmit={handleSubmit}>
+                            <label className="block mb-2">Admission No:</label>
+                            <input type="text" className="border p-2 w-full mb-4" value={admissionNo} onChange={(e) => setAdmissionNo(e.target.value)} required />
+
+                            <label className="block mb-2">Program of Study:</label>
+                            <input type="text" className="border p-2 w-full mb-4" value={programStudy} onChange={(e) => setProgramStudy(e.target.value)} required />
+
+                            <div className="flex justify-end">
+                                <button type="button" onClick={handleCloseModal} className="bg-gray-400 text-white px-4 py-2 rounded mr-2">Cancel</button>
+                                <button type="submit" className="bg-purple-500 text-white px-4 py-2 rounded">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

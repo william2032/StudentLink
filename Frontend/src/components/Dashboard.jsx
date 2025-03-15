@@ -2,11 +2,18 @@ import React, { useEffect, useState } from "react";
 import { FaGraduationCap } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { MdDashboard } from "react-icons/md";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Profile from "./Profile.jsx";
 
 
 
-const Sidebar = ({ username }) => {
+const Sidebar = ({ userName }) => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleLogout = () => {
+    navigate("/"); // Redirect to SplashScreen
+  };
+
   return (
     <div className="w-60 h-screen bg-purple-500 p-5 text-white rounded-lg flex flex-col fixed left-2 top-4">
       <div className="flex items-center space-x-2 mb-6">
@@ -35,13 +42,11 @@ const Sidebar = ({ username }) => {
         </a>
       </nav>
       <div className="mt-auto">
-        <a href="#" className="flex items-center space-x-2 hover:opacity-80 down-4">
-          <FiLogOut size={20} />
+      <a href="#" className="flex items-center space-x-2 hover:opacity-80" onClick={handleLogout}>
+      <FiLogOut size={20} />
           <span>Logout</span>
         </a>
       </div>
-      {/* Call the Profile component here */}
-      <Profile userName={username} />
     </div>
   );
 };
@@ -65,8 +70,10 @@ const Dashboard = ({ userName }) => {
     setCurrentDate(formattedDate);
   }, []);
   return (
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar username={userName} />
+    <div className="relative flex h-screen bg-gray-100">
+      {/* Call the Profile component here */}
+      <Profile userName={userName} />
+      <Sidebar userName={userName} />
       <div className="flex-1 ml-60 mr-90 p-4 ">
         {/* Welcome Message Centered at Top */}
         <div className="bg-gradient-to-r from-purple-500 to-purple-400 text-white text-center p-8 h-60 rounded-lg shadow-lg justify-center">
@@ -98,13 +105,6 @@ const SplashScreen = ({ onLogin }) => {
       </div>
     </div>
   );
-};
-
-const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
-
-  return isLoggedIn ? <Dashboard username={username} /> : <SplashScreen onLogin={() => setIsLoggedIn(true)} />;
 };
 
 export default Dashboard;
