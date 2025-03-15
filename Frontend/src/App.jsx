@@ -23,7 +23,7 @@ const App = () => {
 };
 
 // Component to handle login/register navigation
-const LoginScreen = () => {
+const LoginScreen = ({setUserName}) => {
     const [showRegister, setShowRegister] = useState(false);
     const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ const LoginScreen = () => {
             {showRegister ? (
                 <Register onRegisterSuccess={() => setShowRegister(false)} onBackToLogin={() => setShowRegister(false)} />
             ) : (
-                <Login openRegister={() => navigate("/register")} onLogin={handleLogin} setUserName={() => setUserName} />
+                <Login openRegister={() => navigate("/register")} onLogin={handleLogin} setUserName={setUserName} />
             )}
             <button onClick={() => navigate("/")} className="absolute top-4 left-4 text-purple-500">← Back</button>
         </div>

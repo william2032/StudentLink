@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const Login = ({ openRegister }) => {
+const Login = ({ openRegister, setUserName }) => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -11,6 +11,7 @@ const Login = ({ openRegister }) => {
 
   const API_URL = "http://localhost:8080/api/login";
   const navigate = useNavigate();
+
   // Function to handle login
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ const Login = ({ openRegister }) => {
 
       if (data.success && data.message) {
         console.log("Login successful:", data);
-        setUsername(data.username || " ");
+        setUserName(data.username || username);
         setTimeout(() => {
           navigate('/dashboard');
 
