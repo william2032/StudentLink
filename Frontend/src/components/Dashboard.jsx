@@ -1,28 +1,41 @@
-import React, { useState, useEffect } from "react";
-import Profile from "./Profile.jsx";
+import React, { useEffect, useState } from "react";
 import { FaGraduationCap } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { MdDashboard } from "react-icons/md";
+import Profile from "./Profile.jsx";
 
 
 
 const Sidebar = ({ username }) => {
   return (
-    <div className="w-60 h-screen bg-purple-500 p-5 text-white flex flex-col fixed left-0 top-0">
+    <div className="w-60 h-screen bg-purple-500 p-5 text-white rounded-lg flex flex-col fixed left-2 top-4">
       <div className="flex items-center space-x-2 mb-6">
         <FaGraduationCap size={30} />
+        <h2 className="">StudentLink</h2>
       </div>
       <nav className="flex flex-col space-y-4">
         <a href="#" className="flex items-center space-x-2 hover:opacity-80">
           <MdDashboard size={20} />
           <span>Dashboard</span>
         </a>
-        <a href="#" className="flex items-center space-x-2 opacity-50 cursor-not-allowed">
-          <span>Drop Semester</span>
+        <a href="#" className="flex items-center space-x-2 opacity-70 ">
+          <span>Home</span>
+        </a>
+        <a href="#" className="flex items-center space-x-2 opacity-70 ">
+          <span>My Network</span>
+        </a>
+        <a href="#" className="flex items-center space-x-2 opacity-70 ">
+          <span>Applications</span>
+        </a>
+        <a href="#" className="flex items-center space-x-2 opacity-70 ">
+          <span>Me</span>
+        </a>
+        <a href="#" className="flex items-center space-x-2 opacity-70 ">
+          <span>Groups</span>
         </a>
       </nav>
       <div className="mt-auto">
-        <a href="#" className="flex items-center space-x-2 hover:opacity-80">
+        <a href="#" className="flex items-center space-x-2 hover:opacity-80 down-4">
           <FiLogOut size={20} />
           <span>Logout</span>
         </a>
@@ -36,6 +49,9 @@ const Sidebar = ({ username }) => {
 const Dashboard = ({ userName }) => {
   // State for date
   const [currentDate, setCurrentDate] = useState("");
+  // <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border border-gray-300">
+  //     <FaUserCircle className="text-gray-500 ml-6 mt-6" size={50} />
+  // </div>
 
   // Update date on component mount
   useEffect(() => {
@@ -54,10 +70,18 @@ const Dashboard = ({ userName }) => {
       <div className="flex-1 ml-60 mr-90 p-4 ">
         {/* Welcome Message Centered at Top */}
         <div className="bg-gradient-to-r from-purple-500 to-purple-400 text-white text-center p-8 h-60 rounded-lg shadow-lg justify-center">
+          <div className="flex justify-center mb-4">
+            <FaGraduationCap size={30} className="mr-2"/>
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full max-w-md p-2 border border-gray-300  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
           <p className="text-sm">{currentDate}</p>
           <div className="flex flex-col items-center text-center mt-10">
             <h1 className="text-2xl font-bold">Welcome back, {userName || "John"}!</h1>
-            <p className="text-md">Always stay updated in your student portal</p>
+            <p className="text-md">Always stay updated in your portal</p>
           </div>
         </div>
       </div>
