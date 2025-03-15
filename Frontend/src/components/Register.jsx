@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const Register = ({ onRegisterSuccess }) => {
@@ -14,6 +13,7 @@ const Register = ({ onRegisterSuccess }) => {
             username: "",
             email: "",
             password: "",
+            confirmPassword: "",
         };
     }
 
@@ -53,10 +53,16 @@ const Register = ({ onRegisterSuccess }) => {
         if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
             newErrors.email = "Invalid email format";
         }
-
+        //password validation
+        if (formData.confirmPassword && formData.password !== formData.confirmPassword) {
+            newErrors.confirmPassword = "Passwords do not match";
+        }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
+
+
     };
+
 
     // Enable/Disable sign-up button based on form completion
     useEffect(() => {
@@ -108,40 +114,29 @@ const Register = ({ onRegisterSuccess }) => {
 
     return (
         <>
-            <div className=" w-full flex flex-row justify-center min-h-[150px] bg-gradient-to-b from-purple-500 to-purple-400  pt-[30px]  register">
-                <h2 className="text-center text-3xl font-semibold mt-[10px]  text-white w-full">Create your free account</h2>
+            <div className="w-full flex flex-row justify-center min-h-[200px] pt-10 register">
+                <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md mt-10">
+                    <h2 className="text-center text-3xl font-semibold mb-6">Welcome to StudentLink</h2>
+                    <p className="text-center mb-4">Create an account</p>
 
-                <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl mt-[60px] absolute">
-                    {/* Social Login Buttons */}
-                    <div className="flex sm:flex-row gap-4 mb-6">
-                        <button className="flex items-center justify-center w-full p-3 border rounded-lg shadow-sm bg-gray-100 hover:bg-gray-200">
-                            <img src="/google.svg" alt="Google" className="w-5 h-5 mr-2" /> Continue with Google
-                        </button>
-                    </div>
-                    <div className="flex items-center my-4">
-                        <hr className="flex-grow border-gray-300" />
-                        <span className="mx-2 text-gray-500">Or</span>
-                        <hr className="flex-grow border-gray-300" />
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4 text-[15px]">
                         {[
-                            { name: "firstname", placeholder: "Enter name", icon: <FaUser /> },
-                            { name: "lastname", placeholder: "Enter last name", icon: <FaUser /> },
-                            { name: "email", placeholder: "Enter email", icon: <FaEnvelope />, type: "email" },
-                            { name: "username", placeholder: "Enter username", icon: <FaUser /> },
-                            { name: "password", placeholder: "Enter password", icon: <FaLock />, type: "password" },
-                        ].map(({ name, placeholder, icon, type = "text" }) => (
+                            { name: "firstname", placeholder: "Firstname", type: "text" },
+                            { name: "lastname", placeholder: "Lastname", type: "text" },
+                            { name: "username", placeholder: "Username", type: "text" },
+                            { name: "email", placeholder: "Email", type: "email" },
+                            { name: "password", placeholder: "Password", type: "password" },
+                            { name: "confirmPassword", placeholder: "Confirm password", type: "password" },
+                        ].map(({ name, placeholder, type }) => (
                             <div key={name} className="flex flex-col">
-                                <div className={`flex items-center border rounded-lg p-2 ${errors[name] ? "border-red-500" : "border-gray-300"}`}>
-                                    {icon}
+                                <label className="text-gray-700 mb-1">{placeholder}</label>
+                                <div className="flex items-center relative">
                                     <input
                                         type={type}
                                         name={name}
-                                        placeholder={placeholder}
                                         value={formData[name]}
                                         onChange={handleChange}
-                                        className="w-full outline-none text-black p-2"
+                                        className={`w-full outline-none text-black p-2 border-b-2 ${errors[name] ? "border-red-500" : "border-gray-300"}`}
                                     />
                                 </div>
                                 {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]}</p>}
@@ -152,10 +147,9 @@ const Register = ({ onRegisterSuccess }) => {
                     {/* Sign Up Button */}
                     <button
                         onClick={handleRegister}
-                        className={`w-full py-2 mt-6 rounded-lg ${isButtonDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}`}
+                        className={`w-full py-2 mt-6 rounded-lg ${isButtonDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-purple-500 text-white hover:bg-pink-700"}`}
                         disabled={isButtonDisabled || isSubmitting}
                     >
-
                         {isSubmitting ? (
                             <div className="flex items-center justify-center">
                                 <div className="loader"></div>
@@ -173,11 +167,8 @@ const Register = ({ onRegisterSuccess }) => {
 
                     {/* Redirect to Login Button */}
                     <div className="flex justify-center mt-4">
-                        <button
-                            onClick={handleLoginRedirect}
-                            className=""
-                        >
-                            Already have an account? <span className="text-blue-600 hover:cursor-pointer ">Log in</span>
+                        <button onClick={handleLoginRedirect} className="">
+                            Already have an account? <span className="text-purple-500  hover:cursor-pointer">Sign in</span>
                         </button>
                     </div>
                 </div>

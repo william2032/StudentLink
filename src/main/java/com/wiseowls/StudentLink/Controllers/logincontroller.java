@@ -19,7 +19,14 @@ public class logincontroller {
 
     @PostMapping("/login")
     public ResponseEntity<loginResponseDTO> login(@RequestBody loginRequestDTO loginRequestDTO) {
+        if (loginRequestDTO == null) {
+            return ResponseEntity.badRequest().body(null); // Return bad request if the request body is null
+        }
         loginResponseDTO response = loginService.validateUser(loginRequestDTO);
+        
+         if (response == null) {
+            return ResponseEntity.status(401).body(null); // Return unauthorized if login fails
+        }
         return  ResponseEntity.ok(response);
     }
 }

@@ -1,6 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
+body {
+  font-family: "Roboto", sans-serif;
+}
 /* Body styles */
 .splash {
   /* Adjusted opacity */
@@ -12,10 +15,6 @@
   justify-content: center; /* Center horizontally */
 }
 
-.register {
-  top: 0;
-  margin-top: -100px;
-}
 .sign {
   text-align: center;
   margin-left: 20px;
@@ -123,4 +122,16 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+.register {
+  background-color: #f7f7f7;
+  border: none;
+}
+.register input {
+  border: none;
+  border-bottom: 2px solid;
+}
+.label {
+  border: none;
 }

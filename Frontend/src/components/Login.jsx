@@ -25,7 +25,7 @@ const Login = ({ openRegister }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Login failed: ' + response.statusText);
+        setErrorMessage('Login failed: ' + response.statusText);
       }
       const data = await response.json();
 
@@ -38,6 +38,7 @@ const Login = ({ openRegister }) => {
         }, 1500)
 
       } else {
+        console.log("Login failed:", data);
         setErrorMessage('Invalid username or password');
       }
 

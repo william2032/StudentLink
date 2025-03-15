@@ -47,7 +47,6 @@ const LoginScreen = () => {
 // Component to handle register navigation
 const RegisterScreen = () => {
     const navigate = useNavigate();
-
     return (
         <div className="flex items-center justify-center  h-full mt-20  pt-[100px]  p-4">
             <Register onRegisterSuccess={() => navigate("/login")} onBackToLogin={() => navigate("/login")} />
