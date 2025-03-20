@@ -51,7 +51,7 @@ const Login = ({ openRegister, setUserName }) => {
       <div className="left-section">
         <div className="login-form ">
           <div className='text-left '>
-            <h2 className='text-3xl font-semibold text-white '>Login</h2>
+            <h2 className='text-3xl font-semibold text-white mb-3'>Login</h2>
             <p className='flex text-[13px] mb-5 '>Enter your account details</p>
           </div>
 
@@ -99,8 +99,8 @@ const Login = ({ openRegister, setUserName }) => {
       </div>
       <div className="right-section mt-5 " style={{ backgroundImage: 'url("/studentbanner.svg"), linear-gradient(to right, #4b0082, #8a2be2)', backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
         <div className='w-full text-center flex-wrap '>
-          <h2 className="text-center text-3xl space-y-1  tracking-wider font-extrabold font-serif leading-[60px] mb-6 justify-center">Welcome to <br /> <span className='font-light'>STUDENT LINK</span></h2>
-          <p className='text-black text-sm'>Where we bring Opportunities to you</p>
+          <h2 className="text-center   mb-6 justify-center">Welcome to <br /> <span className='font-light text-[25px]'>STUDENT LINK</span></h2>
+          <p className='text-black text-sm' >Where we bring Opportunities to you</p>
         </div>
 
       </div>
