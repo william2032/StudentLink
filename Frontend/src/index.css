@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 @import "tailwindcss";
 
 body {
@@ -27,13 +29,16 @@ body {
 .right-section {
   flex: 1;
   display: flex;
-  margin-top: 50px;
+  /* margin-top: 50px; */
+  border-radius: 20px;
   color: white;
   padding: 20px;
 }
-
-h2 {
-  margin-bottom: 10px;
+.right-section h2 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 20px;
 }
 
 .login-form {
@@ -46,10 +51,6 @@ h2 {
   padding-top: 200px;
   padding-right: 100px;
   padding-left: 50px;
-}
-
-h2 {
-  margin-bottom: 10px;
 }
 
 .input-group {
@@ -169,7 +170,6 @@ h2 {
   background-color: #3700b3;
 }
 
-/* Add this CSS to your styles */
 .loader {
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-top: 4px solid white;
@@ -197,14 +197,41 @@ h2 {
   border-bottom: 2px solid;
 }
 
-.label {
-  border: none;
+.register-container {
+  background: #2e2e2e;
+  color: white;
+  margin: 10px;
 }
 
-.login-background {
-  background-image: url("/schoolpatterns.png");
-  background-size: cover;
-  background-position: center;
-  height: 100vh; /* Full height of the viewport */
-  width: 100vw;
+.register-container .left-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-container .right-section {
+  flex: 1;
+  display: flex;
+  margin-top: 10px;
+  margin-left: -27vw;
+  color: white;
+  border-radius: 30px;
+  padding: 20px;
+}
+
+.register-form {
+  background: #2e2e2e;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  padding-right: 30px;
+}
+
+.input-group-register input {
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+  padding-top: 2px;
+  background: transparent;
+  color: white;
 }

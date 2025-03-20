@@ -20,6 +20,7 @@ const Register = ({ onRegisterSuccess }) => {
     const handleLoginRedirect = () => {
         navigate("/"); // Redirect to login page
     };
+
     const [formData, setFormData] = useState(initialFormData());
     const [errors, setErrors] = useState({}); // Stores validation errors
     const [isSubmitting, setIsSubmitting] = useState(false); // Button disable state
@@ -53,10 +54,12 @@ const Register = ({ onRegisterSuccess }) => {
         if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
             newErrors.email = "Invalid email format";
         }
-        //password validation
+
+        // Password validation
         if (formData.confirmPassword && formData.password !== formData.confirmPassword) {
             newErrors.confirmPassword = "Passwords do not match";
         }
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
 
@@ -94,9 +97,9 @@ const Register = ({ onRegisterSuccess }) => {
             setSuccessMessage("Registration successful! Redirecting to login...");
             onRegisterSuccess();
             setTimeout(() => {
-                navigate('/login');
+                navigate('/');
                 resetFormData();
-            }, 1500)
+            }, 1500);
 
         } catch (error) {
             console.error('Error:', error);
@@ -113,41 +116,36 @@ const Register = ({ onRegisterSuccess }) => {
     };
 
     return (
-        <>
-            <div className="w-full flex flex-row justify-center min-h-[200px] pt-10 register">
-                <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md mt-10">
-                    <h2 className="text-center text-3xl font-semibold mb-6">Welcome to StudentLink</h2>
-                    <p className="text-center mb-4">Create an account</p>
-
-                    <div className="grid grid-cols-1 gap-4 text-[15px]">
-                        {[
-                            { name: "firstname", placeholder: "Firstname", type: "text" },
-                            { name: "lastname", placeholder: "Lastname", type: "text" },
-                            { name: "username", placeholder: "Username", type: "text" },
-                            { name: "email", placeholder: "Email", type: "email" },
-                            { name: "password", placeholder: "Password", type: "password" },
-                            { name: "confirmPassword", placeholder: "Confirm password", type: "password" },
-                        ].map(({ name, placeholder, type }) => (
-                            <div key={name} className="flex flex-col">
-                                <label className="text-gray-700 mb-1">{placeholder}</label>
-                                <div className="flex items-center relative">
-                                    <input
-                                        type={type}
-                                        name={name}
-                                        value={formData[name]}
-                                        onChange={handleChange}
-                                        className={`w-full outline-none text-black p-2 border-b-2 ${errors[name] ? "border-red-500" : "border-gray-300"}`}
-                                    />
-                                </div>
-                                {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]}</p>}
-                            </div>
-                        ))}
-                    </div>
+        <div className="register-container flex flex-col md:flex-row justify-center items-stretch min-h-[100%] overflow-hidden bg-gray-800 text-white  ">
+            <div className="left-section flex flex-col justify-center items-center ">
+                <div className="register-form bg-gray-700 rounded-lg shadow-lg p-10 w-full max-w-md  ">
+                    <h2 className="text-3xl font-extrabold mb-3 ">Register</h2>
+                    <p className="mb-[40px]">Create an account</p>
+                    {[
+                        { name: "firstname", placeholder: "Firstname", type: "text" },
+                        { name: "lastname", placeholder: "Lastname", type: "text" },
+                        { name: "username", placeholder: "Username", type: "text" },
+                        { name: "email", placeholder: "Email", type: "email" },
+                        { name: "password", placeholder: "Password", type: "password" },
+                        { name: "confirmPassword", placeholder: "Confirm password", type: "password" },
+                    ].map(({ name, placeholder, type }) => (
+                        <div key={name} className="flex flex-col mb-3  input-group-register">
+                            <label className="text-gray-400  text-sm mt-2">{placeholder}</label>
+                            <input
+                                type={type}
+                                name={name}
+                                value={formData[name]}
+                                onChange={handleChange}
+                                className={`p-2 border-b-2 ${errors[name] ? "border-red-500" : "border-gray-100"} bg-transparent text-white`}
+                            />
+                            {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]}</p>}
+                        </div>
+                    ))}
 
                     {/* Sign Up Button */}
                     <button
                         onClick={handleRegister}
-                        className={`w-full py-2 mt-6 rounded-lg ${isButtonDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-purple-500 text-white hover:bg-pink-700"}`}
+                        className={`w-full py-2 mt-4 rounded-lg ${isButtonDisabled ? "bg-gray-600 cursor-not-allowed" : "bg-gray-600 cursor-pointer hover:bg-purple-700"}`}
                         disabled={isButtonDisabled || isSubmitting}
                     >
                         {isSubmitting ? (
@@ -166,14 +164,26 @@ const Register = ({ onRegisterSuccess }) => {
                     )}
 
                     {/* Redirect to Login Button */}
-                    <div className="flex justify-center mt-4">
-                        <button onClick={handleLoginRedirect} className="">
-                            Already have an account? <span className="text-purple-500  hover:cursor-pointer">Sign in</span>
+                    <div className="flex justify-center pt-4 relative z-10">
+                        <button onClick={handleLoginRedirect} className="text-[15px]">
+                            Already have an account? <span className="font-semibold ml-2 text-purple-400 cursor-pointer ">Sign in</span>
                         </button>
                     </div>
                 </div>
             </div>
-        </>
+            <div className="right-section md:w-1/2 justify-center items-center flex  mr-12  mt-5" style={{
+                backgroundImage: 'url("/studentbanner.svg"), linear-gradient(to right, #4b0082, #8a2be2)',
+                backgroundSize: '60%',
+                backgroundPosition: 'center',
+                width: '100%',
+                backgroundRepeat: 'no-repeat'
+            }}>
+                <div className='text-center flex flex-col justify-start items-center h-full '>
+                    <h2 className="text-center   mb-6 justify-center">Welcome to <br /> <span className='font-light text-[25px]'>STUDENT LINK</span></h2>
+                    <p className='text-black text-sm' style={{ fontFamily: 'Poppins, sans-serif' }}>Where we bring Opportunities to you</p>
+                </div>
+            </div>
+        </div>
     );
 };
 
