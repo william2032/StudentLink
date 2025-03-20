@@ -18,7 +18,7 @@ const Register = ({ onRegisterSuccess }) => {
     }
 
     const handleLoginRedirect = () => {
-        navigate("/login"); // Redirect to login page
+        navigate("/"); // Redirect to login page
     };
     const [formData, setFormData] = useState(initialFormData());
     const [errors, setErrors] = useState({}); // Stores validation errors

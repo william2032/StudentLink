@@ -2,17 +2,89 @@
 @import "tailwindcss";
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  background: #302d2d;
 }
-/* Body styles */
-.splash {
-  /* Adjusted opacity */
-  font-family: "Roboto", sans-serif; /* Apply the imported font */
-  margin-left: 100px; /* Remove default margin */
-  height: 100vh; /* Ensure full height */
-  display: flex; /* Center content */
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
+
+/* login styles */
+
+.login-container {
+  display: flex;
+  top: 10px;
+  height: 80vh;
+  width: 60vw;
+  background: #2e2e2e;
+  color: white;
+}
+
+.left-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-section {
+  flex: 1;
+  display: flex;
+  margin-top: 50px;
+  color: white;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+.login-form {
+  background: #2e2e2e;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  width: 450px;
+  height: 70vh;
+  text-align: center;
+  padding-top: 200px;
+  padding-right: 100px;
+  padding-left: 50px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 12px;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.input-group input {
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+  padding: 10px;
+  background: transparent;
+  color: white;
+}
+
+.icon {
+  color: #ccc;
+  margin-right: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+}
+
+.forgot-password {
+  text-align: right;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .sign {
@@ -21,15 +93,7 @@ body {
   margin-top: 100px;
 }
 
-.div-left {
-  max-height: 600px;
-}
-
-.login {
-  padding: 50px;
-}
-
-/* Frontend/src/components/Profile.css */
+/*Profile.css */
 .profile-container {
   background-color: #f9f9f9;
   border-radius: 10px;
@@ -51,7 +115,6 @@ body {
 .profile-avatar {
   margin-bottom: 15px;
 }
-
 
 .avatar-placeholder {
   font-size: 50px;
@@ -126,13 +189,22 @@ body {
 }
 
 .register {
-  background-color: #f7f7f7;
   border: none;
 }
+
 .register input {
   border: none;
   border-bottom: 2px solid;
 }
+
 .label {
   border: none;
+}
+
+.login-background {
+  background-image: url("/schoolpatterns.png");
+  background-size: cover;
+  background-position: center;
+  height: 100vh; /* Full height of the viewport */
+  width: 100vw;
 }

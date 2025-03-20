@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from "react";
-import { FaUser, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const Login = ({ openRegister, setUserName }) => {
@@ -39,61 +38,75 @@ const Login = ({ openRegister, setUserName }) => {
         }, 1500)
 
       } else {
-        console.log("Login failed:", data);
         setErrorMessage('Invalid username or password');
       }
 
     } catch (error) {
       setErrorMessage('An error occurred during login. Please try again.');
-    };
+    }
+    ;
   };
-
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md w-96">
-      <h2 className="text-center text-2xl font-bold mb-6">STUDENTLINK</h2>
+    <div className='login-container'>
+      <div className="left-section">
+        <div className="login-form ">
+          <div className='text-left '>
+            <h2 className='text-3xl font-semibold text-white '>Login</h2>
+            <p className='flex text-[13px] mb-5 '>Enter your account details</p>
+          </div>
 
-      <form onSubmit={handleLogin}>
-        <div className="mb-4 flex items-center border rounded-lg p-2">
-          <FaUser className="text-gray-500 mr-2" />
+          <form onSubmit={handleLogin}>
+            <div className="input-group text-white">
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full outline-none"
+              />
+            </div>
 
-          <input
-            type="text"
-            placeholder="Enter username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full outline-none"
-          />
+            <div className="input-group">
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full outline-none"
+              />
+            </div>
+
+            {errorMessage &&
+              <p className="text-red-500 text-sm">{errorMessage}</p>}
+
+            <p className="text-right text-[12px] text-gray-500">Forgot password ?</p>
+
+            <button type="submit"
+              className="w-full bg-purple-500 text-white py-2 rounded-lg mt-4 cursor-pointer login-button">
+              Login
+            </button>
+          </form>
+          <p className="text-center text-sm  mr-3  md:mt-[15px] ">
+            Don't have an account? {" "}
+            <span
+              className="text-purple-500 cursor-pointer pl-2 "
+              onClick={openRegister}
+            >
+              Sign up
+            </span>
+          </p>
+        </div>
+      </div>
+      <div className="right-section mt-5 " style={{ backgroundImage: 'url("/studentbanner.svg"), linear-gradient(to right, #4b0082, #8a2be2)', backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+        <div className='w-full text-center flex-wrap '>
+          <h2 className="text-center text-3xl space-y-1  tracking-wider font-extrabold font-serif leading-[60px] mb-6 justify-center">Welcome to <br /> <span className='font-light'>STUDENT LINK</span></h2>
+          <p className='text-black text-sm'>Where we bring Opportunities to you</p>
         </div>
 
-        <div className="mb-4 flex items-center border rounded-lg p-2">
-          <FaLock className="text-gray-500 mr-2" />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full outline-none"
-          />
-        </div>
-
-        {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>} {/* Display error message */}
-
-        <p className="text-right text-sm text-gray-500">Forgot password?</p>
-
-        <button type="submit" className="w-full bg-purple-500 text-white py-2 rounded-lg mt-4 cursor-pointer">
-          Log in
-        </button>
-      </form>
-      <p className="text-center text-sm mt-4">
-        Don't have an account?{" "}
-        <span
-          className="text-purple-500 cursor-pointer"
-          onClick={openRegister}
-        >
-          Sign up
-        </span>
-      </p>
+      </div>
     </div>
+
+
   );
 
 };
