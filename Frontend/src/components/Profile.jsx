@@ -48,11 +48,11 @@ const Profile = ({ userName }) => {
                 <button onClick={handleUpdateProfile} className="bg-purple-500 text-white px-4 py-2 rounded mt-4 hover:bg-purple-600">Update Profile</button>
             </div>
             {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-black/40"     style={{ overflowY: "auto" }}>
+                <div className="updateprofile ">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-300">
                         <h2 className="text-lg font-bold mb-4">Update Profile</h2>
                         <form onSubmit={handleSubmit}>
-                            <div className="block mb-2">
+                            <div className="block mb-6">
                                 <h3 className="text-lg text-black font-semibold mb-2">Personal Info:</h3>
                                     <ul>
                                         <li className='flex justify-between  mb-2'>
