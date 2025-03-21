@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { FaBell, FaCaretDown, FaUserCircle } from "react-icons/fa";
 import UpdateProfileForm from './UpdateProfileForm'; 
+import InitialProfileSetupForm from './InitialProfileSetupForm'; // Import the InitialProfileSetupForm component
 
 const Profile = ({ userName }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsUpdateModalOpen] = useState(false);
+    const [isInitialSetupModalOpen, setIsInitialSetupModalOpen] = useState(false);
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
-        username: userName || "",
         email: "",
         admissionNo: "",
         programStudy: "",
@@ -17,14 +18,21 @@ const Profile = ({ userName }) => {
     });
 
     const handleUpdateProfile = () => {
-        setIsModalOpen(true);
+        setIsUpdateModalOpen(true);
     };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
+    const handleInitialSetup = () => {
+        setIsInitialSetupModalOpen(true);
     };
 
-    return (
+    const handleCloseUpdateModal = () => {
+        setIsUpdateModalOpen(false);
+    };
+
+    const handleCloseInitialSetupModal = () => {
+        setIsInitialSetupModalOpen(false);
+    };
+        return (
         <div className="absolute top-4 left-230 bg-white p-6 rounded-lg shadow-lg w-80 border border-gray-300">
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-lg text-black font-bold">Profile</h1>
@@ -44,13 +52,25 @@ const Profile = ({ userName }) => {
                     <p><span className="font-semibold">Admission No:</span> <span className="ml-4">{formData.admissionNo || "EB1/61319/22"}</span></p>
                     <p><span className="font-semibold">PROGRAM STUDY:</span> <span className="ml-4">{formData.programStudy || "Computer Science"}</span></p>
                   </div>
-                <button onClick={handleUpdateProfile} className="bg-purple-500 text-white px-4 py-2 rounded mt-4 hover:bg-purple-600">Update Profile</button>
+                <div className='btn items-center space-x-20 '>
+                    <button onClick={handleInitialSetup} className="profile bg-purple-500 text-white rounded  hover:bg-purple-600">Initial profile</button>
+                    <button onClick={handleUpdateProfile} className="profile bg-purple-500 text-white rounded  hover:bg-purple-600">Update profile </button>
+                </div>
             </div>
+            {isInitialSetupModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black/30">
+                    <div className="bg-white p-8 rounded-lg shadow-md w-96">
+                        <h2 className="text-center text-2xl font-bold mb-6">Initial Profile Setup</h2>
+                        <InitialProfileSetupForm formData={formData} setFormData={setFormData} handleCloseModal={handleCloseInitialSetupModal} />
+                    </div>
+                </div>
+            )}
+ 
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black/30">
                     <div className="bg-white p-8 rounded-lg shadow-md w-96">
                         <h2 className="text-center text-2xl font-bold mb-6">Update Profile</h2>
-                        <UpdateProfileForm formData={formData} setFormData={setFormData} handleCloseModal={handleCloseModal} />
+                        <UpdateProfileForm formData={formData} setFormData={setFormData} handleCloseModal={handleCloseUpdateModal} />
                     </div>
                 </div>
             )}

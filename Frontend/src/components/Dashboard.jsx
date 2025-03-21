@@ -54,6 +54,11 @@ const Sidebar = ({ userName }) => {
 const Dashboard = ({ userName }) => {
   // State for date
   const [currentDate, setCurrentDate] = useState("");
+  // <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border border-gray-300">
+  //     <FaUserCircle className="text-gray-500 ml-6 mt-6" size={50} />
+  // </div>
+
+  // Update date on component mount
   useEffect(() => {
     const today = new Date();
     const formattedDate = today.toLocaleDateString(undefined, {

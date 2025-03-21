@@ -1,29 +1,28 @@
 import React, { useState } from 'react';
-const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
+
+const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) => {
     const [currentStep, setCurrentStep] = useState(1);
-        const handleChange = (e) => {
-            const { name, value } = e.target;
-            setFormData({ ...formData, [name]: value });
-        };
-    
-        const handleNextStep = () => {
-            setCurrentStep(currentStep + 1);
-        };
-    
-        const handlePrevStep = () => {
-            setCurrentStep(currentStep - 1);
-        };
-    
-        const handleSubmit = (e) => {
-            e.preventDefault();
-           // Update the profile display with the new values
-           setFormData({
-            ...formData,
-            admissionNo: formData.admissionNo,
-            programStudy: formData.programStudy
-        });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleNextStep = () => {
+        setCurrentStep(currentStep + 1);
+    };
+
+    const handlePrevStep = () => {
+        setCurrentStep(currentStep - 1);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Handle form submission logic here
+        console.log("Form Data:", formData);
         handleCloseModal();
     };
+
     return (
         <form onSubmit={handleSubmit}>
             {currentStep === 1 && (
@@ -74,7 +73,7 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                     <div className="mb-4">
                         <label className="block text-gray-700">Admission No:</label>
                         <input
-                                                   type="text"
+                            type="text"
                             name="admissionNo"
                             value={formData.admissionNo}
                             onChange={handleChange}
@@ -145,7 +144,7 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                     <div className="mb-4">
                         <label className="block text-gray-700">Social Links:</label>
                         <input
-                                                   type="text"
+                            type="text"
                             name="socialLinks"
                             value={formData.socialLinks}
                             onChange={handleChange}
@@ -163,4 +162,4 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
     );
 };
 
-export default UpdateProfileForm;
+export default InitialProfileSetupForm;
