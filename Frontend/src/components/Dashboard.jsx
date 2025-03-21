@@ -102,4 +102,5 @@ const SplashScreen = ({ onLogin }) => {
   );
 };
 
+
 export default Dashboard;
