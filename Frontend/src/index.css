@@ -117,6 +117,15 @@ body {
   margin-bottom: 15px;
 }
 
+.btn{
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+.profile{
+  font-size: 12px;
+  padding: 2px 2px;
+}
 .avatar-placeholder {
   font-size: 50px;
   border-radius: 50%;
