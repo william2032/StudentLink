@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+
+const enhanceprofile = () =>{
+    
+}
 const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) => {
     const [currentStep, setCurrentStep] = useState(1);
 
@@ -25,7 +29,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
 
     return (
         <form onSubmit={handleSubmit}>
-            {currentStep === 1 && (
+            {/* {currentStep === 1 && (
                 <div>
                     <h3 className="text-lg font-bold mb-4">Personal Details</h3>
                     <div className="mb-4">
@@ -66,8 +70,8 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                         <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
                     </div>
                 </div>
-            )}
-            {currentStep === 2 && (
+            )} */}
+            {currentStep === 1 && (
                 <div>
                     <h3 className="text-lg font-bold mb-4">Education</h3>
                     <div className="mb-4">
@@ -98,7 +102,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                     </div>
                 </div>
             )}
-            {currentStep === 3 && (
+            {currentStep === 2 && (
                 <div>
                     <h3 className="text-lg font-bold mb-4">Skills</h3>
                     <div className="mb-4">
@@ -112,13 +116,24 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                             placeholder="Enter Skills"
                         />
                     </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Skills:</label>
+                        <input
+                            type="text"
+                            name="skills"
+                            value={formData.skillDescription}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded-lg"
+                            placeholder="Enter Skills description"
+                        />
+                    </div>
                     <div className="flex justify-between mt-4">
                         <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
                         <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
                     </div>
                 </div>
             )}
-            {currentStep === 4 && (
+            {currentStep === 3 && (
                 <div>
                     <h3 className="text-lg font-bold mb-4">Interests</h3>
                     <div className="mb-4">
@@ -132,13 +147,24 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                             placeholder="Enter Interests"
                         />
                     </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Interests:</label>
+                        <input
+                            type="text"
+                            name="interests"
+                            value={formData.interestsDescription}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded-lg"
+                            placeholder="Enter Interests description"
+                        />
+                    </div>
                     <div className="flex justify-between mt-4">
                         <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
                         <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
                     </div>
                 </div>
             )}
-            {currentStep === 5 && (
+            {currentStep === 4 && (
                 <div>
                     <h3 className="text-lg font-bold mb-4">Social Links</h3>
                     <div className="mb-4">
@@ -154,7 +180,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                     </div>
                     <div className="flex justify-between mt-4">
                         <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
-                        <button type="submit" className="bg-purple-500 text-white px-4 py-2 rounded">Save</button>
+                        <button type="submit" onClick={enhanceprofile} className="bg-purple-500 text-white px-4 py-2 rounded">Save</button>
                     </div>
                 </div>
             )}
