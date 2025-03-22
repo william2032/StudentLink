@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+const API_URL = "http://localhost:5000/api/moreinfo/add";
+
 const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
     const [currentStep, setCurrentStep] = useState(1);
         const handleChange = (e) => {
@@ -14,16 +16,32 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
             setCurrentStep(currentStep - 1);
         };
     
-        const handleSubmit = (e) => {
+        const addMoreInfo = async () => {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Failed to save data');
+                }
+    
+                const data = await response.json();
+                console.log('Data saved successfully:', data);
+            } catch (error) {
+                console.error('Error saving data:', error);
+            }
+        };
+    
+        const handleSubmit = async (e) => {
             e.preventDefault();
-           // Update the profile display with the new values
-           setFormData({
-            ...formData,
-            admissionNo: formData.admissionNo,
-            programStudy: formData.programStudy
-        });
-        handleCloseModal();
-    };
+            await addMoreInfo();
+            handleCloseModal();
+        }; 
     return (
         <form onSubmit={handleSubmit}>
             {currentStep === 1 && (
@@ -155,7 +173,7 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                     </div>
                     <div className="flex justify-between mt-4">
                         <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
-                        <button type="submit" className="bg-purple-500 text-white px-4 py-2 rounded">Save</button>
+                        <button type="submit" onClick={addMoreInfo} className="bg-purple-500 text-white px-4 py-2 rounded">Save</button>
                     </div>
                 </div>
             )}

@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
 import { FaBell, FaCaretDown, FaUserCircle } from "react-icons/fa";
-import UpdateProfileForm from './UpdateProfileForm'; 
 import InitialProfileSetupForm from './InitialProfileSetupForm'; // Import the InitialProfileSetupForm component
+import UpdateProfileForm from './UpdateProfileForm';
 
 const Profile = ({ userName }) => {
     const [isModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -13,8 +13,10 @@ const Profile = ({ userName }) => {
         email: "",
         admissionNo: "",
         programStudy: "",
-        skills: "",
-        interests: "",
+        skillname: "",
+        skilldescription: "",
+        interest: "",
+        interestsDescription: "",
         socialLinks: ""
     });
 
@@ -54,14 +56,15 @@ const Profile = ({ userName }) => {
                     <p><span className="font-semibold">PROGRAM STUDY:</span> <span className="ml-4">{formData.programStudy || "Computer Science"}</span></p>
                   </div>
                 <div className='btn items-center space-x-20 '>
-                    <button onClick={handleInitialSetup} className="profile bg-purple-500 text-white rounded  hover:bg-purple-600">Initial profile</button>
+                    <button onClick={handleInitialSetup} className="profile bg-purple-500 text-white rounded  hover:bg-purple-600">Enhance profile</button>
                     <button onClick={handleUpdateProfile} className="profile bg-purple-500 text-white rounded  hover:bg-purple-600">Update profile </button>
                 </div>
             </div>
             {isInitialSetupModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black/30">
                     <div className="bg-white p-8 rounded-lg shadow-md w-96">
-                        <h2 className="text-center text-2xl font-bold mb-6">Initial Profile Setup</h2>
+                        <h2 className="text-center text-2xl font-bold mb-6">Enhance Your Profile</h2>
+                        <p>Add this sections to your profile</p>
                         <InitialProfileSetupForm formData={formData} setFormData={setFormData} handleCloseModal={handleCloseInitialSetupModal} />
                     </div>
                 </div>

@@ -20,6 +20,7 @@ public class moreinfo {
     private String skilldescription;
     private String interest;
     private String interestdescription;
+    private String socialLink;
 
     public moreinfo() {
     }
@@ -83,5 +84,11 @@ public class moreinfo {
     }
     public void setInterestdescription(String interestdescription) {
         this.interestdescription = interestdescription;
+    }
+    public String getSocialLink() {
+        return socialLink;
+    }
+    public void setSocialLink(String socialLink) {
+        this.socialLink = socialLink;
     }
 }
