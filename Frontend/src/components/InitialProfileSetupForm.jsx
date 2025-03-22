@@ -106,14 +106,25 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                 <div>
                     <h3 className="text-lg font-bold mb-4">Skills</h3>
                     <div className="mb-4">
-                        <label className="block text-gray-700">Skills:</label>
+                        <label className="block text-gray-700">Skill Name:</label>
                         <input
                             type="text"
-                            name="skills"
-                            value={formData.skills}
+                            name="skillname"
+                            value={formData.skillName}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Skills"
+                            placeholder="Enter Skill name"
+                        />
+                    </div>
+                    <div className="mb-4">
+                    <label className="block text-gray-700">Skill Description:</label>
+                        <input
+                            type="text"
+                            name="skilldescription"
+                            value={formData.skillDescription}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded-lg"
+                            placeholder="Enter Skill Description"
                         />
                     </div>
                     <div className="mb-4">
@@ -137,14 +148,25 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                 <div>
                     <h3 className="text-lg font-bold mb-4">Interests</h3>
                     <div className="mb-4">
-                        <label className="block text-gray-700">Interests:</label>
+                        <label className="block text-gray-700">Interest:</label>
                         <input
                             type="text"
-                            name="interests"
+                            name="interest"
                             value={formData.interests}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Interests"
+                            placeholder="Enter Interest"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Interest Description:</label>
+                        <input
+                            type="text"
+                            name="interestdescription"
+                            value={formData.interestDescription}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded-lg"
+                            placeholder="Enter Interests Description"
                         />
                     </div>
                     <div className="mb-4">
