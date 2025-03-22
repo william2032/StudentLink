@@ -11,6 +11,7 @@ const Admin = () => {
     const [error, setError] = useState(null);
     const [editingJobId, setEditingJobId] = useState(null); // Track the job being edited
 
+
     const API_URL = "http://localhost:8080/api/admin";
 
     // Fetch all jobs on component mount
