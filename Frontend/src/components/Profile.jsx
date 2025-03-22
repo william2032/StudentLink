@@ -13,8 +13,10 @@ const Profile = ({ userName }) => {
         email: "",
         admissionNo: "",
         programStudy: "",
-        skills: "",
-        interests: "",
+        skillname: "",
+        skilldescription: "",
+        interest: "",
+        interestsDescription: "",
         socialLinks: ""
     });
 
