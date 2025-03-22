@@ -20,7 +20,7 @@ public class StudentJobController {
     }
 
     // Filter jobs
-    @GetMapping("/filter")
+    @GetMapping("/jobs/filter")
     public List<Job> filterJobs(
             @RequestParam(required = false) String company,
             @RequestParam(required = false) String location,
@@ -29,5 +29,11 @@ public class StudentJobController {
             @RequestParam(required = false) Integer openingsAvailable
     ) {
         return jobService.filterJobs(company, location, skillsRequired, duration, openingsAvailable);
+    }
+
+    // Search jobs by keyword
+    @GetMapping("/jobs/search")
+    public List<Job> searchJobs(@RequestParam String keyword) {
+        return jobService.searchJobs(keyword);
     }
 }

@@ -24,21 +24,10 @@ const Sidebar = ({ userName }) => {
           <MdDashboard size={20} />
           <span>Dashboard</span>
         </Link>
-        <Link to="/dashboard/home" className="flex items-center space-x-2 opacity-70">
-          <span>Home</span>
-        </Link>
-        <Link to="/dashboard/network" className="flex items-center space-x-2 opacity-70">
-          <span>My Network</span>
-        </Link>
         <Link to="/dashboard/applications" className="flex items-center space-x-2 opacity-70">
           <span>Applications</span>
         </Link>
-        <Link to="/dashboard/me" className="flex items-center space-x-2 opacity-70">
-          <span>Me</span>
-        </Link>
-        <Link to="/dashboard/groups" className="flex items-center space-x-2 opacity-70">
-          <span>Groups</span>
-        </Link>
+
       </nav>
       <div className="mt-auto">
         <a href="#" className="flex items-center space-x-2 hover:opacity-80" onClick={handleLogout}>
@@ -70,7 +59,7 @@ const Dashboard = ({ userName }) => {
   const isMainDashboard = location.pathname === "/dashboard";
 
   return (
-    <div className="relative flex h-screen bg-gray-100">
+    <div className="relative flex h-screen bg-[#2e2e2e]">
       {/* Render Profile only on the main dashboard */}
       {isMainDashboard && <Profile userName={userName} />}
 
