@@ -10,6 +10,7 @@ const Admin = () => {
     const [openingsAvailable, setOpeningsAvailable] = useState('');
     const [error, setError] = useState(null);
 
+
     const API_URL = "http://localhost:8080/api/admin";
     useEffect(() => {
         const fetchJobs = async () => {
