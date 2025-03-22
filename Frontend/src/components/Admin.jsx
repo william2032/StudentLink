@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
 const Admin = () => {
-    // State to hold job details
     const [jobs, setJobs] = useState([]);
-    const [jobTitle, setJobTitle] = useState('');
     const [jobDescription, setJobDescription] = useState('');
-    const [companyName, setCompanyName] = useState('');
-    const [salary, setSalary] = useState('');
+    const [company, setCompany] = useState('');
+    const [skillsRequired, setSkillsRequired] = useState('');
+    const [duration, setDuration] = useState('');
+    const [location, setLocation] = useState('');
+    const [openingsAvailable, setOpeningsAvailable] = useState('');
     const [error, setError] = useState(null);
 
-    // Fetch jobs from the API on component mount
+    const API_URL = "http://localhost:8080/api/admin";
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const response = await fetch('/api/jobs');
+                const response = await fetch(`${API_URL}/jobs`);
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 setJobs(data);
@@ -27,20 +28,17 @@ const Admin = () => {
     // Function to add a new job
     const addJob = async () => {
         try {
-            const response = await fetch('/api/jobs', {
+            const response = await fetch(`${API_URL}/jobs`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ title: jobTitle, description: jobDescription, company: companyName, salary }),
+                body: JSON.stringify({ jobDescription, company, skillsRequired, duration, location, openingsAvailable }),
             });
             if (!response.ok) throw new Error('Failed to add job');
             const data = await response.json();
             setJobs([...jobs, data]);
-            setJobTitle('');
-            setJobDescription('');
-            setCompanyName('');
-            setSalary('');
+            resetForm();
         } catch (err) {
             setError('Failed to add job');
         }
@@ -49,7 +47,7 @@ const Admin = () => {
     // Function to delete a job
     const deleteJob = async (id) => {
         try {
-            const response = await fetch(`/api/jobs/${id}`, {
+            const response = await fetch(`${API_URL}/jobs/${id}`, {
                 method: 'DELETE',
             });
             if (!response.ok) throw new Error('Failed to delete job');
@@ -62,64 +60,104 @@ const Admin = () => {
     // Function to update a job
     const updateJob = async (id) => {
         try {
-            const response = await fetch(`/api/jobs/${id}`, {
+            const response = await fetch(`${API_URL}/jobs/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ title: jobTitle, description: jobDescription }),
+                body: JSON.stringify({ company, location, skillsRequired, duration, openingsAvailable }),
             });
             if (!response.ok) throw new Error('Failed to update job');
             const data = await response.json();
             setJobs(jobs.map(job => (job.id === id ? data : job)));
-            setJobTitle('');
-            setJobDescription('');
+            resetForm();
         } catch (err) {
             setError('Failed to update job');
         }
     };
 
+    // Function to reset the form
+    const resetForm = () => {
+        setJobDescription('');
+        setCompany('');
+        setLocation('');
+        setSkillsRequired('');
+        setDuration('');
+        setOpeningsAvailable('');
+    };
+
     return (
-        <div className="admin-dashboard">
-            <h1>Admin Dashboard</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <div className="job-list">
-                {jobs.map(job => (
-                    <div className="job-card" key={job.id}>
-                        <h2>{job.title}</h2>
-                        <p>{job.description}</p>
-                        <p><strong>Company:</strong> {job.company}</p>
-                        <p><strong>Salary:</strong> {job.salary}</p>
-                        <p><strong>Posted on:</strong> {job.postedDate}</p>
-                    </div>
-                ))}
+        <div className="admin-dashboard flex flex-col items-center p-6">
+            <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+            {error && <p className="text-red-500">{error}</p>}
+
+            {/* Job Listings Card */}
+            <div className="bg-white shadow-md rounded-lg p-4 mb-6 w-full max-w-md">
+                <h2 className="text-xl font-semibold mb-2">Job Listings</h2>
+                <div className="grid grid-cols-1 gap-4">
+                    {jobs.map(job => (
+                        <div className="bg-gray-100 p-4 rounded-lg shadow" key={job.id}>
+                            <h1 className="font-bold">Job Title: {job.jobDescription}</h1>
+                            <h2 className="font-medium">Company: {job.company}</h2>
+                            <p><strong>Location:</strong> {job.location}</p>
+                            <p><strong>Skills Required:</strong> {job.skillsRequired}</p>
+                            <p><strong>Duration:</strong> {job.duration}</p>
+                            <p><strong>Openings Available:</strong> {job.openingsAvailable}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
-            <div className="add-job-form">
-                <h2>Add New Job</h2>
-                <input
-                    type="text"
-                    placeholder="Title"
-                    value={jobTitle}
-                    onChange={(e) => setJobTitle(e.target.value)}
-                />
-                <textarea
-                    placeholder="Description"
-                    value={jobDescription}
-                    onChange={(e) => setJobDescription(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Company Name"
-                    value={companyName}
-                    onChange={(e) => setCompanyName(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Salary"
-                    value={salary}
-                    onChange={(e) => setSalary(e.target.value)}
-                />
-                <button onClick={addJob}>Add Job</button>
+
+            {/* Add Job Form */}
+            <div className="bg-white shadow-md rounded-lg p-4 w-full max-w-md">
+                <h2 className="text-xl font-semibold mb-4">Add New Job</h2>
+                <div className="grid grid-cols-1 gap-4">
+                    <input
+                        type="text"
+                        placeholder="Job Title"
+                        value={jobDescription}
+                        onChange={(e) => setJobDescription(e.target.value)}
+                        className="border border-gray-300 rounded p-2"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Company"
+                        value={company}
+                        onChange={(e) => setCompany(e.target.value)}
+                        className="border border-gray-300 rounded p-2"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Location"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        className="border border-gray-300 rounded p-2"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Skills Required"
+                        value={skillsRequired}
+                        onChange={(e) => setSkillsRequired(e.target.value)}
+                        className="border border-gray-300 rounded p-2"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Duration"
+                        value={duration}
+                        onChange={(e) => setDuration(e.target.value)}
+                        className="border border-gray-300 rounded p-2"
+                    />
+                    <input
+                        type="number"
+                        placeholder="Openings Available"
+                        value={openingsAvailable}
+                        onChange={(e) => setOpeningsAvailable(e.target.value)}
+                        className="border border-gray-300 rounded p-2"
+                    />
+                    <button onClick={addJob} className="bg-blue-500 text-white rounded p-2 hover:bg-blue-600">
+                        Add Job
+                    </button>
+                </div>
             </div>
         </div>
     );

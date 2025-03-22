@@ -6,11 +6,6 @@
 body {
   font-family: Roboto, Arial, Helvetica, sans-serif;
   background: #302d2d;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
 }
 
 /* login styles */
@@ -40,7 +35,7 @@ body {
   padding: 20px;
 }
 .right-section h2 {
-  font-family: Poppins, sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 700;
   letter-spacing: 2px;
   font-size: 20px;
@@ -239,58 +234,4 @@ body {
   padding-top: 2px;
   background: transparent;
   color: white;
-}
-
-.admin-dashboard {
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 80%;
-  max-width: 800px;
-}
-
-.job-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.job-card {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  width: calc(33% - 20px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.add-job-form {
-  margin-top: 20px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-}
-
-.add-job-form input,
-.add-job-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.add-job-form button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.add-job-form button:hover {
-  background-color: #0056b3;
 }
