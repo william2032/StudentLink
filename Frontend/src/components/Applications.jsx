@@ -21,6 +21,10 @@ const Applications = () => {
         }
     };
 
+    useEffect(() => {
+        fetchJobs();
+    }, []); // Empty dependency array ensures this runs only once on mount
+
     const handleFilterChange = (e) => {
         setFilters({ ...filters, [e.target.name]: e.target.value });
     };
@@ -45,8 +49,7 @@ const Applications = () => {
     const handleSearchSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get(`http://localhost:8080/api/student/jobs/search?keyword=${searchKeyword}`, {
-            });
+            const response = await axios.get(`http://localhost:8080/api/student/jobs/search?keyword=${searchKeyword}`);
             setJobs(response.data);
         } catch (error) {
             console.error("Error searching jobs:", error);
