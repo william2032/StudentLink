@@ -12,5 +12,8 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "react-router-dom": "^7.3.0"
+  },
+  "devDependencies": {
+    "vite": "^6.2.2"
   }
 }

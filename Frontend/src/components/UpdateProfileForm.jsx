@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+
+
 const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
     const [currentStep, setCurrentStep] = useState(1);
         const handleChange = (e) => {
