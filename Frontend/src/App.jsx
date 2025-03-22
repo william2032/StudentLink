@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Routes, useNavigate } from "react-route
 import Dashboard from "./components/Dashboard.jsx";
 import Login from "./components/Login";
 import Register from "./components/Register";
-
+import  Admin from "./components/Admin";
 
 const App = () => {
     const [userName, setUserName] = useState("");
@@ -15,6 +15,8 @@ const App = () => {
                 <Route path="/dashboard" element={<Dashboard userName={userName} />} />
                 <Route path="/register" element={<Register onRegisterSuccess={() => setUserName(userName)} />} />
 
+                {/*admin page*/}
+                <Route path="/admin" element={<Admin/>} />
             </Routes>
         </Router>
     );

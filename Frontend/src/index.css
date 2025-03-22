@@ -6,9 +6,11 @@
 body {
   font-family: Roboto, Arial, Helvetica, sans-serif;
   background: #302d2d;
-}
-::-webkit-scrollbar {
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
 /* login styles */
@@ -38,7 +40,7 @@ body {
   padding: 20px;
 }
 .right-section h2 {
-  font-family: "Poppins", sans-serif;
+  font-family: Poppins, sans-serif;
   font-weight: 700;
   letter-spacing: 2px;
   font-size: 20px;
@@ -120,15 +122,6 @@ body {
   margin-bottom: 15px;
 }
 
-.btn{
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-}
-.profile{
-  font-size: 12px;
-  padding: 2px 2px;
-}
 .avatar-placeholder {
   font-size: 50px;
   border-radius: 50%;
@@ -247,21 +240,57 @@ body {
   background: transparent;
   color: white;
 }
-.updateprofile {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: 80vh;
-  width: 60vw;
+
+.admin-dashboard {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 800px;
+}
+
+.job-list {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  backdrop-filter: blur(5px);
-  background-color: rgba(0, 0, 0, 0.4);
-  overflow-y: auto; /* Enables scrolling for long content */
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.job-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  width: calc(33% - 20px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-job-form {
+  margin-top: 20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.add-job-form input,
+.add-job-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-job-form button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-job-form button:hover {
+  background-color: #0056b3;
 }
