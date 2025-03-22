@@ -9,8 +9,11 @@ const Admin = () => {
     const [location, setLocation] = useState('');
     const [openingsAvailable, setOpeningsAvailable] = useState('');
     const [error, setError] = useState(null);
+    const [editingJobId, setEditingJobId] = useState(null); // Track the job being edited
 
     const API_URL = "http://localhost:8080/api/admin";
+
+    // Fetch all jobs on component mount
     useEffect(() => {
         const fetchJobs = async () => {
             try {
@@ -58,22 +61,34 @@ const Admin = () => {
     };
 
     // Function to update a job
-    const updateJob = async (id) => {
+    const updateJob = async () => {
         try {
-            const response = await fetch(`${API_URL}/jobs/${id}`, {
+            const response = await fetch(`${API_URL}/jobs/${editingJobId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ company, location, skillsRequired, duration, openingsAvailable }),
+                body: JSON.stringify({ jobDescription, company, skillsRequired, duration, location, openingsAvailable }),
             });
             if (!response.ok) throw new Error('Failed to update job');
             const data = await response.json();
-            setJobs(jobs.map(job => (job.id === id ? data : job)));
+            setJobs(jobs.map(job => (job.id === editingJobId ? data : job)));
             resetForm();
+            setEditingJobId(null); // Reset editing state
         } catch (err) {
             setError('Failed to update job');
         }
+    };
+
+    // Function to populate the form for editing
+    const editJob = (job) => {
+        setJobDescription(job.jobDescription);
+        setCompany(job.company);
+        setLocation(job.location);
+        setSkillsRequired(job.skillsRequired);
+        setDuration(job.duration);
+        setOpeningsAvailable(job.openingsAvailable);
+        setEditingJobId(job.id); // Set the job ID being edited
     };
 
     // Function to reset the form
@@ -103,14 +118,30 @@ const Admin = () => {
                             <p><strong>Skills Required:</strong> {job.skillsRequired}</p>
                             <p><strong>Duration:</strong> {job.duration}</p>
                             <p><strong>Openings Available:</strong> {job.openingsAvailable}</p>
+                            <div className="flex gap-2 mt-2">
+                                <button
+                                    onClick={() => editJob(job)}
+                                    className="bg-yellow-500 text-white rounded p-2 hover:bg-yellow-600"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => deleteJob(job.id)}
+                                    className="bg-red-500 text-white rounded p-2 hover:bg-red-600"
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* Add Job Form */}
+            {/* Add/Edit Job Form */}
             <div className="bg-white shadow-md rounded-lg p-4 w-full max-w-md">
-                <h2 className="text-xl font-semibold mb-4">Add New Job</h2>
+                <h2 className="text-xl font-semibold mb-4">
+                    {editingJobId ? 'Edit Job' : 'Add New Job'}
+                </h2>
                 <div className="grid grid-cols-1 gap-4">
                     <input
                         type="text"
@@ -154,9 +185,23 @@ const Admin = () => {
                         onChange={(e) => setOpeningsAvailable(e.target.value)}
                         className="border border-gray-300 rounded p-2"
                     />
-                    <button onClick={addJob} className="bg-blue-500 text-white rounded p-2 hover:bg-blue-600">
-                        Add Job
+                    <button
+                        onClick={editingJobId ? updateJob : addJob}
+                        className="bg-blue-500 text-white rounded p-2 hover:bg-blue-600"
+                    >
+                        {editingJobId ? 'Update Job' : 'Add Job'}
                     </button>
+                    {editingJobId && (
+                        <button
+                            onClick={() => {
+                                resetForm();
+                                setEditingJobId(null);
+                            }}
+                            className="bg-gray-500 text-white rounded p-2 hover:bg-gray-600"
+                        >
+                            Cancel Edit
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
