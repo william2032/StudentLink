@@ -7,9 +7,6 @@ body {
   font-family: Roboto, Arial, Helvetica, sans-serif;
   background: #302d2d;
 }
-::-webkit-scrollbar {
-  display: none;
-}
 
 /* login styles */
 
@@ -120,15 +117,6 @@ body {
   margin-bottom: 15px;
 }
 
-.btn{
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-}
-.profile{
-  font-size: 12px;
-  padding: 2px 2px;
-}
 .avatar-placeholder {
   font-size: 50px;
   border-radius: 50%;
@@ -246,22 +234,4 @@ body {
   padding-top: 2px;
   background: transparent;
   color: white;
-}
-.updateprofile {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: 80vh;
-  width: 60vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  backdrop-filter: blur(5px);
-  background-color: rgba(0, 0, 0, 0.4);
-  overflow-y: auto; /* Enables scrolling for long content */
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

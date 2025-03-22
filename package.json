@@ -13,5 +13,8 @@
     "express": "^4.21.2",
     "react-router": "^7.4.0",
     "react-router-dom": "^7.3.0"
+  },
+  "devDependencies": {
+    "vite": "^6.2.2"
   }
 }

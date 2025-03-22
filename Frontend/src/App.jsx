@@ -3,6 +3,9 @@ import { Route, BrowserRouter as Router, Routes, useNavigate } from "react-route
 import Dashboard from "./components/Dashboard.jsx";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import  Admin from "./components/Admin";
+
+
 
 const App = () => {
     const [userName, setUserName] = useState("");
@@ -12,11 +15,15 @@ const App = () => {
                 {/* Login screen as the main landing page */}
                 <Route path="/" element={<LoginScreen setUserName={setUserName} />} />
 
+
+                {/*admin page*/}
+                <Route path="/admin" element={<Admin/>} />
                 {/* Dashboard with nested routes */}
                 <Route path="/dashboard/*" element={<Dashboard userName={userName} />} />
 
                 {/* Register page */}
                 <Route path="/register" element={<Register onRegisterSuccess={() => setUserName(userName)} />} />
+
             </Routes>
         </Router>
     );
