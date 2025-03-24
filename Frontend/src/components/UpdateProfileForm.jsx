@@ -16,32 +16,32 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
             setCurrentStep(currentStep - 1);
         };
     
-        const addMoreInfo = async () => {
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                });
+        // const addMoreInfo = async () => {
+        //     try {
+        //         const response = await fetch(API_URL, {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //             },
+        //             body: JSON.stringify(formData),
+        //         });
     
-                if (!response.ok) {
-                    throw new Error('Failed to save data');
-                }
+        //         if (!response.ok) {
+        //             throw new Error('Failed to save data');
+        //         }
     
-                const data = await response.json();
-                console.log('Data saved successfully:', data);
-            } catch (error) {
-                console.error('Error saving data:', error);
-            }
-        };
+        //         const data = await response.json();
+        //         console.log('Data saved successfully:', data);
+        //     } catch (error) {
+        //         console.error('Error saving data:', error);
+        //     }
+        // };
     
-        const handleSubmit = async (e) => {
-            e.preventDefault();
-            await addMoreInfo();
-            handleCloseModal();
-        }; 
+        // const handleSubmit = async (e) => {
+        //     e.preventDefault();
+        //     await addMoreInfo();
+        //     handleCloseModal();
+        // }; 
     return (
         <form onSubmit={handleSubmit}>
             {currentStep === 1 && (
@@ -92,7 +92,7 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                     <div className="mb-4">
                         <label className="block text-gray-700">Admission No:</label>
                         <input
-                                                   type="text"
+                            type="text"
                             name="admissionNo"
                             value={formData.admissionNo}
                             onChange={handleChange}

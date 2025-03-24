@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
+const API_URL = "http://localhost:8080/api/moreinfo";
 
-const enhanceprofile = () =>{
-    
-}
+
 const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) => {
     const [currentStep, setCurrentStep] = useState(1);
 
@@ -20,12 +19,38 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
         setCurrentStep(currentStep - 1);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission logic here
-        console.log("Form Data:", formData);
-        handleCloseModal();
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     // Handle form submission logic here
+    //     console.log("Form Data:", formData);
+    //     handleCloseModal();
+    // };
+    const enhanceprofile = async () => {
+        try {
+            const response = await fetch(`${API_URL}/add`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+    
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText);
+            }
+    
+            const data = await response.json();
+            console.log('Data saved successfully:', data);
+        } catch (error) {
+            console.error('Error saving data:', error);
+        }
     };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await enhanceprofile();
+        handleCloseModal();
+    }; 
 
     return (
         <form onSubmit={handleSubmit}>
@@ -110,21 +135,10 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                         <input
                             type="text"
                             name="skillname"
-                            value={formData.skillName}
+                            value={formData.skillname}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Skill name"
-                        />
-                    </div>
-                    <div className="mb-4">
-                    <label className="block text-gray-700">Skill Description:</label>
-                        <input
-                            type="text"
-                            name="skilldescription"
-                            value={formData.skillDescription}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Skill Description"
                         />
                     </div>
                     <div className="mb-4">
@@ -152,21 +166,10 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                         <input
                             type="text"
                             name="interest"
-                            value={formData.interests}
+                            value={formData.interest}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Interest"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Interest Description:</label>
-                        <input
-                            type="text"
-                            name="interestdescription"
-                            value={formData.interestDescription}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Interests Description"
                         />
                     </div>
                     <div className="mb-4">
@@ -174,7 +177,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                         <input
                             type="text"
                             name="interests"
-                            value={formData.interestsDescription}
+                            value={formData.interestDescription}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Interests description"

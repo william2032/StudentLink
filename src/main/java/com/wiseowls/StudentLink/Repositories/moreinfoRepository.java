@@ -5,6 +5,5 @@ import com.wiseowls.StudentLink.models.moreinfo;
 
 
 public interface moreinfoRepository extends JpaRepository<moreinfo, Long> {
-    moreinfo findByEmail(String email);
-    boolean existsByRegno(String regno);
+    boolean existsByAdmissionNo(String admissionNo);
 }

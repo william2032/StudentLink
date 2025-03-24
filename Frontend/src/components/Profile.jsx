@@ -14,9 +14,9 @@ const Profile = ({ userName }) => {
         admissionNo: "",
         programStudy: "",
         skillname: "",
-        skilldescription: "",
+        skillDescription: "",
         interest: "",
-        interestsDescription: "",
+        interestDescription: "",
         socialLinks: ""
     });
 
