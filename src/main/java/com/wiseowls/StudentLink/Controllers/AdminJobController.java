@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/jobs")
-public class JobController {
+@RequestMapping("/api/admin/jobs")
+public class AdminJobController {
     @Autowired
     private JobService jobService;
 

@@ -30,13 +30,10 @@ const Login = ({ openRegister, setUserName }) => {
       const data = await response.json();
 
       if (data.success && data.message) {
-        console.log("Login successful:", data);
         setUserName(data.username || username);
         setTimeout(() => {
           navigate('/dashboard');
-
-        }, 1500)
-
+        }, 1000)
       } else {
         setErrorMessage('Invalid username or password');
       }

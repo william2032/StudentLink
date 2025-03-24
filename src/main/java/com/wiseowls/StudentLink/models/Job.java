@@ -7,7 +7,6 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String company;
     private String location;
     private String skillsRequired;
@@ -15,7 +14,7 @@ public class Job {
     private int openingsAvailable;
     private String jobDescription;
 
-    // Getters and Setters
+    
     public Integer getId() {
         return id;
     }
