@@ -21,13 +21,6 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
     const handlePrevStep = () => {
         setCurrentStep(currentStep - 1);
     };
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     // Handle form submission logic here
-    //     console.log("Form Data:", formData);
-    //     handleCloseModal();
-    // };
     const enhanceprofile = async () => {
         try {
             const response = await fetch(`${API_URL}/add`, {
