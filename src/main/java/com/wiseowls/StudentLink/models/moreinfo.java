@@ -13,26 +13,15 @@ public class moreinfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email;  
-    private String course;
-    private String regno;
+    private String admissionNo;
+    private String programStudy;
     private String skillname;
-    private String skilldescription;
+    private String skillDescription;
     private String interest;
-    private String interestdescription;
-    private String socialLink;
+    private String interestDescription;
+    private String socialLinks;
 
     public moreinfo() {
-    }
-
-    public moreinfo(String email, String course, String regno, String skillname, String skilldescription, String interest, String interestdescription) {
-        this.email = email;
-        this.course = course;
-        this.regno = regno;
-        this.skillname = skillname;
-        this.skilldescription = skilldescription;
-        this.interest = interest;
-        this.interestdescription = interestdescription;
     }
 
     // Getters and Setters
@@ -42,25 +31,21 @@ public class moreinfo {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getEmail() {
-        return email;
+    public String getAdmissionNo() {
+        return admissionNo;
     }
-    public void setEmail(String email) {
-        this.email = email;
+
+    public void setAdmissionNo(String admissionNo) {
+        this.admissionNo = admissionNo;
     }
-    public String getCourse() {
-        return course;
+
+    public String getProgramStudy() {
+        return programStudy;
     }
-    public void setCourse(String course) {
-        this.course = course;
+
+    public void setProgramStudy(String programStudy) {
+        this.programStudy = programStudy;
     }
-    public String getRegno() {
-        return regno;
-    }
-    public void setRegno(String regno) {
-        this.regno = regno;
-    }
-    
     public String getSkillname() {
         return skillname;
     }
@@ -68,10 +53,10 @@ public class moreinfo {
         this.skillname = skillname;
     }
     public String getSkilldescription() {
-        return skilldescription;
+        return skillDescription;
     }
     public void setSkilldescription(String skilldescription) {
-        this.skilldescription = skilldescription;
+        this.skillDescription = skilldescription;
     }
     public String getInterest() {
         return interest;
@@ -80,15 +65,15 @@ public class moreinfo {
         this.interest = interest;
     }
     public String getInterestdescription() {
-        return interestdescription;
+        return interestDescription;
     }
     public void setInterestdescription(String interestdescription) {
-        this.interestdescription = interestdescription;
+        this.interestDescription = interestdescription;
     }
     public String getSocialLink() {
-        return socialLink;
+        return socialLinks;
     }
     public void setSocialLink(String socialLink) {
-        this.socialLink = socialLink;
+        this.socialLinks = socialLink;
     }
 }

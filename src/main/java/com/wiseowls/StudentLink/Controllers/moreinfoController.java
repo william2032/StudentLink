@@ -1,12 +1,13 @@
 package com.wiseowls.StudentLink.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wiseowls.StudentLink.Services.moreinfoService;
+import com.wiseowls.StudentLink.Repositories.moreinfoRepository;
 import com.wiseowls.StudentLink.models.moreinfo;
 
 @RestController
@@ -14,12 +15,17 @@ import com.wiseowls.StudentLink.models.moreinfo;
 public class moreinfoController {
 
     @Autowired
-    private moreinfoService moreinfoService;
+    private moreinfoRepository moreInfoRepository;
 
     @PostMapping("/add")
-
-    public String registerMoreinfo(@RequestBody moreinfo moreinfo) {
-        moreinfoService.saveMoreinfo(moreinfo);
-        return "Moreinfo registered successfully";
+    public ResponseEntity<?> addMoreInfo(@RequestBody moreinfo moreInfo) {
+        try {
+            // Save the data to the database
+            moreinfo savedInfo = moreInfoRepository.save(moreInfo);
+            return ResponseEntity.ok(savedInfo); // Return JSON response
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\": \"Error saving data\"}"); // Return JSON error
+        }
     }
 }
