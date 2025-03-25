@@ -55,7 +55,7 @@ const Profile = ({ userName }) => {
                     <p><span className="font-semibold">Admission No:</span> <span className="ml-4">{formData.admissionNo || "EB1/61319/22"}</span></p>
                     <p><span className="font-semibold">PROGRAM STUDY:</span> <span className="ml-4">{formData.programStudy || "Computer Science"}</span></p>
                   </div>
-                <div className='btn items-center space-x-20 '>
+                <div className='btn items-center space-x-8 mt-4'>
                     <button onClick={handleInitialSetup} className="profile bg-purple-500 text-white rounded  hover:bg-purple-600">Enhance profile</button>
                     <button onClick={handleUpdateProfile} className="profile bg-purple-500 text-white rounded  hover:bg-purple-600">Update profile </button>
                 </div>

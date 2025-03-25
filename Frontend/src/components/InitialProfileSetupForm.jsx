@@ -152,7 +152,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                         <input
                             type="text"
                             name="interest"
-                            value={formData.interests}
+                            value={formData.interest}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Interest"
@@ -169,17 +169,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                             placeholder="Enter Interests Description"
                         />
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Interests:</label>
-                        <input
-                            type="text"
-                            name="interests"
-                            value={formData.interestsDescription}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Interests description"
-                        />
-                    </div>
+                    
                     <div className="flex justify-between mt-4">
                         <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
                         <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
