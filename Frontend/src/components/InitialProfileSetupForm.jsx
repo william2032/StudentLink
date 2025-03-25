@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-
+import { FaGraduationCap } from "react-icons/fa";
+import { GiSkills } from "react-icons/gi";
+import { IoIosLink } from "react-icons/io";
+import { MdInterests } from "react-icons/md";
 const API_URL = "http://localhost:8080/api/moreinfo";
 
 
@@ -32,6 +35,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(formData),
             });
     
@@ -39,9 +43,9 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                 const errorText = await response.text();
                 throw new Error(errorText);
             }
-    
-            const data = await response.json();
-            console.log('Data saved successfully:', data);
+
+            await response.json();
+            console.log('Data saved successfully:');
         } catch (error) {
             console.error('Error saving data:', error);
         }
@@ -53,52 +57,11 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
     }; 
 
     return (
-        <form onSubmit={handleSubmit}>
-            {/* {currentStep === 1 && (
-                <div>
-                    <h3 className="text-lg font-bold mb-4">Personal Details</h3>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">First Name:</label>
-                        <input
-                            type="text"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter First Name"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Last Name:</label>
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Last Name"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Email:</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Email"
-                        />
-                    </div>
-                    <div className="flex justify-between mt-4">
-                        <button type="button" onClick={handleCloseModal} className="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
-                        <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
-                    </div>
-                </div>
-            )} */}
+        <form className="enhanceform" onSubmit={handleSubmit}>
             {currentStep === 1 && (
                 <div>
                     <h3 className="text-lg font-bold mb-4">Education</h3>
+                    <FaGraduationCap size={30} className="mr-2" />
                     <div className="mb-4">
                         <label className="block text-gray-700">Admission No:</label>
                         <input
@@ -122,7 +85,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                         />
                     </div>
                     <div className="flex justify-between mt-4">
-                        <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
+                        <button type="button" onClick={handleCloseModal} className="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
                         <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
                     </div>
                 </div>
@@ -130,6 +93,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
             {currentStep === 2 && (
                 <div>
                     <h3 className="text-lg font-bold mb-4">Skills</h3>
+                      <GiSkills size={30} className="mr-2"/>
                     <div className="mb-4">
                         <label className="block text-gray-700">Skill Name:</label>
                         <input
@@ -142,10 +106,10 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700">Skills:</label>
+                        <label className="block text-gray-700">Skill Description:</label>
                         <input
                             type="text"
-                            name="skills"
+                            name="skillDescription"
                             value={formData.skillDescription}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
@@ -161,6 +125,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
             {currentStep === 3 && (
                 <div>
                     <h3 className="text-lg font-bold mb-4">Interests</h3>
+                      <MdInterests size={30} className="mr-2" />
                     <div className="mb-4">
                         <label className="block text-gray-700">Interest:</label>
                         <input
@@ -173,10 +138,10 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700">Interests:</label>
+                        <label className="block text-gray-700">Interest Description:</label>
                         <input
                             type="text"
-                            name="interests"
+                            name="interestDescription"
                             value={formData.interestDescription}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
@@ -192,11 +157,23 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
             {currentStep === 4 && (
                 <div>
                     <h3 className="text-lg font-bold mb-4">Social Links</h3>
+                    <IoIosLink size={30} className='mr-2' />
                     <div className="mb-4">
-                        <label className="block text-gray-700">Social Links:</label>
+                        <label className="block text-gray-700">Social Link 1:</label>
                         <input
                             type="text"
-                            name="socialLinks"
+                            name="socialLink1"
+                            value={formData.socialLinks}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded-lg"
+                            placeholder="Enter Social Links"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Social Link 2:</label>
+                        <input
+                            type="text"
+                            name="socialLink2"
                             value={formData.socialLinks}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"

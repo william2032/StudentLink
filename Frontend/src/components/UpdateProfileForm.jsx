@@ -27,10 +27,10 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
         handleCloseModal();
     };
     return (
-        <form onSubmit={handleSubmit}>
+        <form className='' onSubmit={handleSubmit}>
             {currentStep === 1 && (
                 <div>
-                    <h3 className="text-lg font-bold mb-4">Personal Details</h3>
+                    <h3 className="text-lg font-bold mb-4 ">Personal Details</h3>
                     <div className="mb-4">
                         <label className="block text-gray-700">First Name:</label>
                         <input

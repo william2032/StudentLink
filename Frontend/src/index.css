@@ -236,5 +236,29 @@ body {
   color: white;
 }
 .right{
-  right:50px;
+  right:20px;
+}
+.update-btn{
+  padding: 2px;
+  background: whitesmoke;
+  color: black;
+  cursor: pointer;
+}
+.update-btn:hover{
+  background: rgb(61, 61, 61);
+  color: white;
+  transition: all 0.5s ease-in-out;
+
+}
+btn{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+}
+.profile-picture{
+  background: white;
+}
+.enhanceForm{
+  color: #2e2e2e;
 }

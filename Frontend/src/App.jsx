@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Route, BrowserRouter as Router, Routes, useNavigate } from "react-router-dom";
+import Admin from "./components/Admin";
 import Dashboard from "./components/Dashboard.jsx";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import  Admin from "./components/Admin";
 
 
 
 const App = () => {
     const [userName, setUserName] = useState("");
+    const [userEmail, setEmail] = useState("");
     return (
         <Router>
             <Routes>
@@ -22,7 +23,17 @@ const App = () => {
                 <Route path="/dashboard/*" element={<Dashboard userName={userName} />} />
 
                 {/* Register page */}
-                <Route path="/register" element={<Register onRegisterSuccess={() => setUserName(userName)} />} />
+                <Route
+                 path="/register" 
+                 element={
+                    <Register
+                        onRegisterSuccess={(userName, userEmail) => {
+                            setUserName(userName);
+                            setEmail(userEmail);
+                        }} 
+                    />
+                    } 
+                />
 
             </Routes>
         </Router>
