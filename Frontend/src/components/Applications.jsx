@@ -237,7 +237,7 @@ const Applications = () => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-700 mb-2">Email</label>cd 
+                                <label className="block text-gray-700 mb-2">Email</label>
                                 <input
                                     type="email"
                                     name="email"
