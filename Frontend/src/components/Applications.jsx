@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Applications = () => {
@@ -11,7 +12,7 @@ const Applications = () => {
         openingsAvailable: "",
     });
     const [searchKeyword, setSearchKeyword] = useState("");
-
+    const navigate = useNavigate();
     const fetchJobs = async () => {
         try {
             const response = await axios.get("http://localhost:8080/api/student/jobs");
@@ -54,6 +55,9 @@ const Applications = () => {
         } catch (error) {
             console.error("Error searching jobs:", error);
         }
+    };
+    const handleApply = () => {
+        window.open("https://forms.gle/NfEfRiEcKzpR8Jia7","_blank");
     };
 
     return (
@@ -127,7 +131,7 @@ const Applications = () => {
                         <p className="text-gray-600"><strong>Duration:</strong> {job.duration}</p>
                         <p className="text-gray-600"><strong>Openings Available:</strong> {job.openingsAvailable}</p>
                         <p className="text-gray-600"><strong>Job Description:</strong> {job.jobDescription}</p>
-                        <button className="bg-purple-500 text-white px-4 py-2 rounded-lg mt-2 hover:bg-purple-600 transition-colors">
+                        <button onClick={handleApply} className="bg-purple-500 text-white px-4 py-2 rounded-lg mt-2 hover:bg-purple-600 transition-colors">
                             Apply
                         </button>
                     </div>
