@@ -138,7 +138,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                             value={formData.interestDescription}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Interests description"
+                            placeholder="Enter Interest description"
                         />
                     </div>
                     <div className="flex justify-between mt-4">

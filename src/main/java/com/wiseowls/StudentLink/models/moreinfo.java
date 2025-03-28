@@ -1,26 +1,49 @@
 package com.wiseowls.StudentLink.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "profileinfo")
+@Table(name = "profileinfo",
+        uniqueConstraints = @UniqueConstraint( columnNames = {"admissionNo"})
+)
 public class moreinfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String admissionNo;
-    private String programStudy;
-    private String skillname;
-    private String skillDescription;
-    private String interest;
-    private String interestDescription;
-    private String socialLinks;
 
+    @Column(nullable = false)
+    private String programStudy;
+
+    @Column(nullable = false)
+    private String skillname;
+    
+    @Column(nullable = false)
+    private String skillDescription;
+    
+    @Column(nullable = false)
+    private String interest;
+    
+    @Column(nullable = false)
+    private String interestDescription;
+
+    @Column(nullable = false)
+    private String socialLinks;
+    
+    @OneToOne
+    @JoinColumn(name = "student_id", referencedColumnName = "id" , nullable = false)
+    private Student student;
+    
     public moreinfo() {
     }
 
