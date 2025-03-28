@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-//import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Applications = () => {
@@ -19,7 +18,9 @@ const Applications = () => {
         resume: null,
         coverLetter: ""
     });
-    //const navigate = useNavigate();
+    const [submissionMessage, setSubmissionMessage] = useState("");
+    const [showSubmissionMessage, setShowSubmissionMessage] = useState(true);
+
 
     const fetchJobs = async () => {
         try {
@@ -80,7 +81,7 @@ const Applications = () => {
 
     const handleApplicationSubmit = async (e) => {
         e.preventDefault();
-        
+
         const formData = new FormData();
         formData.append("jobId", selectedJob.id);
         formData.append("name", application.name);
@@ -88,28 +89,37 @@ const Applications = () => {
         formData.append("resume", application.resume);
         formData.append("coverLetter", application.coverLetter);
 
-        try {
-            await axios.post("http://localhost:8080/api/applications", formData, {
-                headers: { "Content-Type": "multipart/form-data" }
-            });
-            alert("Application submitted successfully!");
-            setSelectedJob(null);
-            setApplication({
-                name: "",
-                email: "",
-                resume: null,
-                coverLetter: ""
-            });
-        } catch (error) {
-            console.error("Application failed:", error);
-            alert("Failed to submit application. Please try again.");
-        }
+        setTimeout(async () => {
+            try {
+                await axios.post("http://localhost:8080/api/applications", formData, {
+                    headers: { "Content-Type": "multipart/form-data" }
+                });
+                setSubmissionMessage("Application submitted successfully!");
+                setShowSubmissionMessage(true);
+                setSelectedJob(null);
+                setApplication({
+                    name: "",
+                    email: "",
+                    resume: null,
+                    coverLetter: ""
+                });
+            } catch (error) {
+                setSubmissionMessage("Failed to submit application. Please try again.");
+                setShowSubmissionMessage(true);
+            }
+        });
+
+        setTimeout(() => {
+            setShowSubmissionMessage(false);
+        }, 2000);
     };
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg">
+
+
             <h2 className="text-2xl font-bold text-purple-600 mb-4">Applications</h2>
-            
+
             {/* Search Form */}
             <form onSubmit={handleSearchSubmit} className="mb-6">
                 <input
@@ -130,7 +140,7 @@ const Applications = () => {
                         name={key}
                         placeholder={
                             key.replace(/([A-Z])/g, ' $1')
-                               .replace(/^./, str => str.toUpperCase())
+                                .replace(/^./, str => str.toUpperCase())
                         }
                         value={value}
                         onChange={handleFilterChange}
@@ -163,6 +173,13 @@ const Applications = () => {
 
             {/* Jobs List */}
             <div className="space-y-4 overflow-y-auto max-h-[600px]">
+
+                {showSubmissionMessage && (
+                    <div className="mb-4 text-center text-[18px] text-green-700">
+                        {submissionMessage}
+
+                    </div>
+                )}
                 {jobs.length > 0 ? (
                     jobs.map((job) => (
                         <div key={job.id} className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
@@ -178,7 +195,7 @@ const Applications = () => {
                                 </div>
                             </div>
                             <p className="text-gray-600 mt-2"><strong>Description:</strong> {job.jobDescription}</p>
-                            <button 
+                            <button
                                 onClick={() => handleApplyClick(job)}
                                 className="bg-purple-500 text-white px-4 py-2 rounded-lg mt-3 hover:bg-purple-600 transition-colors"
                             >
@@ -193,13 +210,14 @@ const Applications = () => {
 
             {/* Application Modal */}
             {selectedJob && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center p-4 z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-xl font-bold text-purple-600">
                                 Apply for {selectedJob.title} at {selectedJob.company}
                             </h3>
-                            <button 
+                            <button
                                 onClick={() => setSelectedJob(null)}
                                 className="text-gray-500 hover:text-gray-700"
                             >
@@ -229,16 +247,17 @@ const Applications = () => {
                                     required
                                 />
                             </div>
-                            <div className="mb-4">
+                            <div className="mb-4 ">
                                 <label className="block text-gray-700 mb-2">Resume (PDF/DOC)</label>
                                 <input
                                     type="file"
                                     name="resume"
                                     onChange={handleApplicationChange}
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    className="w-full p-2 border border-gray-300 rounded-lg cursor-pointer"
                                     accept=".pdf,.doc,.docx"
                                     required
                                 />
+
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700 mb-2">Cover Letter</label>
