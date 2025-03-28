@@ -190,7 +190,7 @@ const UserProfile = ({ userName, userEmail }) => {
                     <div className="mt-2">
                       <GiSkills size={30} className="mr-2"/>
                       <hr />
-                      <p><span className="ml-4">{formData.skillname || "Python"}</span></p>
+                      <p><span className="ml-4">{formData.skillname || "Java"}</span></p>
                     </div>
                     <div className="mt-2"> 
                       <MdInterests size={30} className="mr-2" />
