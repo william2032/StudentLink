@@ -78,7 +78,9 @@ const Sidebar = () => {
         <Link to="/dashboard/applications" className="flex items-center space-x-2 opacity-70">
           <span>Applications</span>
         </Link>
-
+        <Link to="/dashboard/status" className="flex items-center space-x-2 opacity-70">
+          <span>Status</span>
+        </Link>
       </nav>
       <div className="mt-auto">
         <a href="#" className="flex items-center space-x-2 hover:opacity-80" onClick={handleLogout}>
@@ -154,6 +156,7 @@ const Dashboard = ({ userName }) => {
         {/* Routes for Dashboard Content */}
         <Routes>
           <Route path="applications" element={<Applications />} />
+          <Route path="status" element={<Status />} />
           {/* Add other nested routes here */}
         </Routes>
       </div>

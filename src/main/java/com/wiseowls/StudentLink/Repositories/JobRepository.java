@@ -1,11 +1,12 @@
 package com.wiseowls.StudentLink.Repositories;
 
-import com.wiseowls.StudentLink.models.Job;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import com.wiseowls.StudentLink.models.Job;
 
 public interface JobRepository extends JpaRepository<Job, Integer> {
     // Custom query to delete a job by ID

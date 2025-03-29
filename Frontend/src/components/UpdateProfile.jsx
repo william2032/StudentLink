@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaGraduationCap } from "react-icons/fa";
 import { GiSkills } from "react-icons/gi";
 import { IoIosLink } from "react-icons/io";
@@ -8,11 +8,16 @@ const API_URL = "http://localhost:8080/api/moreinfo";
 
 const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
     const [currentStep, setCurrentStep] = useState(1);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+    const [admissionNo, setAdmissionNo] = useState('');
+    const [programStudy, setProgramStudy] = useState('');
+    const [skillname, setSkillname] = useState('');
+    const [skilldescription, setSkillDescription] = useState('');
+    const [interest, setInterest] = useState('');
+    const [interestdescription, setInterestDescription] = useState('');
+    const [socialLink, setSocialLinks] = useState(''); 
+    const [isSubmitting, setIsSubmitting] = useState(false); // Button disable state
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true); // Disable button state
+    const [successMessage, setSuccessMessage] = useState(""); // Success message state
 
     const handleNextStep = () => {
         setCurrentStep(currentStep + 1);
@@ -29,19 +34,32 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    admissionNo,
+                    programStudy,
+                    skillname,
+                    skilldescription,
+                    interest,
+                    interestdescription,
+                    socialLink,}),
             });
     
             if (!response.ok) {
                 const errorText = await response.text();
                 throw new Error(errorText);
             }
+            const data = await response.json();
+            setMoreinfo(data);
+            setSuccessMessage('Data saved successfully!');
+            //Delay the closemodal function
+            setTimeout(() => {
+                handleCloseModal();
+            }, 1500);
 
-            await response.json();
-            console.log('Data saved successfully:');
         } catch (error) {
-            console.error('Error saving data:', error);
-        }
+            console.error("Error saving data:", error);
+            setSuccessMessage("Error saving data. Please try again.");
+        } finally { setIsSubmitting(false); }
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -60,8 +78,8 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="admissionNo"
-                            value={formData.admissionNo}
-                            onChange={handleChange}
+                            value={admissionNo}
+                            onChange={(e) => setAdmissionNo(e.target.value)}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Admission No."
                         />
@@ -71,8 +89,8 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="programStudy"
-                            value={formData.programStudy}
-                            onChange={handleChange}
+                            value={programStudy}
+                            onChange={(e) => setProgramStudy(e.target.value)}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Program Study"
                         />
@@ -92,8 +110,8 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="skillname"
-                            value={formData.skillname}
-                            onChange={handleChange}
+                            value={skillname}
+                            onChange={(e) => setSkillname(e.target.value)}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Skill name"
                         />
@@ -103,8 +121,8 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="skillDescription"
-                            value={formData.skillDescription}
-                            onChange={handleChange}
+                            value={skilldescription}
+                            onChange={(e) => setSkillDescription(e.target.value)}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Skills description"
                         />
@@ -124,8 +142,8 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="interest"
-                            value={formData.interest}
-                            onChange={handleChange}
+                            value={interest}
+                            onChange={(e) => setInterest(e.target.value)}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Interest"
                         />
@@ -135,10 +153,10 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="interestDescription"
-                            value={formData.interestDescription}
-                            onChange={handleChange}
+                            value={interestdescription}
+                            onChange={(e) => setInterestDescription(e.target.value)}
                             className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Interests description"
+                            placeholder="Enter Interest description"
                         />
                     </div>
                     <div className="flex justify-between mt-4">
@@ -152,7 +170,7 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                     <h3 className="text-lg font-bold mb-4">Social Links</h3>
                     <IoIosLink size={30} className='mr-2' />
                     <div className="mb-4">
-                        <label className="block text-gray-700">Social Link 1:</label>
+                        <label className="block text-gray-700">SocialLink:</label>
                         <input
                             type="text"
                             name="socialLink1"
@@ -177,6 +195,14 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
                         <button type="submit" onClick={updateprofile} className="bg-purple-500 text-white px-4 py-2 rounded">Save</button>
                     </div>
+
+                    {successMessage && (
+                        <div className="mt-4 text-green-500 text-center">
+                            {successMessage}
+                        </div>
+                    )}
+
+
                 </div>
             )}
         </form>
