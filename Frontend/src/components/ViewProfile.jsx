@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
 
-const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
+const ViewProfileForm = ({ handleCloseModal }) => {
     const [currentStep, setCurrentStep] = useState(1);
         const handleChange = (e) => {
             const { name, value } = e.target;
-            setFormData({ ...formData, [name]: value });
         };
     
         const handleNextStep = () => {
@@ -21,8 +20,8 @@ const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
            // Update the profile display with the new values
            setFormData({
             ...formData,
-            admissionNo: formData.admissionNo,
-            programStudy: formData.programStudy
+            admissionNo:admissionNo,
+            programStudy: programStudy
         });
         handleCloseModal();
     };
@@ -36,7 +35,6 @@ const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="firstName"
-                            value={formData.firstName}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter First Name"
@@ -47,7 +45,6 @@ const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="lastName"
-                            value={formData.lastName}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Last Name"
@@ -58,7 +55,6 @@ const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="username"
-                            value={formData.username}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Username"
@@ -69,7 +65,6 @@ const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="email"
                             name="email"
-                            value={formData.email}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Email"
@@ -89,7 +84,6 @@ const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="admissionNo"
-                            value={formData.admissionNo}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Admission No."
@@ -100,7 +94,6 @@ const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="programStudy"
-                            value={formData.programStudy}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Program Study"
@@ -120,7 +113,6 @@ const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="skills"
-                            value={formData.skills}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Skills"
@@ -140,7 +132,6 @@ const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                             type="text"
                             name="interests"
-                            value={formData.interests}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Interests"
@@ -160,7 +151,6 @@ const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
                         <input
                                                    type="text"
                             name="socialLinks"
-                            value={formData.socialLinks}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Social Links"
