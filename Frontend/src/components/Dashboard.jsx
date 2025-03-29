@@ -7,16 +7,15 @@ import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import Applications from "./Applications"; // Import the Applications component
 import UpdateProfileForm from './UpdateProfile'; // Import the UpdateProfileForm component
 import ViewProfileForm from './ViewProfile';
-import microsoft from "/public/microsoft.jpg"; // Import your image here
-import google from "/public/google.svg";
 import NewsPost from "./NewsPost";
+import Status from "./Status";
 
 const jobPosts = [
   {
     company: "Microsoft",
     logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
     description: "Microsoft is hiring interns for summer 2024.",
-    image: microsoft,
+    image: "/public/microsoft.jpg",
   },
   {
     company: "Amazon",
@@ -40,7 +39,7 @@ const jobPosts = [
     company: "Google",
     logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
     description: "Google's Summer of Code program is open for applications.",
-    image: google,
+    image: "/public/google.svg",
   },
   {
     company: "Oracle",
@@ -233,7 +232,7 @@ const UserProfile = ({ userName, userEmail }) => {
                       <p><span className="ml-4">{formData.interest || "Web Development"}</span></p>
                     </div>
             </div>
-            <div className='btn items-center space-x-15 p-4'>
+            <div className='btn justify-between items-center space-x-5 p-8'>
                     <button onClick={handleUpdateProfile} className="update-btn  text-white rounded ">Update profile</button>
                     <button onClick={handleViewProfile} className="update-btn text-white rounded  ">View profile </button>
             </div>
