@@ -5,11 +5,58 @@ import { GiSkills } from "react-icons/gi";
 import { MdDashboard, MdEmail, MdInterests } from "react-icons/md";
 import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom"; // Import useLocation
 import Applications from "./Applications"; // Import the Applications component
-import InitialProfileSetupForm from './InitialProfileSetupForm'; // Import the InitialProfileSetupForm component
+import NewsPost from "./NewsPost";
 import Status from "./Status";
-
+import UpdateProfileForm from './UpdateProfile'; // Import the UpdateProfileForm component
+import ViewProfileForm from './ViewProfile';
+import google from "/public/google.svg";
+import microsoft from "/public/microsoft.jpg"; // Import your image here
 
 // import Profile from "./Profile.jsx";
+const jobPosts = [
+  {
+    company: "Microsoft",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+    description: "Microsoft is hiring interns for summer 2024.",
+    image: microsoft,
+  },
+  {
+    company: "Amazon",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+    description: "Amazon is looking for software development interns.",
+    image: "https://your-amazon-image-url.com",
+  },
+  {
+    company: "Facebook",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Facebook_Logo_2023.png",
+    description: "Facebook is looking for software engineering interns.",
+    image: "https://your-facebook-image-url.com",
+  },
+  {
+    company: "Safaricom",
+    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/0/08/Safaricom_logo.svg/1200px-Safaricom_logo.svg.png",
+    description: "Exciting internship opportunity at Safaricom.",
+    image: "https://your-safaricom-image-url.com",
+  },
+  {
+    company: "Google",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+    description: "Google's Summer of Code program is open for applications.",
+    image: google,
+  },
+  {
+    company: "Oracle",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
+    description: "Oracle is offering database engineering internships.",
+    image: "https://your-oracle-image-url.com",
+  },
+  {
+    company: "IBM",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+    description: "Join IBM’s software development internship program.",
+    image: "https://your-ibm-image-url.com",
+  },
+];
 
 const Sidebar = () => {
   const navigate = useNavigate(); // Initialize useNavigate
@@ -91,61 +138,57 @@ const Dashboard = ({ userName }) => {
               </div>
             </div>
 
-            {/* postsection */}
-            <div className="bg-gradient-to-r from-purple-500  to-purple-400 mt-4 text-white text-center p-4 h-screen rounded-lg shadow-lg justify-center">
-              <div className="border-2 hover:border-indigo-200 border-b-indigo-500 p-4 h-110">
-                <div className="flex items-center ">
-                  <FaUserCircle className="text-black ml-3 mt-3" size={50} />
-                  <div className="flex flex-col items-left text-left ml-4">
-                    <strong>{"Microsoft"}  </strong>
-                    <span>{"American Technology Company"}</span>
-                  </div>
-                </div>
-                <hr className="mt-2" />
-                <div className="grid grid-flow-col grid-rows-3 gap-2 mt-2">
-                  <div className="row-span-3 h-82 bg-white rounded-lg ml-50 shadow-lg w-82 ">
-                    <img className="object-cover h-82 w-82 rounded-lg " src='/microsoft.jpg' alt="microsoft image" />
-                  </div>
-                  <div className="col-span-2 w-120  h-60 text-black bg-white rounded-lg shadow-lg">
-                    <p>{" It develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services."}</p>
-                    <p>{"We are offering an exciting attachment opportunity for undergraduate students pursuing Computer Science or IT, requiring proficiency in programming languages (JavaScript, Python, or Java), excellent problem-solving skills, and a passion for technology innovation. "}</p>
-                  </div>
-                  <div className="col-span-2 row-span-2 text-black h-20 bg-white rounded-lg shadow-lg w-120">
-                    <p>apply for this opportunity</p>
-                    <p>contacts here</p>
-                  </div>
-                </div>
+            {/* News Section */}
+            <div className="space-y-6 m-5">
+              {jobPosts.map((job, index) => (
+                <NewsPost
+                  key={index}
+                  company={job.company}
+                  logo={job.logo}
+                  description={job.description}
+                  image={job.image}
+                />
+              ))}
+            </div>          
               </div>
-            </div>
-          </div>
-        )}
+              )}
 
-        {/* Routes for Dashboard Content */}
-        <Routes>
-          <Route path="applications" element={<Applications />} />
-          <Route path="status" element={<Status />} />
-          {/* Add other nested routes here */}
-        </Routes>
-      </div>
-    </div>
-  );
-};
+              {/* Routes for Dashboard Content */}
+              <Routes>
+                <Route path="applications" element={<Applications />} />
+                <Route path="status" element={<Status />} />
+                {/* Add other nested routes here */}
+              </Routes>
+            </div>
+          </div>  
+        );
+      };
+
 
 const UserProfile = ({ userName, userEmail }) => {
-    const [isInitialSetupModalOpen, setIsInitialSetupModalOpen] = useState(false);
-    const [moreinfo, setMoreinfo] = useState([]);
-    
+  const [isModalOpen, setIsViewModalOpen] = useState(false);
+  const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useState(false);
+  const [moreinfo, setMoreinfo] = useState({});
 
-    const handleInitialSetup = () => {
-        setIsInitialSetupModalOpen(true);
-    };
-
-  const handleCloseInitialSetupModal = () => {
-    setIsInitialSetupModalOpen(false);
+  const handleViewProfile = () => {
+    setIsViewModalOpen(true);
   };
+
+  const handleUpdateProfile = () => {
+    setIsUpdateProfileModalOpen(true);
+  };
+
+  const handleCloseViewModal = () => {
+    setIsViewModalOpen(false);
+  };
+
+  const handleCloseUpdateProfileModal = () => {
+    setIsUpdateProfileModalOpen(false);
+  };
+
   return (
-    <div className="absolute top-4 fixed userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white   rounded-lg shadow-lg w-80">
-      <div className="profile-picture rounded-lg p-2 h-60 text-center" >
+    <div className="absolute top-4 fixed userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white rounded-lg shadow-lg w-80">
+      <div className="profile-picture rounded-lg p-2 h-60 text-center">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-lg text-black font-bold">Profile</h1>
           <div className="flex items-center space-x-2 text-gray-500">
@@ -162,8 +205,8 @@ const UserProfile = ({ userName, userEmail }) => {
         <div>
           <FaGraduationCap size={30} className="mr-2" />
           <hr />
-          <p><span className="ml-4">{moreinfo.admissionNo || "EB1/61319/22"}</span></p>
-          <p><span className="ml-4">{moreinfo.programStudy || "Computer Science"}</span></p>
+          <p><span className="ml-4">{moreinfo?.admissionNo || "EB1/61319/22"}</span></p>
+          <p><span className="ml-4">{moreinfo?.programStudy || "Computer Science"}</span></p>
         </div>
         <div className="mt-2">
           <MdEmail size={30} className="mr-2" />
@@ -173,27 +216,34 @@ const UserProfile = ({ userName, userEmail }) => {
         <div className="mt-2">
           <GiSkills size={30} className="mr-2" />
           <hr />
-          <p><span className="ml-4">{moreinfo.skillname || "Java"}</span></p>
+          <p><span className="ml-4">{moreinfo?.skillname || "Java"}</span></p>
         </div>
         <div className="mt-2">
           <MdInterests size={30} className="mr-2" />
           <hr />
-          <p><span className="ml-4">{moreinfo.interest || "Web Development"}</span></p>
+          <p><span className="ml-4">{moreinfo?.interest || "Web Development"}</span></p>
         </div>
       </div>
-      <div className='btn items-center space-x-15 p-4'>
-        <button onClick={handleInitialSetup} className="update-btn  text-white rounded ">Enhance profile</button>
+      <div className="btn items-center space-x-15 p-4">
+        <button onClick={handleUpdateProfile} className="update-btn text-white rounded">Update profile</button>
+        <button onClick={handleViewProfile} className="update-btn text-white rounded">View profile</button>
       </div>
-      {isInitialSetupModalOpen && (
+      {isUpdateProfileModalOpen && (
         <div className="fixed inset-0 flex enhanceForm items-center justify-center backdrop-blur-md bg-black/30">
           <div className="bg-white p-8 rounded-lg shadow-md w-96">
             <h2 className="text-center text-2xl font-bold mb-6">Enhance Your Profile</h2>
-            <p>Add this section to your profile</p>
-            <InitialProfileSetupForm handleCloseModal={handleCloseInitialSetupModal} />
+            <UpdateProfileForm handleCloseModal={handleCloseUpdateProfileModal} />
           </div>
         </div>
       )}
-
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black/30">
+          <div className="bg-white p-8 rounded-lg shadow-md w-96">
+            <h2 className="text-center text-2xl font-bold mb-6">View Profile</h2>
+            <ViewProfileForm handleCloseModal={handleCloseViewModal} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

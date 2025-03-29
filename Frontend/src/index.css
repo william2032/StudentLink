@@ -243,7 +243,9 @@ body {
   background: whitesmoke;
   color: black;
   cursor: pointer;
-  width: 80%;
+  min-width: 75px; 
+  text-align: center;
+  white-space: nowrap; 
 }
 .update-btn:hover{
   background: rgb(61, 61, 61);
@@ -252,7 +254,9 @@ body {
 
 }
 .btn{
-  align-items: center;
+  /* align-items: center; */
+  display: flex;
+  justify-content: space-between;
 }
 .profile-picture{
   background: white;

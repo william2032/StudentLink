@@ -6,7 +6,7 @@ import { MdInterests } from "react-icons/md";
 const API_URL = "http://localhost:8080/api/moreinfo";
 
 
-const InitialProfileSetupForm = ({handleCloseModal , setMoreinfo}) => {
+const UpdateProfileForm = ({handleCloseModal , setMoreinfo}) => {
     const [currentStep, setCurrentStep] = useState(1);
     const [admissionNo, setAdmissionNo] = useState('');
     const [programStudy, setProgramStudy] = useState('');
@@ -235,4 +235,4 @@ const InitialProfileSetupForm = ({handleCloseModal , setMoreinfo}) => {
     );
 };
 
-export default InitialProfileSetupForm;
+export default UpdateProfileForm;
