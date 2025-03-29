@@ -1,6 +1,7 @@
 package com.wiseowls.StudentLink.Services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,5 +42,9 @@ public class StudentService {
     // Method to fetch all registered students
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
+    }
+    public Optional<Student> findById(Long id) {
+        // Fetch the student by ID
+        return studentRepository.findById(id);
     }
 }
