@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 
-const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
+const ViewProfileForm = ({ formData, setFormData, handleCloseModal }) => {
     const [currentStep, setCurrentStep] = useState(1);
         const handleChange = (e) => {
             const { name, value } = e.target;
@@ -176,4 +176,4 @@ const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
     );
 };
 
-export default UpdateProfileForm;
+export default ViewProfileForm;

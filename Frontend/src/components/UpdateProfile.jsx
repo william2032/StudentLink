@@ -6,7 +6,7 @@ import { MdInterests } from "react-icons/md";
 const API_URL = "http://localhost:8080/api/moreinfo";
 
 
-const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) => {
+const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
     const [currentStep, setCurrentStep] = useState(1);
 
     const handleChange = (e) => {
@@ -21,7 +21,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
     const handlePrevStep = () => {
         setCurrentStep(currentStep - 1);
     };
-    const enhanceprofile = async () => {
+    const updateprofile = async () => {
         try {
             const response = await fetch(`${API_URL}/add`, {
                 method: 'POST',
@@ -45,7 +45,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await enhanceprofile();
+        await updateprofile();
         handleCloseModal();
     }; 
 
@@ -156,7 +156,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                         <input
                             type="text"
                             name="socialLink1"
-                            value={formData.socialLinks}
+                            value={formData.socialLink1}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Social Links"
@@ -167,7 +167,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                         <input
                             type="text"
                             name="socialLink2"
-                            value={formData.socialLinks}
+                            value={formData.socialLink2}
                             onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Social Links"
@@ -175,7 +175,7 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
                     </div>
                     <div className="flex justify-between mt-4">
                         <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
-                        <button type="submit" onClick={enhanceprofile} className="bg-purple-500 text-white px-4 py-2 rounded">Save</button>
+                        <button type="submit" onClick={updateprofile} className="bg-purple-500 text-white px-4 py-2 rounded">Save</button>
                     </div>
                 </div>
             )}
@@ -183,4 +183,4 @@ const InitialProfileSetupForm = ({ formData, setFormData, handleCloseModal }) =>
     );
 };
 
-export default InitialProfileSetupForm;
+export default UpdateProfileForm;
