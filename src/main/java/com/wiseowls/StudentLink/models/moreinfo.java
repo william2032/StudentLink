@@ -41,7 +41,7 @@ public class moreinfo {
     private String socialLinks;
     
     @OneToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id" , nullable = false)
+    @JoinColumn(name = "student_id", referencedColumnName = "id" )
     private Student student;
     
     public moreinfo() {

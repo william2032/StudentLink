@@ -239,10 +239,11 @@ body {
   right:20px;
 }
 .update-btn{
-  padding: 2px;
+  padding: 5px;
   background: whitesmoke;
   color: black;
   cursor: pointer;
+  width: 80%;
 }
 .update-btn:hover{
   background: rgb(61, 61, 61);
@@ -250,11 +251,8 @@ body {
   transition: all 0.5s ease-in-out;
 
 }
-btn{
-  display: flex;
-  justify-content: space-between;
+.btn{
   align-items: center;
-  margin-top: 50px;
 }
 .profile-picture{
   background: white;

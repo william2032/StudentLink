@@ -6,7 +6,6 @@ import { MdDashboard, MdEmail, MdInterests } from "react-icons/md";
 import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom"; // Import useLocation
 import Applications from "./Applications"; // Import the Applications component
 import InitialProfileSetupForm from './InitialProfileSetupForm'; // Import the InitialProfileSetupForm component
-import UpdateProfileForm from './UpdateProfileForm';
 import myimage from "./microsoft.jpg";
 
 
@@ -130,31 +129,12 @@ const Dashboard = ({ userName }) => {
 };
 
 const UserProfile = ({ userName, userEmail }) => {
-    const [isModalOpen, setIsUpdateModalOpen] = useState(false);
     const [isInitialSetupModalOpen, setIsInitialSetupModalOpen] = useState(false);
-    const [formData, setFormData] = useState({
-        // firstName: "",
-        // lastName: "",
-        // email: "",
-        admissionNo: "",
-        programStudy: "",
-        skillname: "",
-        skillDescription: "",
-        interest: "",
-        interestDescription: "",
-        socialLinks: ""
-    });
-
-    const handleUpdateProfile = () => {
-        setIsUpdateModalOpen(true);
-    };
+    const [moreinfo, setMoreinfo] = useState([]);
+    
 
     const handleInitialSetup = () => {
         setIsInitialSetupModalOpen(true);
-    };
-
-    const handleCloseUpdateModal = () => {
-        setIsUpdateModalOpen(false);
     };
 
     const handleCloseInitialSetupModal = () => {
@@ -179,8 +159,8 @@ const UserProfile = ({ userName, userEmail }) => {
                     <div>
                       <FaGraduationCap size={30} className="mr-2" />
                       <hr />
-                      <p><span className="ml-4">{formData.admissionNo || "EB1/61319/22"}</span></p>
-                      <p><span className="ml-4">{formData.programStudy || "Computer Science"}</span></p>
+                      <p><span className="ml-4">{moreinfo.admissionNo || "EB1/61319/22"}</span></p>
+                      <p><span className="ml-4">{moreinfo.programStudy || "Computer Science"}</span></p>
                     </div>
                     <div  className="mt-2">
                       <MdEmail size={30} className="mr-2"/>
@@ -190,33 +170,23 @@ const UserProfile = ({ userName, userEmail }) => {
                     <div className="mt-2">
                       <GiSkills size={30} className="mr-2"/>
                       <hr />
-                      <p><span className="ml-4">{formData.skillname || "Java"}</span></p>
+                      <p><span className="ml-4">{moreinfo.skillname || "Java"}</span></p>
                     </div>
                     <div className="mt-2"> 
                       <MdInterests size={30} className="mr-2" />
                       <hr />
-                      <p><span className="ml-4">{formData.interest || "Web Development"}</span></p>
+                      <p><span className="ml-4">{moreinfo.interest || "Web Development"}</span></p>
                     </div>
             </div>
-            <div className='btn items-center space-x-15 p-4'>
-                    <button onClick={handleInitialSetup} className="update-btn  text-white rounded ">Enhance profile</button>
-                    <button onClick={handleUpdateProfile} className="update-btn text-white rounded  ">Update profile </button>
+            <div className='btn items-center p-4'>
+                    <button onClick={handleInitialSetup} className="update-btn ml-7  border text-white rounded ">Enhance Your Profile</button>
             </div>
             {isInitialSetupModalOpen && (
                 <div className="fixed inset-0 flex enhanceForm items-center justify-center backdrop-blur-md bg-black/30">
                     <div className="bg-white p-8 rounded-lg shadow-md w-96">
                         <h2 className="text-center text-2xl font-bold mb-6">Enhance Your Profile</h2>
                         <p>Add this section to your profile</p>
-                        <InitialProfileSetupForm formData={formData} setFormData={setFormData} handleCloseModal={handleCloseInitialSetupModal} />
-                    </div>
-                </div>
-            )}
- 
-            {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black/30">
-                    <div className="bg-white p-8 rounded-lg shadow-md w-96">
-                        <h2 className="text-center text-2xl font-bold mb-6">Update Profile</h2>
-                        <UpdateProfileForm formData={formData} setFormData={setFormData} handleCloseModal={handleCloseUpdateModal} />
+                        <InitialProfileSetupForm  handleCloseModal={handleCloseInitialSetupModal} setMoreinfo = {setMoreinfo} />
                     </div>
                 </div>
             )}

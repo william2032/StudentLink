@@ -25,7 +25,7 @@ public class moreinfoController {
             return ResponseEntity.ok(savedInfo); // Return JSON response
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("{\"error\": \"Error saving data\"}"); // Return JSON error
+            return ResponseEntity.status(500).body("{\"error\": \"Error  saving data\"}"); // Return JSON error
         }
     }
 }
