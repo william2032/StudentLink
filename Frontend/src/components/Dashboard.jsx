@@ -9,8 +9,6 @@ import NewsPost from "./NewsPost";
 import Status from "./Status";
 import UpdateProfileForm from './UpdateProfile'; // Import the UpdateProfileForm component
 import ViewProfileForm from './ViewProfile';
-import google from "/public/google.svg";
-import microsoft from "/public/microsoft.jpg"; // Import your image here
 
 // import Profile from "./Profile.jsx";
 const jobPosts = [
@@ -18,7 +16,7 @@ const jobPosts = [
     company: "Microsoft",
     logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
     description: "Microsoft is hiring interns for summer 2024.",
-    image: microsoft,
+    image: "/public/microsoft.jpg",
   },
   {
     company: "Amazon",
@@ -42,7 +40,7 @@ const jobPosts = [
     company: "Google",
     logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
     description: "Google's Summer of Code program is open for applications.",
-    image: google,
+    image: "/public/google.svg",
   },
   {
     company: "Oracle",
