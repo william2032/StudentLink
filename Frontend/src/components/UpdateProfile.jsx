@@ -6,7 +6,7 @@ import { MdInterests } from "react-icons/md";
 const API_URL = "http://localhost:8080/api/moreinfo";
 
 
-const InitialProfileSetupForm = ({handleCloseModal , setMoreinfo}) => {
+const UpdateProfileForm = ({ formData, setFormData, handleCloseModal }) => {
     const [currentStep, setCurrentStep] = useState(1);
     const [admissionNo, setAdmissionNo] = useState('');
     const [programStudy, setProgramStudy] = useState('');
@@ -26,28 +26,7 @@ const InitialProfileSetupForm = ({handleCloseModal , setMoreinfo}) => {
     const handlePrevStep = () => {
         setCurrentStep(currentStep - 1);
     };
-    const validateForm = () => {
-        let newErrors = {};
-    
-        const fields = { admissionNo, programStudy, skilldescription, skillname, interest, interestdescription, socialLink };
-        Object.keys(fields).forEach((key) => {
-            if (!fields[key].trim()) {
-                newErrors[key] = `${key.replace(/([A-Z])/g, " $1")} is required`;
-            }
-        });
-    
-        return Object.keys(newErrors).length === 0; // Return true if no errors
-    };
-    useEffect(() => {
-        const fields = { admissionNo, programStudy, skilldescription, skillname, interest, interestdescription, socialLink };
-        const allFieldsFilled = Object.values(fields).every((value) => value.trim() !== "");
-        setIsButtonDisabled(!allFieldsFilled);
-    }, [admissionNo, programStudy, skilldescription, skillname, interest, interestdescription, socialLink]);
-    const enhanceprofile = async () => {
-        if (!validateForm()) return; // stop submission
-        setIsSubmitting(true);
-        setSuccessMessage(""); //reset sucess message
-        
+    const updateprofile = async () => {
         try {
             const response = await fetch(`${API_URL}/add`, {
                 method: 'POST',
@@ -84,14 +63,8 @@ const InitialProfileSetupForm = ({handleCloseModal , setMoreinfo}) => {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await enhanceprofile();
- // Close the modal after a delay if submission is successful
-        if (successMessage === "Data saved successfully!") {
-            setTimeout(() => {
-                handleCloseModal();
-            }, 1500);
-}
-        
+        await updateprofile();
+        handleCloseModal();
     }; 
 
     return (
@@ -200,26 +173,27 @@ const InitialProfileSetupForm = ({handleCloseModal , setMoreinfo}) => {
                         <label className="block text-gray-700">SocialLink:</label>
                         <input
                             type="text"
-                            name="socialLinks"
-                            value={socialLink}
-                            onChange={(e) => setSocialLinks(e.target.value)}
+                            name="socialLink1"
+                            value={formData.socialLink1}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded-lg"
+                            placeholder="Enter Social Links"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Social Link 2:</label>
+                        <input
+                            type="text"
+                            name="socialLink2"
+                            value={formData.socialLink2}
+                            onChange={handleChange}
                             className="w-full p-2 border rounded-lg"
                             placeholder="Enter Social Links"
                         />
                     </div>
                     <div className="flex justify-between mt-4">
                         <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
-                        <button type="submit" 
-                            className={`bg-purple-500 text-white px-4 py-2 rounded ${isButtonDisabled ? "bg-gray-600 cursor-not-allowed" : "bg-gray-600 cursor-pointer hover:bg-purple-700"}`}
-                            disabled = {isButtonDisabled || isSubmitting}
-                            >
-                            {isSubmitting ? (
-                                <div className='flex items-center justify-center'>
-                                    <div className='loader'></div>
-                                    <span className='ml-2'>saving..</span>
-                                </div>
-                            ) : "save"}
-                            </button>
+                        <button type="submit" onClick={updateprofile} className="bg-purple-500 text-white px-4 py-2 rounded">Save</button>
                     </div>
 
                     {successMessage && (
@@ -235,4 +209,4 @@ const InitialProfileSetupForm = ({handleCloseModal , setMoreinfo}) => {
     );
 };
 
-export default InitialProfileSetupForm;
+export default UpdateProfileForm;
