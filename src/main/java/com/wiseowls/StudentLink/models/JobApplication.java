@@ -40,6 +40,10 @@ public class JobApplication {
     @Column(length = 500)
     private String reviewNotes;
 
+    @ManyToOne
+    @JoinColumn(name = "jobId", insertable = false, updatable = false)
+    private Job job; // Reference to Job entity
+
     // Constructors
     public JobApplication() {
     }
@@ -130,6 +134,10 @@ public class JobApplication {
         this.reviewNotes = reviewNotes;
     }
 
+    public Job getJob() {
+        return job;
+    }
+
     // Business logic methods
     public boolean isPending() {
         return "PENDING".equals(status);
@@ -168,4 +176,6 @@ public class JobApplication {
         this.reviewedAt = LocalDateTime.now();
         this.reviewNotes = notes;
     }
+
+    
 }
