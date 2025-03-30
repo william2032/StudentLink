@@ -7,18 +7,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.wiseowls.StudentLink.models.Job;
+import org.springframework.lang.NonNull;
 
-public interface JobRepository extends JpaRepository<Job, Integer> {
-    // Custom query to delete a job by ID
-    void deleteById(@SuppressWarnings("null") Integer id);
+public interface JobRepository extends JpaRepository<Job,  Integer> {
+    // Delete a job by ID (JpaRepository provides this by default)
+    void deleteById(Integer id);
 
-    // Custom query to filter jobs
+    // Custom query to filter jobs based on multiple parameters
     @Query("SELECT j FROM Job j WHERE " +
-           "(:company IS NULL OR j.company LIKE %:company%) AND " +
-           "(:location IS NULL OR j.location LIKE %:location%) AND " +
-           "(:skillsRequired IS NULL OR j.skillsRequired LIKE %:skillsRequired%) AND " +
-           "(:duration IS NULL OR j.duration LIKE %:duration%) AND " +
-           "(:openingsAvailable IS NULL OR j.openingsAvailable >= :openingsAvailable)")
+            "(:company IS NULL OR j.company LIKE %:company%) AND " +
+            "(:location IS NULL OR j.location LIKE %:location%) AND " +
+            "(:skillsRequired IS NULL OR j.skillsRequired LIKE %:skillsRequired%) AND " +
+            "(:duration IS NULL OR j.duration LIKE %:duration%) AND " +
+            "(:openingsAvailable IS NULL OR j.openingsAvailable >= :openingsAvailable)")
     List<Job> findFilteredJobs(
             @Param("company") String company,
             @Param("location") String location,
@@ -27,9 +28,9 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
             @Param("openingsAvailable") Integer openingsAvailable
     );
 
-    // Find jobs by keyword
+    // Find jobs by keyword search in job description or company name
     @Query("SELECT j FROM Job j WHERE " +
-           "LOWER(j.jobDescription) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(j.company) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+            "LOWER(j.jobDescription) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(j.company) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Job> findJobsByKeyword(@Param("keyword") String keyword);
 }

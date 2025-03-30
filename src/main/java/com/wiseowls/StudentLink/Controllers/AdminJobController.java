@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.wiseowls.StudentLink.Services.JobService;
 import com.wiseowls.StudentLink.models.Job;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +42,12 @@ public class AdminJobController {
 
     // Delete a job
     @DeleteMapping("/{id}")
-    public void deleteJob(@PathVariable Integer id) {
-        jobService.deleteJob(id);
+    public ResponseEntity<?> deleteJob(@PathVariable Integer id) {
+        try {
+            jobService.deleteJob(id);
+            return ResponseEntity.ok().body("Job deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

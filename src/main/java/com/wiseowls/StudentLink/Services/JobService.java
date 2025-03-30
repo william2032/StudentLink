@@ -45,16 +45,17 @@ public class JobService {
     }
 
     // Delete a job
-    public void deleteJob(Integer id) {
-        jobRepository.deleteById(id);
+     public void deleteJob(Integer id) {
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found with id: " + id));
+        jobRepository.deleteById( id);
     }
+
+
 
     // Filter jobs
     public List<Job> filterJobs(String company, String location, String skillsRequired, String duration, Integer openingsAvailable) {
         return jobRepository.findFilteredJobs(company, location, skillsRequired, duration, openingsAvailable);
     }
- // // Search jobs by keyword
-    // public List<Job> searchJobs(String keyword) {
-    //     return jobRepository.findJobsByKeyword(keyword);
-    // }
+
 }

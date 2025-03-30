@@ -15,6 +15,16 @@ const Admin = () => {
     const [activeTab, setActiveTab] = useState('listings');
     const [selectedJobs, setSelectedJobs] = useState([]);
 
+    const [isAddingNewJob, setIsAddingNewJob] = useState(false);
+
+    const [newJob, setNewJob] = useState({
+        jobDescription: '',
+        company: '',
+        location: '',
+        skillsRequired: '',
+        duration: '',
+        openingsAvailable: ''
+    });
 
     const listingsCount = jobs.length;
     const submitsCount = 21; // Should be from API
@@ -29,12 +39,42 @@ const Admin = () => {
         }
     };
 
+    const handleNewJobChange = (field, value) => {
+        setNewJob(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
     const handleSelectJob = (jobId) => {
         setSelectedJobs(prev =>
             prev.includes(jobId)
                 ? prev.filter(id => id !== jobId)
                 : [...prev, jobId]
         );
+    };
+
+    const handleSaveNewJob = async () => {
+        try {
+            // Validate required fields
+            if (!newJob.jobDescription || !newJob.company) {
+                setError('Job Title and Company are required');
+                return;
+            }
+
+            await addJob(newJob);
+            setIsAddingNewJob(false);
+            setNewJob({
+                jobDescription: '',
+                company: '',
+                location: '',
+                skillsRequired: '',
+                duration: '',
+                openingsAvailable: ''
+            });
+        } catch (err) {
+            setError('Failed to save job');
+        }
     };
 
     useEffect(() => {
@@ -73,6 +113,9 @@ const Admin = () => {
         try {
             const response = await fetch(`${API_URL}/jobs/${id}`, {
                 method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             });
             if (!response.ok) throw new Error('Failed to delete job');
             setJobs(jobs.filter(job => job.id !== id));
@@ -80,6 +123,19 @@ const Admin = () => {
             setError('Failed to delete job');
         }
     };
+
+    const deleteSelectedJobs = async () => {
+        try {
+            // Delete all selected jobs sequentially
+            for (const jobId of selectedJobs) {
+                await deleteJob(jobId);
+            }
+            setSelectedJobs([]); // Clear selection after successful deletion
+        } catch (err) {
+            setError('Failed to delete selected jobs');
+        }
+    };
+
 
     const updateJob = async () => {
         try {
@@ -128,17 +184,17 @@ const Admin = () => {
                 <div className="flex gap-4">
                     <button
                         className={`flex items-center gap-2 px-4 py-2 rounded-md ${activeTab === 'listings' ? 'text-purple-600 font-medium' : 'text-gray-600'
-                        }`}
+                            }`}
                         onClick={() => setActiveTab('listings')}
                     >
                         All listings
-                        <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                        <span className="bg-red-500 text-white text-xs px-[10px] py-1 rounded-full">
                             {listingsCount}
                         </span>
                     </button>
                     <button
-                        className={`flex items-center gap-2 px-4 py-2 rounded-md ${activeTab === 'submits' ? 'text-purple-600 font-medium' : 'text-gray-600'
-                        }`}
+                        className={`flex items-center gap-2 px-4 py-4 rounded-md ${activeTab === 'submits' ? 'text-purple-600 font-medium' : 'text-gray-600'
+                            }`}
                         onClick={() => setActiveTab('submits')}
                     >
                         Submits
@@ -151,9 +207,10 @@ const Admin = () => {
                 {/* Action Buttons */}
                 <div className="flex gap-2">
                     <button
-                        onClick={() => setEditingJobId(null)}
+                        onClick={() => setIsAddingNewJob(true)}
                         className="p-2 hover:bg-gray-100 rounded-md"
                         title="Add new"
+                        disabled={isAddingNewJob}
                     >
                         <span className="text-2xl">+</span>
                     </button>
@@ -161,8 +218,8 @@ const Admin = () => {
                         className="p-2 hover:bg-gray-100 rounded-md"
                         title="Delete selected"
                         disabled={selectedJobs.length === 0}
-                    >
-                        <span className="text-2xl">-</span>
+                        onClick={deleteSelectedJobs}>
+                        <span className="text-4xl">-</span>
                     </button>
                 </div>
             </div>
@@ -172,103 +229,140 @@ const Admin = () => {
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
-                        <tr>
-                            <th scope="col" className="w-12 px-6 py-3">
-                                <input
-                                    type="checkbox"
-                                    className="rounded"
-                                    checked={selectedJobs.length === jobs.length}
-                                    onChange={handleSelectAll}
-                                />
-                            </th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Job Title
-                            </th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Company
-                            </th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Location
-                            </th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Skills
-                            </th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Duration
-                            </th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Openings
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                        {jobs.map(job => (
-                            <tr
-                                key={job.id}
-                                className="hover:bg-gray-50 cursor-pointer"
-                                onClick={() => editJob(job)}
-                            >
-                                <td className="px-6 py-4 whitespace-nowrap">
+                            <tr>
+                                <th scope="col" className="w-12 px-6 py-3">
                                     <input
                                         type="checkbox"
                                         className="rounded"
-                                        checked={selectedJobs.includes(job.id)}
-                                        onChange={(e) => {
-                                            e.stopPropagation();
-                                            handleSelectJob(job.id);
-                                        }}
+                                        checked={selectedJobs.length === jobs.length}
+                                        onChange={handleSelectAll}
                                     />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">{job.jobDescription}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{job.company}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{job.location}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{job.skillsRequired}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{job.duration}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{job.openingsAvailable}</td>
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Job Title
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Company
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Location
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Skills
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Duration
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Openings
+                                </th>
                             </tr>
-                        ))}
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {jobs.map(job => (
+                                <tr
+                                    key={job.id}
+                                    className="hover:bg-gray-50 cursor-pointer"
+
+                                >
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <input
+                                            type="checkbox"
+                                            className="rounded"
+                                            checked={selectedJobs.includes(job.id)}
+                                            onChange={(e) => {
+                                                e.stopPropagation();
+                                                handleSelectJob(job.id);
+                                            }}
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{job.jobDescription}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{job.company}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{job.location}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{job.skillsRequired}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{job.duration}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{job.openingsAvailable}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
             </div>
 
             {/* Job Form Modal */}
-            {editingJobId !== null && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-white p-6 rounded-lg w-full max-w-md">
-                        <h2 className="text-xl font-semibold mb-4">
-                            {editingJobId ? 'Edit Job' : 'Add New Job'}
-                        </h2>
-                        <div className="space-y-4">
-                            {/* ... existing form inputs ... */}
-                            <input
-                                type="text"
-                                placeholder="Job Title"
-                                value={jobDescription}
-                                onChange={(e) => setJobDescription(e.target.value)}
-                                className="w-full border border-gray-300 rounded p-2"
-                            />
-                            {/* ... other form inputs ... */}
-                        </div>
-                        <div className="flex gap-2 mt-4">
-                            <button
-                                onClick={editingJobId ? updateJob : addJob}
-                                className="bg-purple-600 text-white rounded p-2 hover:bg-purple-700"
-                            >
-                                {editingJobId ? 'Update Job' : 'Add Job'}
-                            </button>
-                            <button
-                                onClick={() => {
-                                    resetForm();
-                                    setEditingJobId(null);
-                                }}
-                                className="bg-gray-500 text-white rounded p-2 hover:bg-gray-600"
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            {isAddingNewJob && (
+                <tr className="bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                            onClick={handleSaveNewJob}
+                            className="text-green-600 hover:text-green-800 mr-2"
+                            title="Save"
+                        >
+                            Save
+                        </button>
+                        <button
+                            onClick={() => setIsAddingNewJob(false)}
+                            className="text-red-600 hover:text-red-800"
+                            title="Cancel"
+                        >
+                            Cancel
+                        </button>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                        <input
+                            type="text"
+                            value={newJob.jobDescription}
+                            onChange={(e) => handleNewJobChange('jobDescription', e.target.value)}
+                            className="w-full border border-gray-300 rounded p-1"
+                            placeholder="Job Title"
+                        />
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                        <input
+                            type="text"
+                            value={newJob.company}
+                            onChange={(e) => handleNewJobChange('company', e.target.value)}
+                            className="w-full border border-gray-300 rounded p-1"
+                            placeholder="Company"
+                        />
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                        <input
+                            type="text"
+                            value={newJob.location}
+                            onChange={(e) => handleNewJobChange('location', e.target.value)}
+                            className="w-full border border-gray-300 rounded p-1"
+                            placeholder="Location"
+                        />
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                        <input
+                            type="text"
+                            value={newJob.skillsRequired}
+                            onChange={(e) => handleNewJobChange('skillsRequired', e.target.value)}
+                            className="w-full border border-gray-300 rounded p-1"
+                            placeholder="Skills"
+                        />
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                        <input
+                            type="text"
+                            value={newJob.duration}
+                            onChange={(e) => handleNewJobChange('duration', e.target.value)}
+                            className="w-full border border-gray-300 rounded p-1"
+                            placeholder="Duration"
+                        />
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                        <input
+                            type="number"
+                            value={newJob.openingsAvailable}
+                            onChange={(e) => handleNewJobChange('openingsAvailable', e.target.value)}
+                            className="w-full border border-gray-300 rounded p-1"
+                            placeholder="Openings"
+                        />
+                    </td>
+                </tr>
             )}
 
             {/* Error Toast */}

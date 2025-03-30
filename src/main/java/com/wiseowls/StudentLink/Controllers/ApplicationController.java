@@ -105,4 +105,6 @@ public class ApplicationController {
         return application.map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+
 }

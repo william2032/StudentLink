@@ -1,6 +1,8 @@
 package com.wiseowls.StudentLink.models;
 import jakarta.persistence.*;
 
+
+
 @Entity
 @Table(name = "jobs")
 public class Job {
@@ -13,7 +15,7 @@ public class Job {
     private String duration;
     private int openingsAvailable;
     private String jobDescription;
-
+   
     
     public Integer getId() {
         return id;
