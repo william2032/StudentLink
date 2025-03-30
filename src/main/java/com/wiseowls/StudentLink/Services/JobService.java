@@ -53,4 +53,8 @@ public class JobService {
     public List<Job> filterJobs(String company, String location, String skillsRequired, String duration, Integer openingsAvailable) {
         return jobRepository.findFilteredJobs(company, location, skillsRequired, duration, openingsAvailable);
     }
+ // // Search jobs by keyword
+    // public List<Job> searchJobs(String keyword) {
+    //     return jobRepository.findJobsByKeyword(keyword);
+    // }
 }

@@ -1,38 +1,51 @@
 package com.wiseowls.StudentLink.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "profileinfo")
+@Table(name = "profileinfo",
+        uniqueConstraints = @UniqueConstraint( columnNames = {"admissionNo"})
+)
 public class moreinfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email;  
-    private String course;
-    private String regno;
+    @Column(nullable = false)
+    private String admissionNo;
+
+    @Column(nullable = false)
+    private String programStudy;
+
+    @Column(nullable = false)
     private String skillname;
-    private String skilldescription;
+    
+    @Column(nullable = false)
+    private String skillDescription;
+    
+    @Column(nullable = false)
     private String interest;
-    private String interestdescription;
-    private String socialLink;
+    
+    @Column(nullable = false)
+    private String interestDescription;
 
+    @Column(nullable = false)
+    private String socialLinks;
+    
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "student_id", referencedColumnName = "id" ,nullable = false)
+    private Student student;
+    
     public moreinfo() {
-    }
-
-    public moreinfo(String email, String course, String regno, String skillname, String skilldescription, String interest, String interestdescription) {
-        this.email = email;
-        this.course = course;
-        this.regno = regno;
-        this.skillname = skillname;
-        this.skilldescription = skilldescription;
-        this.interest = interest;
-        this.interestdescription = interestdescription;
     }
 
     // Getters and Setters
@@ -42,25 +55,21 @@ public class moreinfo {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getEmail() {
-        return email;
+    public String getAdmissionNo() {
+        return admissionNo;
     }
-    public void setEmail(String email) {
-        this.email = email;
+
+    public void setAdmissionNo(String admissionNo) {
+        this.admissionNo = admissionNo;
     }
-    public String getCourse() {
-        return course;
+
+    public String getProgramStudy() {
+        return programStudy;
     }
-    public void setCourse(String course) {
-        this.course = course;
+
+    public void setProgramStudy(String programStudy) {
+        this.programStudy = programStudy;
     }
-    public String getRegno() {
-        return regno;
-    }
-    public void setRegno(String regno) {
-        this.regno = regno;
-    }
-    
     public String getSkillname() {
         return skillname;
     }
@@ -68,10 +77,10 @@ public class moreinfo {
         this.skillname = skillname;
     }
     public String getSkilldescription() {
-        return skilldescription;
+        return skillDescription;
     }
     public void setSkilldescription(String skilldescription) {
-        this.skilldescription = skilldescription;
+        this.skillDescription = skilldescription;
     }
     public String getInterest() {
         return interest;
@@ -80,15 +89,15 @@ public class moreinfo {
         this.interest = interest;
     }
     public String getInterestdescription() {
-        return interestdescription;
+        return interestDescription;
     }
     public void setInterestdescription(String interestdescription) {
-        this.interestdescription = interestdescription;
+        this.interestDescription = interestdescription;
     }
     public String getSocialLink() {
-        return socialLink;
+        return socialLinks;
     }
     public void setSocialLink(String socialLink) {
-        this.socialLink = socialLink;
+        this.socialLinks = socialLink;
     }
 }

@@ -1,23 +1,41 @@
 package com.wiseowls.StudentLink.models;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "students")
+@Table(name = "students",
+        uniqueConstraints = @UniqueConstraint( columnNames = {"username", "email"})
+)
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String firstname;
+
+    @Column(nullable = false)
     private String lastname;
+
+    @Column(nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+    
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
+    private moreinfo moreinfo;
 
     // Default constructor
     public Student() {

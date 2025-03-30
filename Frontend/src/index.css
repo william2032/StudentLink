@@ -235,3 +235,32 @@ body {
   background: transparent;
   color: white;
 }
+.userProfile{
+  right:20px;
+}
+.update-btn{
+  padding: 5px;
+  background: whitesmoke;
+  color: black;
+  cursor: pointer;
+  min-width: 75px; 
+  text-align: center;
+  white-space: nowrap; 
+}
+.update-btn:hover{
+  background: rgb(61, 61, 61);
+  color: white;
+  transition: all 0.5s ease-in-out;
+
+}
+.btn{
+  /* align-items: center; */
+  display: flex;
+  justify-content: space-between;
+}
+.profile-picture{
+  background: white;
+}
+.enhanceForm{
+  color: #2e2e2e;
+}
