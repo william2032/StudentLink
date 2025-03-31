@@ -9,8 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Collections;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/applications")
@@ -59,8 +65,9 @@ public class ApplicationController {
             application.setStatus("PENDING");
             
             JobApplication savedApplication = applicationRepository.save(application);
-            
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedApplication);
+            // Fetch the saved application details
+            Optional<JobApplication> fetchedApplication = applicationRepository.findById(savedApplication.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(fetchedApplication.orElse(savedApplication));
                 
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().body("Invalid job ID format");
@@ -105,4 +112,30 @@ public class ApplicationController {
         return application.map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/status")
+    public ResponseEntity<?> getApplicationStatus() {
+        try {
+            List<JobApplication> applications = applicationRepository.findAll();
+            List<JobApplication> reversedApplications = new ArrayList<>(applications);
+            
+            Collections.reverse(reversedApplications);
+            List<Map<String, Object>> response = reversedApplications.stream()
+                .map(app -> {
+                    Map<String, Object> appStatus = new HashMap<>();
+                    appStatus.put("jobId", app.getJobId());
+                    appStatus.put("status", app.getStatus());
+                    appStatus.put("timestamp", app.getAppliedAt());
+                    appStatus.put("companyName", app.getJob() != null ? app.getJob().getCompany() : "N/A");
+                    return appStatus;
+                })
+                .collect(Collectors.toList());
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                .body("Failed to retrieve application statuses: " + e.getMessage());
+        }
+    }
+
 }
