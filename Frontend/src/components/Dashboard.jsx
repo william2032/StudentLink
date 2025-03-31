@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaBell, FaCaretDown, FaGraduationCap, FaUserCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { GiSkills } from "react-icons/gi";
-import { MdDashboard, MdEmail, MdInterests } from "react-icons/md";
+import { MdDashboard, MdEmail } from "react-icons/md";
 import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom"; // Import useLocation
 import Applications from "./Applications"; // Import the Applications component
 import NewsPost from "./NewsPost";
@@ -16,25 +15,25 @@ const jobPosts = [
     company: "Microsoft",
     logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
     description: "Microsoft is hiring interns for summer 2024.",
-    image: "/public/microsoft.jpg",
+    image: "https://www.pymnts.com/wp-content/uploads/2023/07/Microsoft-3.jpg",
   },
   {
     company: "Amazon",
     logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
     description: "Amazon is looking for software development interns.",
-    image: "https://your-amazon-image-url.com",
+    image: "https://www.xboxdynasty.de/wp-content/uploads/2016/11/amazon-11.jpg",
   },
   {
     company: "Facebook",
     logo: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Facebook_Logo_2023.png",
     description: "Facebook is looking for software engineering interns.",
-    image: "https://your-facebook-image-url.com",
+    image: "https://onlinemarketing.de/wp-content/uploads/2019/03/facebook-logo-holz-1.jpg",
   },
   {
     company: "Safaricom",
     logo: "https://upload.wikimedia.org/wikipedia/en/thumb/0/08/Safaricom_logo.svg/1200px-Safaricom_logo.svg.png",
     description: "Exciting internship opportunity at Safaricom.",
-    image: "https://your-safaricom-image-url.com",
+    image: "https://cioafrica.co/wp-content/uploads/2023/08/1200x800.jpg",
   },
   {
     company: "Google",
@@ -46,13 +45,13 @@ const jobPosts = [
     company: "Oracle",
     logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
     description: "Oracle is offering database engineering internships.",
-    image: "https://your-oracle-image-url.com",
+    image: "https://www.paradavisual.com/wp-content/uploads/2022/09/oracle-2.jpg",
   },
   {
     company: "IBM",
     logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
     description: "Join IBM’s software development internship program.",
-    image: "https://your-ibm-image-url.com",
+    image: "https://erp.today/wp-content/uploads/2022/05/ibm_0.jpeg",
   },
 ];
 
@@ -91,9 +90,10 @@ const Sidebar = () => {
   );
 };
 
-const Dashboard = ({ userName }) => {
+const Dashboard = ({ userName, studentId}) => {
   const [currentDate, setCurrentDate] = useState("");
   const location = useLocation(); // Get the current location
+  
 
   // Update date on component mount
   useEffect(() => {
@@ -113,7 +113,7 @@ const Dashboard = ({ userName }) => {
   return (
     <div className="relative flex h-screen bg-[#2e2e2e]">
       {/* Render UserProfile only on the main dashboard */}
-      {isMainDashboard && <UserProfile userName={userName} />}
+      {isMainDashboard && <UserProfile userName={userName} studentId={studentId} />}
 
       <Sidebar userName={userName} />
       <div className="flex-1 ml-68 mr-90 p-4">
@@ -163,87 +163,107 @@ const Dashboard = ({ userName }) => {
       };
 
 
-const UserProfile = ({ userName, userEmail }) => {
-  const [isModalOpen, setIsViewModalOpen] = useState(false);
-  const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useState(false);
-  const [moreinfo, setMoreinfo] = useState({});
+const UserProfile = ({ userName, studentId }) => {
+    const[firstname, setFirstname] = useState("");
+    const[lastname, setLastname] = useState("");
+    const [email, setEmail] = useState("");
+    const [isModalOpen, setIsViewModalOpen] = useState(false);
+    const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useState(false);
 
-  const handleViewProfile = () => {
-    setIsViewModalOpen(true);
-  };
+    const API_URL = "http://localhost:8080/api/students"; // Replace with your backend API URL
+    console.log("Student ID:", studentId); // Debugging log
+    // Fetch user data based on studentId
+    useEffect(() => {
+      const fetchUserData = async () => {
+          try {
+              const response = await fetch(`${API_URL}/${studentId}`); // Make the API call
+  
+              if (!response.ok) {
+                  console.error(`No user data found for studentId: ${studentId}, status: ${response.status}`);
+                  return; // Exit the function if there's an error
+              }
+  
+              const data = await response.json(); // Parse the JSON response
+              console.log("User data fetched successfully:", data); // Debugging log
+              
+              setFirstname(data.firstname);
+              setLastname(data.lastname);
+              setEmail(data.email);
+          } catch (error) {
+              console.error("Error fetching user data:", error);
+          }
+      };
 
-  const handleUpdateProfile = () => {
-    setIsUpdateProfileModalOpen(true);
-  };
+      if (studentId) {
+      fetchUserData(); }// Call the function to fetch user data
+    }, [studentId]); // Dependency array to run the effect when studentId changes
+  
+    const handleViewProfile = () => {
+        setIsViewModalOpen(true);
+    };
 
-  const handleCloseViewModal = () => {
-    setIsViewModalOpen(false);
-  };
+    const handleUpdateProfile = () => {
+        setIsUpdateProfileModalOpen(true);
+    };
 
-  const handleCloseUpdateProfileModal = () => {
-    setIsUpdateProfileModalOpen(false);
-  };
+    const handleCloseViewModal = () => {
+        setIsViewModalOpen(false);
+    };
 
-  return (
-    <div className="absolute top-4 fixed userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white rounded-lg shadow-lg w-80">
-      <div className="profile-picture rounded-lg p-2 h-60 text-center">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-lg text-black font-bold">Profile</h1>
-          <div className="flex items-center space-x-2 text-gray-500">
-            <FaBell className="cursor-pointer" />
-            <FaCaretDown className="cursor-pointer" />
-          </div>
+    const handleCloseUpdateProfileModal = () => {
+        setIsUpdateProfileModalOpen(false);
+    };
+
+    return (
+        <div className="absolute top-4 fixed userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white rounded-lg shadow-lg w-80">
+            <div className="profile-picture rounded-lg p-2 h-60 text-center">
+                <div className="flex justify-between items-center mb-4">
+                    <h1 className="text-lg text-black font-bold">Profile</h1>
+                    <div className="flex items-center space-x-2 text-gray-500">
+                        <FaBell className="cursor-pointer" />
+                        <FaCaretDown className="cursor-pointer" />
+                    </div>
+                </div>
+                <div className="w-24 h-24 rounded-full overflow-hidden ml-26 mb-4 border border-gray-300">
+                    <FaUserCircle className="text-gray-500 ml-5 mt-5" size={50} />
+                </div>
+                <h2 className="text-lg text-black font-semibold mb-2">{userName || "John Doe"}</h2>
+            </div>
+            <div className="flex flex-col p-4">
+                <div>
+                    <FaGraduationCap size={30} className="mr-2" />
+                    <hr />
+                    <p><span className="ml-4">{firstname || "First Name"}</span></p>
+                    <p><span className="ml-4">{lastname || "Last Name"}</span></p>
+                </div>
+                <div className="mt-2">
+                    <MdEmail size={30} className="mr-2" />
+                    <hr />
+                    <p><span className="ml-4">{email || "Email Address"}</span></p>
+                </div>
+            </div>
+            <div className="btn items-center space-x-15 p-4">
+                <button onClick={handleUpdateProfile} className="update-btn text-white rounded">Update profile</button>
+                <button onClick={handleViewProfile} className="update-btn text-white rounded">View profile</button>
+            </div>
+            {isUpdateProfileModalOpen && (
+                <div className="fixed inset-0 flex enhanceForm items-center justify-center backdrop-blur-md bg-black/30">
+                    <div className="bg-white p-8 rounded-lg shadow-md w-96">
+                        <h2 className="text-center text-2xl font-bold mb-6">Enhance Your Profile</h2>
+                        <UpdateProfileForm handleCloseModal={handleCloseUpdateProfileModal} />
+                    </div>
+                </div>
+            )}
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black/30">
+                    <div className="bg-white p-8 rounded-lg shadow-md w-96">
+                        <h2 className="text-center text-2xl font-bold mb-6">View Profile</h2>
+                        <ViewProfileForm handleCloseModal={handleCloseViewModal} />                   
+                    </div>
+                </div>
+            )}
         </div>
-        <div className="w-24 h-24 rounded-full overflow-hidden ml-26 mb-4 border border-gray-300">
-          <FaUserCircle className="text-gray-500 ml-5 mt-5" size={50} />
-        </div>
-        <h2 className="text-lg text-black font-semibold mb-2">{userName || "John Doe"}</h2>
-      </div>
-      <div className="flex flex-col p-4">
-        <div>
-          <FaGraduationCap size={30} className="mr-2" />
-          <hr />
-          <p><span className="ml-4">{moreinfo?.admissionNo || "EB1/61319/22"}</span></p>
-          <p><span className="ml-4">{moreinfo?.programStudy || "Computer Science"}</span></p>
-        </div>
-        <div className="mt-2">
-          <MdEmail size={30} className="mr-2" />
-          <hr />
-          <p><span className="ml-4">{userEmail || "johndoe123@gmail.com"}</span></p>
-        </div>
-        <div className="mt-2">
-          <GiSkills size={30} className="mr-2" />
-          <hr />
-          <p><span className="ml-4">{moreinfo?.skillname || "Java"}</span></p>
-        </div>
-        <div className="mt-2">
-          <MdInterests size={30} className="mr-2" />
-          <hr />
-          <p><span className="ml-4">{moreinfo?.interest || "Web Development"}</span></p>
-        </div>
-      </div>
-      <div className="btn items-center space-x-15 p-4">
-        <button onClick={handleUpdateProfile} className="update-btn text-white rounded">Update profile</button>
-        <button onClick={handleViewProfile} className="update-btn text-white rounded">View profile</button>
-      </div>
-      {isUpdateProfileModalOpen && (
-        <div className="fixed inset-0 flex enhanceForm items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white p-8 rounded-lg shadow-md w-96">
-            <h2 className="text-center text-2xl font-bold mb-6">Enhance Your Profile</h2>
-            <UpdateProfileForm handleCloseModal={handleCloseUpdateProfileModal} />
-          </div>
-        </div>
-      )}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white p-8 rounded-lg shadow-md w-96">
-            <h2 className="text-center text-2xl font-bold mb-6">View Profile</h2>
-            <ViewProfileForm handleCloseModal={handleCloseViewModal} />
-          </div>
-        </div>
-      )}
-    </div>
-  );
+    );
 };
 
 

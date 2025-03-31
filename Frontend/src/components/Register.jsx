@@ -93,14 +93,21 @@ const Register = ({ onRegisterSuccess }) => {
                 throw new Error(errorText);
             }
 
-            await response.json();
+            const responseData = await response.json();
+            const studentId = responseData.id; // Extract student ID from the response
+    
+            console.log(`Student registered successfully with ID: ${studentId}`);
             setSuccessMessage("Registration successful! Redirecting to login...");
-            onRegisterSuccess();
+            
+            // Notify parent component of the registration success and pass the ID
+            if (onRegisterSuccess) {
+                onRegisterSuccess();
+            }
+    
             setTimeout(() => {
-                navigate('/');
+                navigate('/'); // Redirect to login
                 resetFormData();
-            }, 1500);
-
+            }, 1500); // Redirect after 1.5 seconds
         } catch (error) {
             console.error('Error:', error);
             setErrors({ apiError: error.message });
