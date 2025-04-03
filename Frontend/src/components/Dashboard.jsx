@@ -39,7 +39,7 @@ const jobPosts = [
     company: "Google",
     logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
     description: "Google's Summer of Code program is open for applications.",
-    image: "/public/google.svg",
+    image: "/google.jpeg",
   },
   {
     company: "Oracle",
@@ -215,7 +215,7 @@ const UserProfile = ({ userName, studentId }) => {
     };
 
     return (
-        <div className="absolute top-4 fixed userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white rounded-lg shadow-lg w-80">
+        <div className="absolute top-4  userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white rounded-lg shadow-lg w-80">
             <div className="profile-picture rounded-lg p-2 h-60 text-center">
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-lg text-black font-bold">Profile</h1>
