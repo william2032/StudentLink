@@ -9,6 +9,7 @@ const Admin = () => {
     const [selectedJobs, setSelectedJobs] = useState([]);
     const [submissions, setSubmissions] = useState([]);
     const [isAddingNewJob, setIsAddingNewJob] = useState(false);
+    const [success, setSuccess] = useState(null);
 
     const [newJob, setNewJob] = useState({
         jobDescription: '',
@@ -19,8 +20,22 @@ const Admin = () => {
         openingsAvailable: ''
     });
 
+    const setErrorWithTimeout = (message) => {
+        setError(message);
+        setTimeout(() => {
+            setError(null);
+        }, 2000);
+    };
+
+    const setSuccessWithTimeout = (message) => {
+        setSuccess(message);
+        setTimeout(() => {
+            setSuccess(null);
+        }, 2000);
+    };
+
     const listingsCount = jobs.length;
-    const submitsCount = 21; // Should be from API submissions.length
+    const submitsCount = submissions.length
 
     const API_URL = "http://localhost:8080/api/admin";
 
@@ -85,7 +100,7 @@ const Admin = () => {
                 openingsAvailable: ''
             });
         } catch (err) {
-            setError('Failed to add job');
+            setErrorWithTimeout('Failed to add job');
         }
     };
 
@@ -122,7 +137,7 @@ const Admin = () => {
             if (!response.ok) throw new Error('Failed to delete job');
             setJobs(jobs.filter(job => job.id !== id));
         } catch (err) {
-            setError('Job has been archived');
+            setErrorWithTimeout('Job has been archived');
             fetchJobs();
         }
     };
@@ -141,12 +156,12 @@ const Admin = () => {
 
     const fetchSubmissions = async () => {
         try {
-            const response = await fetch(`${API_URL}/submissions`);
+            const response = await fetch(`${API_URL}/jobs/submissions`);
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             setSubmissions(data);
         } catch (err) {
-            setError('Failed to fetch submissions');
+            setErrorWithTimeout('Failed to fetch submissions');
         }
     };
 
@@ -159,36 +174,31 @@ const Admin = () => {
     }, [activeTab]);
 
 
-    // const resetForm = () => {
-    //     setJobDescription('');
-    //     setCompany('');
-    //     setLocation('');
-    //     setSkillsRequired('');
-    //     setDuration('');
-    //     setOpeningsAvailable('');
-    // };
 
-    const handleApprove = async (submissionId) => {
+    const handleApprove = async (applicationId) => {
         try {
-            const response = await fetch(`${API_URL}/submissions/${submissionId}/approve`, {
-                method: 'POST',
+            const response = await fetch(`${API_URL}/jobs/submissions/${applicationId}/status?status=APPROVED`, {
+                method: 'PUT',
             });
             if (!response.ok) throw new Error('Failed to approve submission');
             fetchSubmissions();
+            setSuccessWithTimeout('Submission approved successfully!');
         } catch (err) {
-            setError('Failed to approve submission');
+            setErrorWithTimeout('Failed to approve submission');
         }
+
     };
 
-    const handleReject = async (submissionId) => {
+    const handleReject = async (applicationId) => {
         try {
-            const response = await fetch(`${API_URL}/submissions/${submissionId}/reject`, {
-                method: 'POST',
+            const response = await fetch(`${API_URL}/jobs/submissions/${applicationId}/status?status=REJECTED`, {
+                method: 'PUT',
             });
             if (!response.ok) throw new Error('Failed to reject submission');
             fetchSubmissions();
+            setSuccessWithTimeout('Submission rejected successfully!');
         } catch (err) {
-            setError('Failed to reject submission');
+            setErrorWithTimeout('Failed to reject submission');
         }
     };
 
@@ -325,7 +335,7 @@ const Admin = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <input
                                                 type="text"
-                                                value={newJob.jobDescription}
+                                                value={newJob.jobDescription || ''}
                                                 onChange={(e) => handleNewJobChange('jobDescription', e.target.value)}
                                                 className="w-full border border-gray-300 rounded p-1"
                                                 placeholder="Job Title"
@@ -334,7 +344,7 @@ const Admin = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <input
                                                 type="text"
-                                                value={newJob.company}
+                                                value={newJob.company || ''}
                                                 onChange={(e) => handleNewJobChange('company', e.target.value)}
                                                 className="w-full border border-gray-300 rounded p-1"
                                                 placeholder="Company"
@@ -343,7 +353,7 @@ const Admin = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <input
                                                 type="text"
-                                                value={newJob.location}
+                                                value={newJob.location || ''}
                                                 onChange={(e) => handleNewJobChange('location', e.target.value)}
                                                 className="w-full border border-gray-300 rounded p-1"
                                                 placeholder="Location"
@@ -352,7 +362,7 @@ const Admin = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <input
                                                 type="text"
-                                                value={newJob.skillsRequired}
+                                                value={newJob.skillsRequired || ''}
                                                 onChange={(e) => handleNewJobChange('skillsRequired', e.target.value)}
                                                 className="w-full border border-gray-300 rounded p-1"
                                                 placeholder="Skills"
@@ -361,7 +371,7 @@ const Admin = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <input
                                                 type="text"
-                                                value={newJob.duration}
+                                                value={newJob.duration || ''}
                                                 onChange={(e) => handleNewJobChange('duration', e.target.value)}
                                                 className="w-full border border-gray-300 rounded p-1"
                                                 placeholder="Duration"
@@ -370,7 +380,7 @@ const Admin = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <input
                                                 type="number"
-                                                value={newJob.openingsAvailable}
+                                                value={newJob.openingsAvailable || ''}
                                                 onChange={(e) => handleNewJobChange('openingsAvailable', e.target.value)}
                                                 className="w-full border border-gray-300 rounded p-1"
                                                 placeholder="Openings"
@@ -403,23 +413,23 @@ const Admin = () => {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {submissions.map(submission => (
-                                    <tr key={submission.id} className="hover:bg-gray-50">
+                                    <tr key={submission.applicationId} className="hover:bg-gray-50">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <input type="checkbox" className="rounded" />
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{submission.username}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{submission.email}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{submission.company}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{submission.studentName}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{submission.studentEmail}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{submission.companyName}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex gap-2">
                                                 <button
-                                                    onClick={() => handleApprove(submission.id)}
+                                                    onClick={() => handleApprove(submission.applicationId)}
                                                     className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
                                                 >
                                                     Approve
                                                 </button>
                                                 <button
-                                                    onClick={() => handleReject(submission.id)}
+                                                    onClick={() => handleReject(submission.applicationId)}
                                                     className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700"
                                                 >
                                                     Reject
@@ -438,6 +448,14 @@ const Admin = () => {
                 <div className="fixed bottom-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg">
                     {error}
                     <button onClick={() => setError(null)} className="ml-2 font-bold">
+                        ×
+                    </button>
+                </div>
+            )}
+            {success && (
+                <div className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg">
+                    {success}
+                    <button onClick={() => setSuccess(null)} className="ml-2 font-bold">
                         ×
                     </button>
                 </div>

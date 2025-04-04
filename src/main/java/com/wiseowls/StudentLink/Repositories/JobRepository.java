@@ -8,10 +8,11 @@ import org.springframework.data.repository.query.Param;
 
 import com.wiseowls.StudentLink.models.Job;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface JobRepository extends JpaRepository<Job,  Integer> {
          List<Job> findByIsActiveTrue();
-    // Delete a job by ID (JpaRepository provides this by default)
     void deleteById(Integer id);
 
     // Custom query to filter jobs based on multiple parameters
