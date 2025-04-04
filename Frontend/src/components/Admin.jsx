@@ -54,6 +54,41 @@ const Admin = () => {
         );
     };
 
+
+    const fetchJobs = async () => {
+        try {
+            const response = await fetch(`${API_URL}/jobs`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const data = await response.json();
+            setJobs(data);
+        } catch (err) {
+            setError('Failed to fetch jobs');
+        }
+    };
+
+    useEffect(() => {
+        fetchJobs();
+    }, []);
+
+    const addJob = async (jobData) => {
+        try {
+            const response = await fetch(`${API_URL}/jobs`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jobData),
+            });
+            if (!response.ok) throw new Error('Failed to add job');
+            const data = await response.json();
+            setJobs([...jobs, data]);
+            setIsAddingNewJob(false);
+            resetForm();
+        } catch (err) {
+            setError('Failed to add job');
+        }
+    };
+
     const handleSaveNewJob = async () => {
         try {
             // Validate required fields
@@ -63,7 +98,6 @@ const Admin = () => {
             }
 
             await addJob(newJob);
-            setIsAddingNewJob(false);
             setNewJob({
                 jobDescription: '',
                 company: '',
@@ -74,38 +108,6 @@ const Admin = () => {
             });
         } catch (err) {
             setError('Failed to save job');
-        }
-    };
-
-    useEffect(() => {
-        const fetchJobs = async () => {
-            try {
-                const response = await fetch(`${API_URL}/jobs`);
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                setJobs(data);
-            } catch (err) {
-                setError('Failed to fetch jobs');
-            }
-        };
-        fetchJobs();
-    }, []);
-
-    const addJob = async () => {
-        try {
-            const response = await fetch(`${API_URL}/jobs`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ jobDescription, company, skillsRequired, duration, location, openingsAvailable }),
-            });
-            if (!response.ok) throw new Error('Failed to add job');
-            const data = await response.json();
-            setJobs([...jobs, data]);
-            resetForm();
-        } catch (err) {
-            setError('Failed to add job');
         }
     };
 
@@ -120,7 +122,8 @@ const Admin = () => {
             if (!response.ok) throw new Error('Failed to delete job');
             setJobs(jobs.filter(job => job.id !== id));
         } catch (err) {
-            setError('Failed to delete job');
+            setError('Job has been archived');
+            fetchJobs();
         }
     };
 
@@ -136,35 +139,6 @@ const Admin = () => {
         }
     };
 
-
-    const updateJob = async () => {
-        try {
-            const response = await fetch(`${API_URL}/jobs/${editingJobId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ jobDescription, company, skillsRequired, duration, location, openingsAvailable }),
-            });
-            if (!response.ok) throw new Error('Failed to update job');
-            const data = await response.json();
-            setJobs(jobs.map(job => (job.id === editingJobId ? data : job)));
-            resetForm();
-            setEditingJobId(null);
-        } catch (err) {
-            setError('Failed to update job');
-        }
-    };
-
-    const editJob = (job) => {
-        setJobDescription(job.jobDescription);
-        setCompany(job.company);
-        setLocation(job.location);
-        setSkillsRequired(job.skillsRequired);
-        setDuration(job.duration);
-        setOpeningsAvailable(job.openingsAvailable);
-        setEditingJobId(job.id);
-    };
 
     const resetForm = () => {
         setJobDescription('');
@@ -284,86 +258,88 @@ const Admin = () => {
                                     <td className="px-6 py-4 whitespace-nowrap">{job.openingsAvailable}</td>
                                 </tr>
                             ))}
+
+                            {/* Job Form Modal */}
+                            {isAddingNewJob && (
+                                <tr className="bg-gray-50">
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <button
+                                            onClick={handleSaveNewJob}
+                                            className="text-green-600 hover:text-green-800 mr-2"
+                                            title="Save"
+                                        >
+                                            Save
+                                        </button>
+                                        <button
+                                            onClick={() => setIsAddingNewJob(false)}
+                                            className="text-red-600 hover:text-red-800"
+                                            title="Cancel"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <input
+                                            type="text"
+                                            value={newJob.jobDescription}
+                                            onChange={(e) => handleNewJobChange('jobDescription', e.target.value)}
+                                            className="w-full border border-gray-300 rounded p-1"
+                                            placeholder="Job Title"
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <input
+                                            type="text"
+                                            value={newJob.company}
+                                            onChange={(e) => handleNewJobChange('company', e.target.value)}
+                                            className="w-full border border-gray-300 rounded p-1"
+                                            placeholder="Company"
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <input
+                                            type="text"
+                                            value={newJob.location}
+                                            onChange={(e) => handleNewJobChange('location', e.target.value)}
+                                            className="w-full border border-gray-300 rounded p-1"
+                                            placeholder="Location"
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <input
+                                            type="text"
+                                            value={newJob.skillsRequired}
+                                            onChange={(e) => handleNewJobChange('skillsRequired', e.target.value)}
+                                            className="w-full border border-gray-300 rounded p-1"
+                                            placeholder="Skills"
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <input
+                                            type="text"
+                                            value={newJob.duration}
+                                            onChange={(e) => handleNewJobChange('duration', e.target.value)}
+                                            className="w-full border border-gray-300 rounded p-1"
+                                            placeholder="Duration"
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <input
+                                            type="number"
+                                            value={newJob.openingsAvailable}
+                                            onChange={(e) => handleNewJobChange('openingsAvailable', e.target.value)}
+                                            className="w-full border border-gray-300 rounded p-1"
+                                            placeholder="Openings"
+                                        />
+                                    </td>
+                                </tr>
+                            )}
+
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            {/* Job Form Modal */}
-            {isAddingNewJob && (
-                <tr className="bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                        <button
-                            onClick={handleSaveNewJob}
-                            className="text-green-600 hover:text-green-800 mr-2"
-                            title="Save"
-                        >
-                            Save
-                        </button>
-                        <button
-                            onClick={() => setIsAddingNewJob(false)}
-                            className="text-red-600 hover:text-red-800"
-                            title="Cancel"
-                        >
-                            Cancel
-                        </button>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                        <input
-                            type="text"
-                            value={newJob.jobDescription}
-                            onChange={(e) => handleNewJobChange('jobDescription', e.target.value)}
-                            className="w-full border border-gray-300 rounded p-1"
-                            placeholder="Job Title"
-                        />
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                        <input
-                            type="text"
-                            value={newJob.company}
-                            onChange={(e) => handleNewJobChange('company', e.target.value)}
-                            className="w-full border border-gray-300 rounded p-1"
-                            placeholder="Company"
-                        />
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                        <input
-                            type="text"
-                            value={newJob.location}
-                            onChange={(e) => handleNewJobChange('location', e.target.value)}
-                            className="w-full border border-gray-300 rounded p-1"
-                            placeholder="Location"
-                        />
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                        <input
-                            type="text"
-                            value={newJob.skillsRequired}
-                            onChange={(e) => handleNewJobChange('skillsRequired', e.target.value)}
-                            className="w-full border border-gray-300 rounded p-1"
-                            placeholder="Skills"
-                        />
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                        <input
-                            type="text"
-                            value={newJob.duration}
-                            onChange={(e) => handleNewJobChange('duration', e.target.value)}
-                            className="w-full border border-gray-300 rounded p-1"
-                            placeholder="Duration"
-                        />
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                        <input
-                            type="number"
-                            value={newJob.openingsAvailable}
-                            onChange={(e) => handleNewJobChange('openingsAvailable', e.target.value)}
-                            className="w-full border border-gray-300 rounded p-1"
-                            placeholder="Openings"
-                        />
-                    </td>
-                </tr>
-            )}
 
             {/* Error Toast */}
             {error && (

@@ -10,6 +10,7 @@ import com.wiseowls.StudentLink.models.Job;
 import org.springframework.lang.NonNull;
 
 public interface JobRepository extends JpaRepository<Job,  Integer> {
+         List<Job> findByIsActiveTrue();
     // Delete a job by ID (JpaRepository provides this by default)
     void deleteById(Integer id);
 
@@ -28,9 +29,4 @@ public interface JobRepository extends JpaRepository<Job,  Integer> {
             @Param("openingsAvailable") Integer openingsAvailable
     );
 
-    // Find jobs by keyword search in job description or company name
-    @Query("SELECT j FROM Job j WHERE " +
-            "LOWER(j.jobDescription) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-            "LOWER(j.company) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    List<Job> findJobsByKeyword(@Param("keyword") String keyword);
 }

@@ -10,7 +10,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Collections;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/applications")
@@ -105,6 +110,29 @@ public class ApplicationController {
         return application.map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
+@GetMapping("/status")
+    public ResponseEntity<?> getApplicationStatus() {
+        try {
+            List<JobApplication> applications = applicationRepository.findAll();
+            List<JobApplication> reversedApplications = new ArrayList<>(applications);
+            
+            Collections.reverse(reversedApplications);
+            List<Map<String, Object>> response = reversedApplications.stream()
+                .map(app -> {
+                    Map<String, Object> appStatus = new HashMap<>();
+                    appStatus.put("jobId", app.getJobId());
+                    appStatus.put("status", app.getStatus());
+                    appStatus.put("timestamp", app.getAppliedAt());
+                    appStatus.put("companyName", app.getJob() != null ? app.getJob().getCompany() : "N/A");
+                    return appStatus;
+                })
+                .collect(Collectors.toList());
 
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                .body("Failed to retrieve application statuses: " + e.getMessage());
+        }
+    }
 
 }

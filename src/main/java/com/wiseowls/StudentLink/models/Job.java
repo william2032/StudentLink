@@ -16,6 +16,8 @@ public class Job {
     private int openingsAvailable;
     private String jobDescription;
    
+   @Column(nullable = false)
+    private boolean isActive = true;
     
     public Integer getId() {
         return id;
@@ -71,5 +73,13 @@ public class Job {
 
     public void setJobDescription(String jobDescription) {
         this.jobDescription = jobDescription;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+    
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

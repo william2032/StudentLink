@@ -18,8 +18,14 @@ public class AdminJobController {
 
     // Add a new job
     @PostMapping
-    public Job addJob(@RequestBody Job job) {
-        return jobService.addJob(job);
+    public ResponseEntity<Job> addJob(@RequestBody Job job) {
+      try {
+        job.setActive(true);  
+        Job savedJob = jobService.addJob(job);
+        return ResponseEntity.ok(savedJob);
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
     }
 
     // Get all jobs

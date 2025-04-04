@@ -1,6 +1,7 @@
 package com.wiseowls.StudentLink.models;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,37 +10,40 @@ public class JobApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false)
     private Integer jobId;
-    
+
     @Column(nullable = false, length = 100)
     private String studentName;
-    
+
     @Column(nullable = false, length = 100)
     private String studentEmail;
-    
+
     @Column(nullable = false)
     private String resumePath;  // Stores the physical filename
-    
+
     @Column(nullable = false)
     private String resumeUrl;   // Stores the downloadable URL
-    
+
     @Column(columnDefinition = "TEXT")
     private String coverLetter;
-    
+
     @Column(nullable = false, length = 20)
     private String status = "PENDING"; // PENDING, APPROVED, REJECTED
-    
+
     @Column(name = "applied_at", nullable = false, updatable = false)
     private LocalDateTime appliedAt = LocalDateTime.now();
-    
+
     @Column(name = "reviewed_at")
     private LocalDateTime reviewedAt;
-    
+
     @Column(length = 500)
     private String reviewNotes;
 
+    @ManyToOne
+    @JoinColumn(name = "jobId", insertable = false, updatable = false)
+    private Job job; // Reference to Job entity
     // Constructors
     public JobApplication() {
     }
@@ -128,6 +132,10 @@ public class JobApplication {
 
     public void setReviewNotes(String reviewNotes) {
         this.reviewNotes = reviewNotes;
+    }
+
+    public Job getJob() {
+        return job;
     }
 
     // Business logic methods
