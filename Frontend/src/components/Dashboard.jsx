@@ -10,7 +10,7 @@ import Status from "./Status";
 import UpdateProfileForm from './UpdateProfile'; // Import the UpdateProfileForm component
 import ViewProfileForm from './ViewProfile';
 
-// import Profile from "./Profile.jsx";
+
 const jobPosts = [
   {
     company: "Microsoft",
@@ -34,7 +34,7 @@ const jobPosts = [
     company: "Safaricom",
     logo: "https://upload.wikimedia.org/wikipedia/en/thumb/0/08/Safaricom_logo.svg/1200px-Safaricom_logo.svg.png",
     description: "Exciting internship opportunity at Safaricom.",
-    image: "https://your-safaricom-image-url.com",
+    image: "/public/safaricom.jpg",
   },
   {
     company: "Google",
@@ -46,13 +46,13 @@ const jobPosts = [
     company: "Oracle",
     logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
     description: "Oracle is offering database engineering internships.",
-    image: "https://your-oracle-image-url.com",
+    image: "/public/oracle.jpg",
   },
   {
     company: "IBM",
     logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
     description: "Join IBM’s software development internship program.",
-    image: "https://your-ibm-image-url.com",
+    image: "/public/IBM.jpg",
   },
 ];
 
@@ -162,7 +162,7 @@ const Dashboard = ({ userName }) => {
         );
       };
 
-
+// import Profile from "./Profile.jsx";
 const UserProfile = ({ userName, userEmail }) => {
   const [isModalOpen, setIsViewModalOpen] = useState(false);
   const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useState(false);
@@ -185,7 +185,7 @@ const UserProfile = ({ userName, userEmail }) => {
   };
 
   return (
-    <div className="absolute top-4 fixed userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white rounded-lg shadow-lg w-80">
+    <div className=" top-4 fixed userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white rounded-lg shadow-lg w-80">
       <div className="profile-picture rounded-lg p-2 h-60 text-center">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-lg text-black font-bold">Profile</h1>
@@ -195,7 +195,7 @@ const UserProfile = ({ userName, userEmail }) => {
           </div>
         </div>
         <div className="w-24 h-24 rounded-full overflow-hidden ml-26 mb-4 border border-gray-300">
-          <FaUserCircle className="text-gray-500 ml-5 mt-5" size={50} />
+          <FaUserCircle className="text-gray-500 ml-3 mt-3" size={50} />
         </div>
         <h2 className="text-lg text-black font-semibold mb-2">{userName || "John Doe"}</h2>
       </div>
