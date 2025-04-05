@@ -9,20 +9,19 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Collections;
+import java.util.ArrayList;
 
 
 @RestController
 @RequestMapping("/api/applications")
 public class ApplicationController {
-
     private final JobApplicationRepository applicationRepository;
     private final FileStorageService fileStorageService;
 
@@ -84,7 +83,7 @@ public class ApplicationController {
 
             String contentType = "application/octet-stream";
             String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
-
+          
             return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
@@ -99,6 +98,7 @@ public class ApplicationController {
     public ResponseEntity<?> getApplicationsForJob(@PathVariable Integer jobId) {
         try {
             List<JobApplication> applications = applicationRepository.findByJob_Id( jobId);
+
             return ResponseEntity.ok(applications);
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
@@ -112,12 +112,13 @@ public class ApplicationController {
         return application.map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 @GetMapping("/status")
     public ResponseEntity<?> getApplicationStatus() {
         try {
             List<JobApplication> applications = applicationRepository.findAll();
             List<JobApplication> reversedApplications = new ArrayList<>(applications);
-
+          
             Collections.reverse(reversedApplications);
             List<Map<String, Object>> response = reversedApplications.stream()
                 .map(app -> {

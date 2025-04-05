@@ -1,6 +1,8 @@
 package com.wiseowls.StudentLink.Controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,22 +30,33 @@ public class StudentController {
 
     // Endpoint to register a student
     @PostMapping("/register")
-    public ResponseEntity<String> registerStudent(@RequestBody StudentRegistrationDTO registrationDTO) {
+    public ResponseEntity<Map<String, Object>> registerStudent(@RequestBody StudentRegistrationDTO registrationDTO) {
         try {
             // Check if the student is already registered by email or username
             boolean isRegisteredByEmail = studentService.isStudentRegisteredByEmail(registrationDTO.getEmail());
             boolean isRegisteredByUsername = studentService.isStudentRegisteredByUsername(registrationDTO.getUsername());
-            
+
             if (isRegisteredByEmail || isRegisteredByUsername) {
                 // If the student is already registered, return a conflict response
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"error\": \"Student is already registered.\"}");
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Student is already registered.");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
             }
-            
+
             // Register the student if they are not already registered
-            studentService.registerStudent(registrationDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body("{}");
+            Student savedStudent = studentService.registerStudent(registrationDTO);
+
+            // Create a success response including the student's ID
+            Map<String, Object> successResponse = new HashMap<>();
+            successResponse.put("id", savedStudent.getId());
+            successResponse.put("message", "Student registered successfully.");
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"error\": \"Failed to register student: " + e.getMessage() + "\"}");
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Failed to register student: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
     

@@ -55,6 +55,7 @@ public class JobApplication {
     // Constructor
     public JobApplication(Job job, String studentName, String studentEmail) {
         this.job = job;
+
         this.studentName = studentName;
         this.studentEmail = studentEmail;
     }
@@ -112,6 +113,7 @@ public class JobApplication {
         this.coverLetter = coverLetter;
     }
 
+
     public ApplicationStatus getStatus() {
         return status;
     }
@@ -150,7 +152,6 @@ public class JobApplication {
     public void setReviewNotes(String reviewNotes) {
         this.reviewNotes = reviewNotes;
     }
-
     // Helper method for status transitions
     public void approve(String notes) {
         this.status = ApplicationStatus.APPROVED;

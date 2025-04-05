@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.wiseowls.StudentLink.models.Job;
+
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
+
 
 @Repository
 public interface JobRepository extends JpaRepository<Job,  Integer> {
@@ -29,5 +31,5 @@ public interface JobRepository extends JpaRepository<Job,  Integer> {
             @Param("duration") String duration,
             @Param("openingsAvailable") Integer openingsAvailable
     );
-
 }
+

@@ -33,3 +33,5 @@ uploads
 ### VS Code ###
 .vscode/
 node_modules
+
+uploads/*

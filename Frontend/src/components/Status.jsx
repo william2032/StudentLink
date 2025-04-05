@@ -41,8 +41,10 @@ const Status = () => {
                                     year: 'numeric',
                                 })}</td>
 
+
                                 <td className="border-b border-gray-300 text-[15px] font-light">
                                     <span className={`inline-flex items-center px-2.5 py-1.5 rounded-full text-xs ${app.status.toLowerCase() === 'active' ? 'bg-teal-100 text-teal-800' :
+
                                         app.status.toLowerCase() === 'pending' ? 'bg-[#FEF7E7] text-[#854D0E]' :
                                             app.status.toLowerCase() === 'rejected' ? 'bg-red-100 text-red-800' :
                                                 app.status.toLowerCase() === 'Approved' ? 'bg-green-300 text-gray-800' :

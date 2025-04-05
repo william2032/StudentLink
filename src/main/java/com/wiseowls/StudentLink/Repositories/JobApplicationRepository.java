@@ -6,6 +6,6 @@ import java.util.List;
 
 @Repository
 public interface JobApplicationRepository extends JpaRepository<JobApplication, Long> {
-    List<JobApplication> findByJob_Id(Integer jobId);
 
+    List<JobApplication> findByJob_Id(Integer jobId);
 }

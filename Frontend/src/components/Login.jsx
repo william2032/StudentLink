@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from "react";
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 const Login = ({ openRegister, setUserName }) => {
@@ -7,6 +6,7 @@ const Login = ({ openRegister, setUserName }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [studentId, setStudentId] = useState(""); // State to store student ID
 
   const API_URL = "http://localhost:8080/api/login";
   const navigate = useNavigate();
@@ -28,9 +28,9 @@ const Login = ({ openRegister, setUserName }) => {
         setErrorMessage('Login failed: ' + response.statusText);
       }
       const data = await response.json();
-
       if (data.success && data.message) {
-        setUserName(data.username || username);
+        setUserName(data.username );
+        setStudentId(data.id);
         setTimeout(() => {
           navigate('/dashboard');
         }, 1000)
