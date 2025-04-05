@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { FaBell, FaCaretDown, FaGraduationCap, FaUserCircle } from "react-icons/fa";
+import { FaBell, FaCaretDown, FaGraduationCap } from "react-icons/fa";
+import { FaWpforms } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 import { MdDashboard, MdEmail } from "react-icons/md";
+import { RiProgress7Fill } from "react-icons/ri";
 import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom"; // Import useLocation
 import Applications from "./Applications"; // Import the Applications component
 import NewsPost from "./NewsPost";
@@ -73,10 +75,12 @@ const Sidebar = () => {
           <MdDashboard size={20} />
           <span>Dashboard</span>
         </Link>
-        <Link to="/dashboard/applications" className="flex items-center space-x-2 opacity-70">
+        <Link to="/dashboard/applications" className="flex items-center space-x-2 hover:opacity-80">
+         <FaWpforms size={20}/>
           <span>Applications</span>
         </Link>
-        <Link to="/dashboard/status" className="flex items-center space-x-2 opacity-70">
+        <Link to="/dashboard/status" className="flex items-center space-x-2 hover:opacity-80">
+          <RiProgress7Fill size={20}/>
           <span>Status</span>
         </Link>
       </nav>
@@ -137,14 +141,6 @@ const Dashboard = ({ studentId }) => {
         {isMainDashboard && (
           <div>
             <div className="bg-gradient-to-r from-purple-500 mainDashboard to-purple-400 text-white text-center p-8 h-60 rounded-lg shadow-lg justify-center">
-              <div className="flex justify-center mb-4">
-                <FaGraduationCap size={30} className="mr-2" />
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full max-w-md p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-              </div>
               <p className="text-sm">{currentDate}</p>
               <div className="flex flex-col items-center text-center mt-10">
                 <h1 className="text-2xl font-bold">Welcome back, {username}!</h1>
@@ -246,7 +242,7 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
                     </div>
                 </div>
                 <div className="w-24 h-24 rounded-full overflow-hidden ml-26 mb-4 border border-gray-300">
-                    <FaUserCircle className="text-gray-500 ml-3 mt-3" size={50} />
+                    <img src="student.avatar.jpeg" alt="student" />
                 </div>
                 <h2 className="text-lg text-black font-semibold mb-2">{ username || "John Doe"}</h2>
             </div>
