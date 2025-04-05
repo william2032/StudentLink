@@ -100,4 +100,11 @@ public class moreinfo {
     public void setSocialLink(String socialLink) {
         this.socialLinks = socialLink;
     }
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 }

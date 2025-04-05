@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 
-const ViewProfileForm = ({ handleCloseModal }) => {
+const ViewProfileForm = ({ handleCloseModal,studentId }) => {
     const [currentStep, setCurrentStep] = useState(1);
         const handleChange = (e) => {
             const { name, value } = e.target;

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wiseowls.StudentLink.Repositories.StudentRepository;
 import com.wiseowls.StudentLink.Repositories.moreinfoRepository;
+import com.wiseowls.StudentLink.models.Student;
 import com.wiseowls.StudentLink.models.moreinfo;
 
 
@@ -21,16 +23,27 @@ public class moreinfoController {
 
     @Autowired
     private moreinfoRepository moreInfoRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addMoreInfo(@RequestBody moreinfo moreInfo) {
+    @PostMapping("/add/{studentId}") // Endpoint to add moreinfo for a student
+    public ResponseEntity<?> addMoreInfo(@PathVariable Long studentId, @RequestBody moreinfo moreInfo) {
         try {
-            // Save the data to the database
+            // Fetch the Student entity using the studentId
+            Student student = studentRepository.findById(studentId)
+                    .orElseThrow(() -> new RuntimeException("Student not found"));
+
+            // Associate the Student with the moreinfo entity
+            moreInfo.setStudent(student);
+
+            // Save the moreinfo entity to the database
             moreinfo savedInfo = moreInfoRepository.save(moreInfo);
-            return ResponseEntity.ok(savedInfo); // Return JSON response
+
+            // Return the saved moreinfo entity as a JSON response
+            return ResponseEntity.ok(savedInfo);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("{\"error\": \"Error  saving data\"}"); // Return JSON error
+            return ResponseEntity.status(500).body("{\"error\": \"Error saving data\"}"); // Return JSON error
         }
     }
     @GetMapping("/{id}")

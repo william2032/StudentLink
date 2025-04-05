@@ -6,7 +6,7 @@ import { MdInterests } from "react-icons/md";
 const API_URL = "http://localhost:8080/api/moreinfo";
 
 
-const UpdateProfileForm = ({handleCloseModal , setMoreinfo}) => {
+const UpdateProfileForm = ({handleCloseModal,studentId}) => {
     const [currentStep, setCurrentStep] = useState(1);
     const [admissionNo, setAdmissionNo] = useState('');
     const [programStudy, setProgramStudy] = useState('');
@@ -49,7 +49,7 @@ const UpdateProfileForm = ({handleCloseModal , setMoreinfo}) => {
         setSuccessMessage(""); //reset sucess message
         
         try {
-            const response = await fetch(`${API_URL}/add`, {
+            const response = await fetch(`${API_URL}/add/${studentId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -70,7 +70,6 @@ const UpdateProfileForm = ({handleCloseModal , setMoreinfo}) => {
                 throw new Error(errorText);
             }
             const data = await response.json();
-            setMoreinfo(data);
             setSuccessMessage('Data saved successfully!');
             //Delay the closemodal function
             setTimeout(() => {

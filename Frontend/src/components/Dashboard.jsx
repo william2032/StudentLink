@@ -271,7 +271,7 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
                 <div className="fixed inset-0 flex enhanceForm items-center justify-center backdrop-blur-md bg-black/30">
                     <div className="bg-white p-8 rounded-lg shadow-md w-96">
                         <h2 className="text-center text-2xl font-bold mb-6">Enhance Your Profile</h2>
-                        <UpdateProfileForm handleCloseModal={handleCloseUpdateProfileModal} />
+                        <UpdateProfileForm  studentId={effectiveStudentId} handleCloseModal={handleCloseUpdateProfileModal} />
                     </div>
                 </div>
             )}
@@ -279,7 +279,7 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
                 <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black/30">
                     <div className="bg-white p-8 rounded-lg shadow-md w-96">
                         <h2 className="text-center text-2xl font-bold mb-6">View Profile</h2>
-                        <ViewProfileForm handleCloseModal={handleCloseViewModal} />                   
+                        <ViewProfileForm  studentId={effectiveStudentId} handleCloseModal={handleCloseViewModal} />                   
                     </div>
                 </div>
             )}
