@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-const Login = ({ openRegister, setUserName }) => {
+const Login = ({ openRegister, setUserName, onLogin, setStudentId }) => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [studentId, setStudentId] = useState(""); // State to store student ID
 
   const API_URL = "http://localhost:8080/api/login";
   const navigate = useNavigate();
@@ -29,11 +28,9 @@ const Login = ({ openRegister, setUserName }) => {
       }
       const data = await response.json();
       if (data.success && data.message) {
-        setUserName(data.username );
+        setUserName(data.username);
         setStudentId(data.id);
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 1000)
+        onLogin({ name: data.username, id: data.id });
       } else {
         setErrorMessage('Invalid username or password');
       }
@@ -41,7 +38,6 @@ const Login = ({ openRegister, setUserName }) => {
     } catch (error) {
       setErrorMessage('An error occurred during login. Please try again.');
     }
-    ;
   };
   return (
     <div className='login-container'>

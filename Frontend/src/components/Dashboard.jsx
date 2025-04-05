@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaBell, FaCaretDown, FaGraduationCap, FaUserCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { GiSkills } from "react-icons/gi";
-import { MdDashboard, MdEmail, MdInterests } from "react-icons/md";
+import { MdDashboard, MdEmail} from "react-icons/md";
 import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom"; // Import useLocation
 import Applications from "./Applications"; // Import the Applications component
 import NewsPost from "./NewsPost";
@@ -51,7 +50,7 @@ const jobPosts = [
   {
     company: "IBM",
     logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
-    description: "Join IBM’s software development internship program.",
+    description: "Join IBM's software development internship program.",
     image: "https://erp.today/wp-content/uploads/2022/05/ibm_0.jpeg",
   },
 ];
@@ -92,12 +91,28 @@ const Sidebar = () => {
 };
 
 
-const Dashboard = ({ userName, studentId}) => {
+const Dashboard = ({ studentId }) => {
   const [currentDate, setCurrentDate] = useState("");
-  const location = useLocation(); // Get the current location
+  const location = useLocation();
+  const [username, setUsername] = useState("");
   
-  // Update date on component mount
+  // Add this function to update username
+  const updateUsername = (newUsername) => {
+    setUsername(newUsername);
+  };
+
+  // Store studentId in localStorage when it changes
   useEffect(() => {
+    if (studentId) {
+      localStorage.setItem('studentId', studentId);
+    }
+  }, [studentId]);
+
+  // Get studentId from localStorage on component mount
+  useEffect(() => {
+    const storedStudentId = localStorage.getItem('studentId');
+    console.log('Retrieved studentId from localStorage:', storedStudentId);
+    
     const today = new Date();
     const formattedDate = today.toLocaleDateString(undefined, {
       weekday: "long",
@@ -113,10 +128,10 @@ const Dashboard = ({ userName, studentId}) => {
 
   return (
     <div className="relative flex h-screen bg-[#2e2e2e]">
-      {/* Render UserProfile only on the main dashboard */}
-      {isMainDashboard && <UserProfile userName={userName} studentId={studentId} />}
+      {/* Pass updateUsername function to UserProfile */}
+      {isMainDashboard && <UserProfile studentId={studentId} onUsernameUpdate={updateUsername} />}
 
-      <Sidebar userName={userName} />
+      <Sidebar />
       <div className="flex-1 ml-68 mr-90 p-4">
         {/* Show welcome message and search bar only on the main dashboard */}
         {isMainDashboard && (
@@ -132,7 +147,7 @@ const Dashboard = ({ userName, studentId}) => {
               </div>
               <p className="text-sm">{currentDate}</p>
               <div className="flex flex-col items-center text-center mt-10">
-                <h1 className="text-2xl font-bold">Welcome back, {userName || "John"}!</h1>
+                <h1 className="text-2xl font-bold">Welcome back, {username}!</h1>
                 <p className="text-md">Always stay updated in your portal</p>
               </div>
             </div>
@@ -163,23 +178,26 @@ const Dashboard = ({ userName, studentId}) => {
         );
       };
 
-const UserProfile = ({ userName, studentId }) => {
+const UserProfile = ({ studentId, onUsernameUpdate }) => {
     const[firstname, setFirstname] = useState("");
     const[lastname, setLastname] = useState("");
+    const[username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [isModalOpen, setIsViewModalOpen] = useState(false);
     const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useState(false);
 
     const API_URL = "http://localhost:8080/api/students"; // Replace with your backend API URL
-    console.log("Student ID:", studentId); // Debugging log
+    // Use localStorage studentId as fallback
+    const effectiveStudentId = studentId || localStorage.getItem('studentId');
+
     // Fetch user data based on studentId
     useEffect(() => {
       const fetchUserData = async () => {
           try {
-              const response = await fetch(`${API_URL}/${studentId}`); // Make the API call
-  
+              const response = await fetch(`${API_URL}/${effectiveStudentId}`); // Make the API call
+              console.log("API Response:", response); // Debugging log
               if (!response.ok) {
-                  console.error(`No user data found for studentId: ${studentId}, status: ${response.status}`);
+                  console.error(`No user data found for studentId: ${effectiveStudentId}, status: ${response.status}`);
                   return; // Exit the function if there's an error
               }
   
@@ -188,15 +206,18 @@ const UserProfile = ({ userName, studentId }) => {
               
               setFirstname(data.firstname);
               setLastname(data.lastname);
+              setUsername(data.username);
               setEmail(data.email);
+              // Update the parent component's username
+              onUsernameUpdate(data.username);
           } catch (error) {
               console.error("Error fetching user data:", error);
           }
       };
 
-      if (studentId) {
+      if (effectiveStudentId) {
       fetchUserData(); }// Call the function to fetch user data
-    }, [studentId]); // Dependency array to run the effect when studentId changes
+    }, [effectiveStudentId, onUsernameUpdate]); // Dependency array to run the effect when studentId changes
   
     const handleViewProfile = () => {
         setIsViewModalOpen(true);
@@ -227,7 +248,7 @@ const UserProfile = ({ userName, studentId }) => {
                 <div className="w-24 h-24 rounded-full overflow-hidden ml-26 mb-4 border border-gray-300">
                     <FaUserCircle className="text-gray-500 ml-3 mt-3" size={50} />
                 </div>
-                <h2 className="text-lg text-black font-semibold mb-2">{userName || "John Doe"}</h2>
+                <h2 className="text-lg text-black font-semibold mb-2">{ username || "John Doe"}</h2>
             </div>
             <div className="flex flex-col p-4">
                 <div>
