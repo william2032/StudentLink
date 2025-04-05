@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaBell, FaCaretDown, FaGraduationCap, FaUserCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { MdDashboard, MdEmail } from "react-icons/md";
+import { GiSkills } from "react-icons/gi";
+import { MdDashboard, MdEmail, MdInterests } from "react-icons/md";
 import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom"; // Import useLocation
 import Applications from "./Applications"; // Import the Applications component
 import NewsPost from "./NewsPost";
@@ -90,11 +91,11 @@ const Sidebar = () => {
   );
 };
 
+
 const Dashboard = ({ userName, studentId}) => {
   const [currentDate, setCurrentDate] = useState("");
   const location = useLocation(); // Get the current location
   
-
   // Update date on component mount
   useEffect(() => {
     const today = new Date();
@@ -161,7 +162,6 @@ const Dashboard = ({ userName, studentId}) => {
           </div>  
         );
       };
-
 
 const UserProfile = ({ userName, studentId }) => {
     const[firstname, setFirstname] = useState("");

@@ -18,10 +18,10 @@ import java.util.HashMap;
 import java.util.Collections;
 import java.util.ArrayList;
 
+
 @RestController
 @RequestMapping("/api/applications")
 public class ApplicationController {
-    
     private final JobApplicationRepository applicationRepository;
     private final FileStorageService fileStorageService;
 
@@ -38,7 +38,7 @@ public class ApplicationController {
         @RequestPart("email") String email,
         @RequestPart("resume") MultipartFile resume,
         @RequestPart(value = "coverLetter", required = false) String coverLetter) {
-        
+
         try {
             // Validate inputs
             if (resume.isEmpty()) {
@@ -47,7 +47,7 @@ public class ApplicationController {
 
             // Store file and get filename
             String storedFilename = fileStorageService.storeFile(resume);
-            
+
             // Generate download URL using the controller endpoint
             String downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/api/applications/download/")
@@ -62,13 +62,12 @@ public class ApplicationController {
             application.setResumePath(storedFilename);
             application.setResumeUrl(downloadUrl);  // Changed from resumeUri to resumeUrl
             application.setCoverLetter(coverLetter);
-            application.setStatus("PENDING");
-            
+            application.setStatus(JobApplication.ApplicationStatus.valueOf("PENDING"));
+
             JobApplication savedApplication = applicationRepository.save(application);
-            // Fetch the saved application details
-            Optional<JobApplication> fetchedApplication = applicationRepository.findById(savedApplication.getId());
-            return ResponseEntity.status(HttpStatus.CREATED).body(fetchedApplication.orElse(savedApplication));
-                
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedApplication);
+
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().body("Invalid job ID format");
         } catch (Exception e) {
@@ -81,10 +80,10 @@ public class ApplicationController {
     public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
         try {
             Resource resource = fileStorageService.loadFileAsResource(filename);
-            
+
             String contentType = "application/octet-stream";
             String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
-            
+          
             return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
@@ -98,7 +97,8 @@ public class ApplicationController {
     @GetMapping("/job/{jobId}")
     public ResponseEntity<?> getApplicationsForJob(@PathVariable Integer jobId) {
         try {
-            List<JobApplication> applications = applicationRepository.findByJobId(jobId);
+            List<JobApplication> applications = applicationRepository.findByJob_Id( jobId);
+
             return ResponseEntity.ok(applications);
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
@@ -113,17 +113,17 @@ public class ApplicationController {
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/status")
+@GetMapping("/status")
     public ResponseEntity<?> getApplicationStatus() {
         try {
             List<JobApplication> applications = applicationRepository.findAll();
             List<JobApplication> reversedApplications = new ArrayList<>(applications);
-            
+          
             Collections.reverse(reversedApplications);
             List<Map<String, Object>> response = reversedApplications.stream()
                 .map(app -> {
                     Map<String, Object> appStatus = new HashMap<>();
-                    appStatus.put("jobId", app.getJobId());
+                    appStatus.put("jobId", app.getId());
                     appStatus.put("status", app.getStatus());
                     appStatus.put("timestamp", app.getAppliedAt());
                     appStatus.put("companyName", app.getJob() != null ? app.getJob().getCompany() : "N/A");
