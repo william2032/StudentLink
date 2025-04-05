@@ -29,7 +29,7 @@ public class ApplicationController {
     private final JobRepository jobRepository;
 
     public ApplicationController(JobApplicationRepository applicationRepository,
-                                FileStorageService fileStorageService,
+                                 FileStorageService fileStorageService,
                                  JobRepository jobRepository) {
         this.applicationRepository = applicationRepository;
         this.fileStorageService = fileStorageService;
@@ -38,11 +38,11 @@ public class ApplicationController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> submitApplication(
-        @RequestPart("jobId") String jobId,
-        @RequestPart("name") String name,
-        @RequestPart("email") String email,
-        @RequestPart("resume") MultipartFile resume,
-        @RequestPart(value = "coverLetter", required = false) String coverLetter) {
+            @RequestPart("jobId") String jobId,
+            @RequestPart("name") String name,
+            @RequestPart("email") String email,
+            @RequestPart("resume") MultipartFile resume,
+            @RequestPart(value = "coverLetter", required = false) String coverLetter) {
 
         try {
             // Validate inputs
@@ -62,9 +62,9 @@ public class ApplicationController {
 
             // Generate download URL using the controller endpoint
             String downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/applications/download/")
-                .path(storedFilename)
-                .toUriString();
+                    .path("/api/applications/download/")
+                    .path(storedFilename)
+                    .toUriString();
 
             // Create and save application
             JobApplication application = new JobApplication();
@@ -84,7 +84,7 @@ public class ApplicationController {
             return ResponseEntity.badRequest().body("Invalid job ID format");
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
-                .body("Failed to submit application: " + e.getMessage());
+                    .body("Failed to submit application: " + e.getMessage());
         }
     }
 
@@ -97,12 +97,12 @@ public class ApplicationController {
             String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
 
             return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
-                .body(resource);
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+                    .body(resource);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(null);
+                    .body(null);
         }
     }
 
@@ -113,7 +113,7 @@ public class ApplicationController {
             return ResponseEntity.ok(applications);
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
-                .body("Failed to retrieve applications: " + e.getMessage());
+                    .body("Failed to retrieve applications: " + e.getMessage());
         }
     }
 
@@ -121,28 +121,28 @@ public class ApplicationController {
     public ResponseEntity<?> getApplicationById(@PathVariable Long id) {
         Optional<JobApplication> application = applicationRepository.findById(id);
         return application.map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
-@GetMapping("/status")
+    @GetMapping("/status")
     public ResponseEntity<?> getApplicationStatus() {
         try {
             List<JobApplication> applications = applicationRepository.findAll();
 
             List<Map<String, Object>> response = applications.stream()
-                .map(app -> {
-                    Map<String, Object> appStatus = new HashMap<>();
-                    appStatus.put("jobId", app.getId());
-                    appStatus.put("status", app.getStatus());
-                    appStatus.put("timestamp", app.getAppliedAt());
-                    appStatus.put("companyName", app.getJob() != null ? app.getJob().getCompany() : "N/A");
-                    return appStatus;
-                })
-                .collect(Collectors.toList());
+                    .map(app -> {
+                        Map<String, Object> appStatus = new HashMap<>();
+                        appStatus.put("jobId", app.getId());
+                        appStatus.put("status", app.getStatus());
+                        appStatus.put("timestamp", app.getAppliedAt());
+                        appStatus.put("companyName", app.getJob() != null ? app.getJob().getCompany() : "N/A");
+                        return appStatus;
+                    })
+                    .collect(Collectors.toList());
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
-                .body("Failed to retrieve application statuses: " + e.getMessage());
+                    .body("Failed to retrieve application statuses: " + e.getMessage());
         }
     }
 
