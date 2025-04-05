@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaBell, FaCaretDown, FaGraduationCap, FaUserCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { GiSkills } from "react-icons/gi";
-import { MdDashboard, MdEmail, MdInterests } from "react-icons/md";
+import { MdDashboard, MdEmail } from "react-icons/md";
 import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom"; // Import useLocation
 import Applications from "./Applications"; // Import the Applications component
 import NewsPost from "./NewsPost";
@@ -215,7 +214,7 @@ const UserProfile = ({ userName, studentId }) => {
     };
 
     return (
-        <div className="absolute top-4  userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white rounded-lg shadow-lg w-80">
+        <div className="fixed top-4  userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white rounded-lg shadow-lg w-80">
             <div className="profile-picture rounded-lg p-2 h-60 text-center">
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-lg text-black font-bold">Profile</h1>
