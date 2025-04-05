@@ -225,7 +225,7 @@ const UserProfile = ({ userName, studentId }) => {
                     </div>
                 </div>
                 <div className="w-24 h-24 rounded-full overflow-hidden ml-26 mb-4 border border-gray-300">
-                    <FaUserCircle className="text-gray-500 ml-5 mt-5" size={50} />
+                    <FaUserCircle className="text-gray-500 ml-3 mt-3" size={50} />
                 </div>
                 <h2 className="text-lg text-black font-semibold mb-2">{userName || "John Doe"}</h2>
             </div>
