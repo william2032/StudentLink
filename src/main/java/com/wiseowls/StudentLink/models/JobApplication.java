@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "job_applications")
 public class JobApplication {
-    public void setJobId(int i) {
-    }
+   
 
     public enum ApplicationStatus {
         PENDING, APPROVED, REJECTED
