@@ -1,7 +1,9 @@
 package com.wiseowls.StudentLink.Controllers;
 
+import com.wiseowls.StudentLink.models.Job;
 import com.wiseowls.StudentLink.models.JobApplication;
 import com.wiseowls.StudentLink.Repositories.JobApplicationRepository;
+import com.wiseowls.StudentLink.Repositories.JobRepository;
 import com.wiseowls.StudentLink.Services.FileStorageService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -11,8 +13,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,15 +21,19 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/applications")
+
 public class ApplicationController {
 
     private final JobApplicationRepository applicationRepository;
     private final FileStorageService fileStorageService;
+    private final JobRepository jobRepository;
 
     public ApplicationController(JobApplicationRepository applicationRepository,
-                                FileStorageService fileStorageService) {
+                                FileStorageService fileStorageService,
+                                 JobRepository jobRepository) {
         this.applicationRepository = applicationRepository;
         this.fileStorageService = fileStorageService;
+        this.jobRepository = jobRepository;
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -45,7 +49,14 @@ public class ApplicationController {
             if (resume.isEmpty()) {
                 return ResponseEntity.badRequest().body("Resume file is required");
             }
+            int jobIdInt = Integer.parseInt(jobId);
+            Optional<Job> jobOptional = jobRepository.findById(jobIdInt);
 
+            if (jobOptional.isEmpty()) {
+                return ResponseEntity.badRequest().body("Job not found for ID: " + jobIdInt);
+            }
+
+            Job job = jobOptional.get();
             // Store file and get filename
             String storedFilename = fileStorageService.storeFile(resume);
 
@@ -57,11 +68,11 @@ public class ApplicationController {
 
             // Create and save application
             JobApplication application = new JobApplication();
-            application.setJobId(Integer.parseInt(jobId));
+            application.setJob(job);
             application.setStudentName(name);
             application.setStudentEmail(email);
             application.setResumePath(storedFilename);
-            application.setResumeUrl(downloadUrl);  // Changed from resumeUri to resumeUrl
+            application.setResumeUrl(downloadUrl);
             application.setCoverLetter(coverLetter);
             application.setStatus(JobApplication.ApplicationStatus.valueOf("PENDING"));
 
@@ -116,10 +127,8 @@ public class ApplicationController {
     public ResponseEntity<?> getApplicationStatus() {
         try {
             List<JobApplication> applications = applicationRepository.findAll();
-            List<JobApplication> reversedApplications = new ArrayList<>(applications);
 
-            Collections.reverse(reversedApplications);
-            List<Map<String, Object>> response = reversedApplications.stream()
+            List<Map<String, Object>> response = applications.stream()
                 .map(app -> {
                     Map<String, Object> appStatus = new HashMap<>();
                     appStatus.put("jobId", app.getId());
