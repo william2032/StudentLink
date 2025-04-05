@@ -6,50 +6,55 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "job_applications")
 public class JobApplication {
+   
+
+    public enum ApplicationStatus {
+        PENDING, APPROVED, REJECTED
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(nullable = false)
-    private Integer jobId;
-    
+
+    @Column(nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status = ApplicationStatus.PENDING;
+
+    @ManyToOne
+    @JoinColumn(name = "job_id", nullable = false)
+    private Job job; // Reference to Job entity
+
     @Column(nullable = false, length = 100)
     private String studentName;
-    
+
     @Column(nullable = false, length = 100)
     private String studentEmail;
-    
+
     @Column(nullable = false)
-    private String resumePath;  // Stores the physical filename
-    
+    private String resumePath;
+
     @Column(nullable = false)
-    private String resumeUrl;   // Stores the downloadable URL
-    
+    private String resumeUrl;
+
     @Column(columnDefinition = "TEXT")
     private String coverLetter;
-    
-    @Column(nullable = false, length = 20)
-    private String status = "PENDING"; // PENDING, APPROVED, REJECTED
-    
+
     @Column(name = "applied_at", nullable = false, updatable = false)
     private LocalDateTime appliedAt = LocalDateTime.now();
-    
+
     @Column(name = "reviewed_at")
     private LocalDateTime reviewedAt;
-    
+
     @Column(length = 500)
     private String reviewNotes;
 
-    @ManyToOne
-    @JoinColumn(name = "jobId", insertable = false, updatable = false)
-    private Job job; // Reference to Job entity
+    // Default constructor for JPA
+    public JobApplication() {}
 
-    // Constructors
-    public JobApplication() {
-    }
+    // Constructor
+    public JobApplication(Job job, String studentName, String studentEmail) {
+        this.job = job;
 
-    public JobApplication(Integer jobId, String studentName, String studentEmail) {
-        this.jobId = jobId;
         this.studentName = studentName;
         this.studentEmail = studentEmail;
     }
@@ -59,12 +64,12 @@ public class JobApplication {
         return id;
     }
 
-    public Integer getJobId() {
-        return jobId;
+    public Job getJob() {
+        return job;
     }
 
-    public void setJobId(Integer jobId) {
-        this.jobId = jobId;
+    public void setJob(Job job) {
+        this.job = job;
     }
 
     public String getStudentName() {
@@ -107,15 +112,28 @@ public class JobApplication {
         this.coverLetter = coverLetter;
     }
 
-    public String getStatus() {
+
+    public ApplicationStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ApplicationStatus status) {
         this.status = status;
-        if ("APPROVED".equals(status) || "REJECTED".equals(status)) {
-            this.reviewedAt = LocalDateTime.now();
-        }
+        this.reviewedAt = (status == ApplicationStatus.APPROVED || status == ApplicationStatus.REJECTED)
+                ? LocalDateTime.now()
+                : null;
+    }
+
+    public boolean isPending() {
+        return status == ApplicationStatus.PENDING;
+    }
+
+    public boolean isApproved() {
+        return status == ApplicationStatus.APPROVED;
+    }
+
+    public boolean isRejected() {
+        return status == ApplicationStatus.REJECTED;
     }
 
     public LocalDateTime getAppliedAt() {
@@ -133,49 +151,30 @@ public class JobApplication {
     public void setReviewNotes(String reviewNotes) {
         this.reviewNotes = reviewNotes;
     }
-
-    public Job getJob() {
-        return job;
+    // Helper method for status transitions
+    public void approve(String notes) {
+        this.status = ApplicationStatus.APPROVED;
+        this.reviewedAt = LocalDateTime.now();
+        this.reviewNotes = notes;
     }
 
-    // Business logic methods
-    public boolean isPending() {
-        return "PENDING".equals(status);
-    }
-
-    public boolean isApproved() {
-        return "APPROVED".equals(status);
-    }
-
-    public boolean isRejected() {
-        return "REJECTED".equals(status);
+    public void reject(String notes) {
+        this.status = ApplicationStatus.REJECTED;
+        this.reviewedAt = LocalDateTime.now();
+        this.reviewNotes = notes;
     }
 
     @Override
     public String toString() {
         return "JobApplication{" +
                 "id=" + id +
-                ", jobId=" + jobId +
+                ", job=" + (job != null ? job.getId() : "null") +
                 ", studentName='" + studentName + '\'' +
                 ", studentEmail='" + studentEmail + '\'' +
-                ", status='" + status + '\'' +
+                ", status=" + status.name() +
                 ", appliedAt=" + appliedAt +
                 ", reviewedAt=" + reviewedAt +
+                ", reviewNotes='" + reviewNotes + '\'' +
                 '}';
     }
-
-    // Helper method for status transitions
-    public void approve(String notes) {
-        this.status = "APPROVED";
-        this.reviewedAt = LocalDateTime.now();
-        this.reviewNotes = notes;
-    }
-
-    public void reject(String notes) {
-        this.status = "REJECTED";
-        this.reviewedAt = LocalDateTime.now();
-        this.reviewNotes = notes;
-    }
-
-    
 }

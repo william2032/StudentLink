@@ -21,7 +21,7 @@ public class JobService {
 
     // Get all jobs
     public List<Job> getAllJobs() {
-        return jobRepository.findAll();
+        return jobRepository.findByIsActiveTrue();
     }
 
     // Get a job by ID
@@ -45,9 +45,14 @@ public class JobService {
     }
 
     // Delete a job
-    public void deleteJob(Integer id) {
-        jobRepository.deleteById(id);
+     public void deleteJob(Integer id) {
+         Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found with id: " + id));
+        job.setActive(false);
+        jobRepository.save(job);
     }
+
+
 
     // Filter jobs
     public List<Job> filterJobs(String company, String location, String skillsRequired, String duration, Integer openingsAvailable) {

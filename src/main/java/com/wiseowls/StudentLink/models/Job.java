@@ -1,6 +1,8 @@
 package com.wiseowls.StudentLink.models;
 import jakarta.persistence.*;
 
+
+
 @Entity
 @Table(name = "jobs")
 public class Job {
@@ -13,7 +15,9 @@ public class Job {
     private String duration;
     private int openingsAvailable;
     private String jobDescription;
-
+   
+   @Column(nullable = false)
+    private boolean isActive = true;
     
     public Integer getId() {
         return id;
@@ -69,5 +73,13 @@ public class Job {
 
     public void setJobDescription(String jobDescription) {
         this.jobDescription = jobDescription;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+    
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

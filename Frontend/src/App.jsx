@@ -10,9 +10,8 @@ import Register from "./components/Register";
 const App = () => {
     const [userName, setUserName] = useState("");
     const [userEmail, setEmail] = useState("");
+
     const [studentId, setStudentId] = useState(null); 
-
-
     return (
         <Router>
             <Routes>
@@ -20,10 +19,13 @@ const App = () => {
                 <Route path="/" element={<LoginScreen setUserName={setUserName} setStudentId={setStudentId}/>} />
 
 
+
                 {/*admin page*/}
                 <Route path="/admin" element={<Admin/>} />
                 {/* Dashboard with nested routes */}
+
                 <Route path="/dashboard/*" element={<Dashboard userName={userName} studentId={studentId}/>} />
+
 
                 {/* Register page */}
                 <Route
@@ -34,6 +36,7 @@ const App = () => {
                             setUserName(userName);
                             setEmail(userEmail);
                             setStudentId(studentId);
+
                         }} 
                     />
                     } 
