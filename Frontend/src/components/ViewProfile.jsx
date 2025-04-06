@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MdOutlineVerifiedUser } from "react-icons/md";
 const API_URL = "http://localhost:8080/api/moreinfo";
 
-const ViewProfileForm = ({ handleCloseModal,studentId,firstname,lastname,username,email }) => {
+const ViewProfileForm = ({handleUpdateProfile, handleCloseModal,studentId,firstname,lastname,username,email }) => {
         const [admissionNo, setAdmissionNo] = useState('');
         const [programStudy, setProgramStudy] = useState('');
         const [skillname, setSkillname] = useState('');
@@ -40,10 +40,9 @@ const ViewProfileForm = ({ handleCloseModal,studentId,firstname,lastname,usernam
           fetchUserData(); }// Call the function to fetch user data
         }, [studentId]); 
 
-            // handleCloseModal();
         return (
             <div>
-                <div className='flex flex-row p-2 bg-white rounded profile'>
+                <div className='flex flex-row p-2 bg-white rounded-lg profile'>
                     <div className='basis-1/3 shadow-md'>
                         <div className="w-24 h-24 rounded-full overflow-hidden ml-10 mb-8 border border-gray-300">
                             <img src="student.avatar.jpeg" alt="student" />
@@ -101,7 +100,8 @@ const ViewProfileForm = ({ handleCloseModal,studentId,firstname,lastname,usernam
                     </div>
                 </div>
                <div className='mt-4'>
-                 <button onClick={handleCloseModal} className='viewclose hover:bg-purple-500 hover:text-white'>Close</button>
+                <button onClick={() => {handleUpdateProfile(); handleCloseModal();}} className="viewclose1 hover:bg-purple-500 hover:text-white">Enhance Your profile</button>
+                <button onClick={handleCloseModal} className='viewclose hover:bg-purple-500 hover:text-white'>Close</button>
                </div>
             </div>
                                   

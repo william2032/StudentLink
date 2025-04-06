@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaBell, FaCaretDown, FaGraduationCap } from "react-icons/fa";
 import { FaWpforms } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
-import { MdDashboard, MdEmail } from "react-icons/md";
+import { MdDashboard } from "react-icons/md";
 import { RiProgress7Fill } from "react-icons/ri";
 import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom"; // Import useLocation
 import Applications from "./Applications"; // Import the Applications component
@@ -246,22 +246,9 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
                 </div>
                 <h2 className="text-lg text-black font-semibold mb-2">{ username || "John Doe"}</h2>
             </div>
-            <div className="flex flex-col p-4">
-                <div>
-                    <FaGraduationCap size={30} className="mr-2" />
-                    <hr />
-                    <p><span className="ml-4">{firstname || "First Name"}</span></p>
-                    <p><span className="ml-4">{lastname || "Last Name"}</span></p>
-                </div>
-                <div className="mt-2">
-                    <MdEmail size={30} className="mr-2" />
-                    <hr />
-                    <p><span className="ml-4">{email || "Email Address"}</span></p>
-                </div>
-            </div>
-            <div className="btn items-center space-x-15 p-4">
-                <button onClick={handleUpdateProfile} className="update-btn text-white rounded">Update profile</button>
-                <button onClick={handleViewProfile} className="update-btn text-white rounded">View profile</button>
+            <div className="p-4 flex flex-col space-y-2 mt-4">
+              <button onClick={handleViewProfile} className="update-btn text-white w-50 rounded">View profile</button>
+              <button onClick={handleUpdateProfile} className="update-btn  text-white rounded">Enhance Your profile</button>
             </div>
             {isUpdateProfileModalOpen && (
                 <div className="fixed inset-0 flex enhanceForm items-center justify-center backdrop-blur-md bg-black/30">
@@ -278,6 +265,7 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
                         <ViewProfileForm 
                           studentId={effectiveStudentId}
                           handleCloseModal={handleCloseViewModal} 
+                          handleUpdateProfile={handleUpdateProfile} // Pass the function to handle update profile
                           firstname={firstname}
                           lastname={lastname}
                           username={username}

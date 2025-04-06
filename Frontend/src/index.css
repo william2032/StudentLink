@@ -240,23 +240,15 @@ body {
 }
 .update-btn{
   padding: 5px;
-  background: whitesmoke;
-  color: black;
+  background:transparent;
   cursor: pointer;
-  min-width: 75px; 
-  text-align: center;
-  white-space: nowrap; 
+  border: 2px solid white;
+  border-radius: 11px;
 }
 .update-btn:hover{
   background: rgb(61, 61, 61);
   color: white;
   transition: all 0.5s ease-in-out;
-
-}
-.btn{
-  /* align-items: center; */
-  display: flex;
-  justify-content: space-between;
 }
 .profile-picture{
   background: white;
@@ -265,8 +257,8 @@ body {
   color: #2e2e2e;
 }
 .viewprofile{
-  width: 60%;
-  height: 80vh;
+  width: 70%;
+  height: 75vh;
   color:gray;
 }
 .viewprofile h4{
@@ -275,9 +267,17 @@ body {
   font-style: normal;
 }
 .viewclose{
+  width: 5%;
   float: right;
-  margin-right: 5%;
-  margin-top: 30px;
+  margin-right: 2px;
+  cursor: pointer;
+  font-size: 15px;
+  border: 2px solid #925fe2;
+  border-radius: 5px;
+  padding: 2px;
+  transition: all 0.3s ease-in-out;
+}
+.viewclose1{
   cursor: pointer;
   font-size: 15px;
   border: 2px solid #925fe2;
