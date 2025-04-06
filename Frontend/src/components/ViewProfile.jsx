@@ -1,169 +1,111 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { MdOutlineVerifiedUser } from "react-icons/md";
+const API_URL = "http://localhost:8080/api/moreinfo";
 
+const ViewProfileForm = ({ handleCloseModal,studentId,firstname,lastname,username,email }) => {
+        const [admissionNo, setAdmissionNo] = useState('');
+        const [programStudy, setProgramStudy] = useState('');
+        const [skillname, setSkillname] = useState('');
+        const [skillDescription, setSkillDescription] = useState('');
+        const [interests, setInterests] = useState('');
+        const [interestDescription, setInterestDescription] = useState('');
+        const [socialLinks, setSocialLinks] = useState('');
 
-const ViewProfileForm = ({ handleCloseModal,studentId }) => {
-    const [currentStep, setCurrentStep] = useState(1);
-        const handleChange = (e) => {
-            const { name, value } = e.target;
-        };
+        useEffect(() => {
+          const fetchUserData = async () => {
+              try {
+                  const response = await fetch(`${API_URL}/${studentId}`); // Make the API call
+                  console.log("API Response:", response); // Debugging log
+                  if (!response.ok) {
+                      console.error(`No user data found for studentId: ${studentId}, status: ${response.status}`);
+                      return; // Exit the function if there's an error
+                  }
+      
+                  const data = await response.json(); // Parse the JSON response
+                  console.log("User data fetched successfully:", data); // Debugging log
+                  setAdmissionNo(data.admissionNo);
+                  setProgramStudy(data.programStudy);
+                  setSkillname(data.skillname);
+                  setSkillDescription(data.skilldescription);
+                  setInterests(data.interest);
+                  setInterestDescription(data.interestdescription); 
+                  setSocialLinks(data.socialLink);
+
+              } catch (error) {
+                  console.error("Error fetching user data:", error);
+              }
+          };
     
-        const handleNextStep = () => {
-            setCurrentStep(currentStep + 1);
-        };
-    
-        const handlePrevStep = () => {
-            setCurrentStep(currentStep - 1);
-        };
-    
-        const handleSubmit = (e) => {
-            e.preventDefault();
-           // Update the profile display with the new values
-           setFormData({
-            ...formData,
-            admissionNo:admissionNo,
-            programStudy: programStudy
-        });
-        handleCloseModal();
-    };
-    return (
-        <form className='' onSubmit={handleSubmit}>
-            {currentStep === 1 && (
-                <div>
-                    <h3 className="text-lg font-bold mb-4 ">Personal Details</h3>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">First Name:</label>
-                        <input
-                            type="text"
-                            name="firstName"
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter First Name"
-                        />
+          if (studentId) {
+          fetchUserData(); }// Call the function to fetch user data
+        }, [studentId]); 
+
+            // handleCloseModal();
+        return (
+            <div>
+                <div className='flex flex-row p-2 bg-white rounded profile'>
+                    <div className='basis-1/3 shadow-md'>
+                        <div className="w-24 h-24 rounded-full overflow-hidden ml-10 mb-8 border border-gray-300">
+                            <img src="student.avatar.jpeg" alt="student" />
+                        </div>
+                        <div className='ml-10 mb-8 flex items-center'>
+                            <h4 className='text-purple-500 mr-2'>VERIFIED</h4>
+                            <MdOutlineVerifiedUser className='text-purple-600' size={30}/>
+                        </div>
+                        <div className='ml-10 mb-8'>
+                            <h4 className='text-purple-500'>FIRST NAME</h4>
+                            <p ><span className="">{firstname || 'username'}</span></p>
+                        </div>
+                        <div className='ml-10 mb-8'>
+                            <h4 className='text-purple-500'>LAST NAME</h4>
+                            <p><span className="">{lastname || 'username'}</span></p>
+                        </div>
+                        <div className='ml-10 mb-8'>
+                            <h4 className='text-purple-500'>USER NAME</h4>
+                            <p><span className="">{username || 'username'}</span></p>
+                        </div>
+                        <div className='ml-10 mb-8'>
+                            <h4 className='text-purple-500'>E-MAIL</h4>
+                            <p><span className="">{email || 'username'}</span></p>
+                        </div>
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Last Name:</label>
-                        <input
-                            type="text"
-                            name="lastName"
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Last Name"
-                        />
+                    <div className='basis-2/3 shadow-md p-4'>
+                    <div className='ml-10 mb-8'>
+                        <h4 className='text-purple-500'>Admission Number</h4>
+                        <p><span className="">{admissionNo || 'username'}</span></p>
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Username:</label>
-                        <input
-                            type="text"
-                            name="username"
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Username"
-                        />
+                    <div className='ml-10 mb-8'>
+                        <h4 className='text-purple-500'>Program of Study</h4>
+                        <p><span className="">{programStudy || 'username'}</span></p>
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Email:</label>
-                        <input
-                            type="email"
-                            name="email"
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Email"
-                        />
+                    <div className='ml-10 mb-8'>
+                        <h4 className='text-purple-500'>Skills</h4>
+                        <p><span className="">{skillname || 'username'}</span></p>
                     </div>
-                    <div className="flex justify-between mt-4">
-                        <button type="button" onClick={handleCloseModal} className="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
-                        <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
+                    <div className='ml-10 mb-8'>
+                        <h4 className='text-purple-500'>Skill Description</h4>
+                        <p><span className="">{skillDescription || 'username'}</span></p>
+                    </div>
+                    <div className='ml-10 mb-8'>
+                        <h4 className='text-purple-500'>Interest</h4>
+                        <p><span className="">{interests || 'username'}</span></p>
+                    </div>
+                    <div className='ml-10 mb-8'>
+                        <h4 className='text-purple-500'>Interest Description</h4>
+                        <p><span className="">{interestDescription || 'username'}</span></p>
+                    </div>
+                    <div className='ml-10 mb-8'>
+                        <h4 className='text-purple-500'>Social Links</h4>
+                        <a href={socialLinks} target='blank'><span className="hover:underline">{socialLinks || 'username'}</span></a>
+                    </div>
                     </div>
                 </div>
-            )}
-            {currentStep === 2 && (
-                <div>
-                    <h3 className="text-lg font-bold mb-4">Education</h3>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Admission No:</label>
-                        <input
-                            type="text"
-                            name="admissionNo"
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Admission No."
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Program Study:</label>
-                        <input
-                            type="text"
-                            name="programStudy"
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Program Study"
-                        />
-                    </div>
-                    <div className="flex justify-between mt-4">
-                        <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
-                        <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
-                    </div>
-                </div>
-            )}
-            {currentStep === 3 && (
-                <div>
-                    <h3 className="text-lg font-bold mb-4">Skills</h3>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Skills:</label>
-                        <input
-                            type="text"
-                            name="skills"
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Skills"
-                        />
-                    </div>
-                    <div className="flex justify-between mt-4">
-                        <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
-                        <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
-                    </div>
-                </div>
-            )}
-            {currentStep === 4 && (
-                <div>
-                    <h3 className="text-lg font-bold mb-4">Interests</h3>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Interests:</label>
-                        <input
-                            type="text"
-                            name="interests"
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Interests"
-                        />
-                    </div>
-                    <div className="flex justify-between mt-4">
-                        <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
-                        <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
-                    </div>
-                </div>
-            )}
-            {currentStep === 5 && (
-                <div>
-                    <h3 className="text-lg font-bold mb-4">Social Links</h3>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Social Links:</label>
-                        <input
-                                                   type="text"
-                            name="socialLinks"
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded-lg"
-                            placeholder="Enter Social Links"
-                        />
-                    </div>
-                    <div className="flex justify-between mt-4">
-                        <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
-                        <button type="submit" className="bg-purple-500 text-white px-4 py-2 rounded">Save</button>
-                    </div>
-                </div>
-            )}
-        </form>
-    );
-};
+               <div className='mt-4'>
+                 <button onClick={handleCloseModal} className='viewclose hover:bg-purple-500 hover:text-white'>Close</button>
+               </div>
+            </div>
+                                  
+        );
+    }; 
 
 export default ViewProfileForm;

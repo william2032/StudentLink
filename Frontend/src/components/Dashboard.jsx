@@ -272,10 +272,17 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
                 </div>
             )}
             {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black/30">
-                    <div className="bg-white p-8 rounded-lg shadow-md w-96">
-                        <h2 className="text-center text-2xl font-bold mb-6">View Profile</h2>
-                        <ViewProfileForm  studentId={effectiveStudentId} handleCloseModal={handleCloseViewModal} />                   
+                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md  bg-black/30">
+                    <div className="bg-white p-2 rounded-lg shadow-md viewprofile">
+                        <h4 className=" text-4xl font-bold mb-6">PROFILE</h4>
+                        <ViewProfileForm 
+                          studentId={effectiveStudentId}
+                          handleCloseModal={handleCloseViewModal} 
+                          firstname={firstname}
+                          lastname={lastname}
+                          username={username}
+                          email={email}
+                        />                   
                     </div>
                 </div>
             )}
