@@ -122,8 +122,8 @@ const UpdateProfileForm = ({handleCloseModal,studentId}) => {
                         />
                     </div>
                     <div className="flex justify-between mt-4">
-                        <button type="button" onClick={handleCloseModal} className="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
-                        <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
+                        <button type="button" onClick={handleCloseModal} className="bg-gray-500 text-white px-4 py-2 btn1">Cancel</button>
+                        <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 btn1">Next</button>
                     </div>
                 </div>
             )}
@@ -154,8 +154,8 @@ const UpdateProfileForm = ({handleCloseModal,studentId}) => {
                         />
                     </div>
                     <div className="flex justify-between mt-4">
-                        <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
-                        <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
+                        <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 btn1">Back</button>
+                        <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 btn1">Next</button>
                     </div>
                 </div>
             )}
@@ -186,8 +186,8 @@ const UpdateProfileForm = ({handleCloseModal,studentId}) => {
                         />
                     </div>
                     <div className="flex justify-between mt-4">
-                        <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
-                        <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 rounded">Next</button>
+                        <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 btn1">Back</button>
+                        <button type="button" onClick={handleNextStep} className="bg-purple-500 text-white px-4 py-2 btn1">Next</button>
                     </div>
                 </div>
             )}
@@ -207,9 +207,9 @@ const UpdateProfileForm = ({handleCloseModal,studentId}) => {
                         />
                     </div>
                     <div className="flex justify-between mt-4">
-                        <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
+                        <button type="button" onClick={handlePrevStep} className="bg-gray-500 text-white px-4 py-2 btn1">Back</button>
                         <button type="submit" 
-                            className={`bg-purple-500 text-white px-4 py-2 rounded ${isButtonDisabled ? "bg-gray-600 cursor-not-allowed" : "bg-gray-600 cursor-pointer hover:bg-purple-700"}`}
+                            className={`bg-purple-500 text-white px-4 py-2 btn1 ${isButtonDisabled ? "bg-gray-600 cursor-not-allowed" : "bg-gray-600 btn1 "}`}
                             disabled = {isButtonDisabled || isSubmitting}
                             >
                             {isSubmitting ? (

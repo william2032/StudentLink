@@ -100,11 +100,10 @@ const ViewProfileForm = ({handleUpdateProfile, handleCloseModal,studentId,firstn
                     </div>
                 </div>
                <div className='mt-4'>
-                <button onClick={() => {handleUpdateProfile(); handleCloseModal();}} className="viewclose1 hover:bg-purple-500 hover:text-white">Enhance Your profile</button>
-                <button onClick={handleCloseModal} className='viewclose hover:bg-purple-500 hover:text-white'>Close</button>
+                <button onClick={() => {handleUpdateProfile(); handleCloseModal();}} className="btn1 hover:bg-purple-500 hover:text-white">Enhance Your profile</button>
+                <button onClick={handleCloseModal} className='viewclose btn1 hover:bg-purple-500 hover:text-white'>Close</button>
                </div>
             </div>
-                                  
         );
     }; 
 

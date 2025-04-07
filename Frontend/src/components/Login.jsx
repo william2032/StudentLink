@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 const Login = ({ openRegister, setUserName, onLogin, setStudentId }) => {
@@ -75,7 +75,7 @@ const Login = ({ openRegister, setUserName, onLogin, setStudentId }) => {
             <p className="text-right text-[12px] text-gray-500">Forgot password ?</p>
 
             <button type="submit"
-              className="w-full bg-purple-500 text-white py-2 rounded-lg mt-4 cursor-pointer login-button">
+              className="w-full bg-purple-500 text-white py-2 btn1 mt-4">
               Login
             </button>
           </form>

@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Applications = () => {
     const [jobs, setJobs] = useState([]);
@@ -151,7 +151,7 @@ const Applications = () => {
                 ))}
                 <button
                     type="submit"
-                    className="bg-purple-500 text-white p-2 rounded-lg hover:bg-purple-600 transition-colors"
+                    className="bg-purple-500 btn1 text-white"
                 >
                     Filter Jobs
                 </button>
@@ -167,7 +167,7 @@ const Applications = () => {
                         });
                         fetchJobs();
                     }}
-                    className="bg-gray-500 text-white p-2 rounded-lg hover:bg-gray-600 transition-colors"
+                    className="bg-gray-500 text-white btn1  "
                 >
                     Clear Filters
                 </button>
@@ -207,7 +207,7 @@ const Applications = () => {
                             <p className="text-gray-600 mt-2"><strong>Description:</strong> {job.jobDescription}</p>
                             <button
                                 onClick={() => handleApplyClick(job)}
-                                className={`bg-purple-500 text-white px-4 py-2 rounded-lg mt-3 hover:bg-purple-600 transition-colors
+                                className={`bg-purple-500 text-white px-4 py-2 mt-3 btn1
                                 ${!job.active ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 disabled={!job.active}
                             >

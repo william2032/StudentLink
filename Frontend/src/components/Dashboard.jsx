@@ -233,7 +233,7 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
 
     return (
         <div className="fixed top-4  userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white rounded-lg shadow-lg w-80">
-            <div className="profile-picture rounded-lg p-2 h-60 text-center">
+            <div className="profile-picture rounded-lg p-2 h-100 text-center">
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-lg text-black font-bold">Profile</h1>
                     <div className="flex items-center space-x-2 text-gray-500">
@@ -245,11 +245,12 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
                     <img src="student.avatar.jpeg" alt="student" />
                 </div>
                 <h2 className="text-lg text-black font-semibold mb-2">{ username || "John Doe"}</h2>
+                <div className="p-4 flex flex-col space-y-2 mt-10">
+                  <button onClick={handleViewProfile} className=" btn1 text-black w-50 ">View profile</button>
+                  <button onClick={handleUpdateProfile} className=" btn1 text-black">Enhance Your profile</button>
+                </div>
             </div>
-            <div className="p-4 flex flex-col space-y-2 mt-4">
-              <button onClick={handleViewProfile} className="update-btn text-white w-50 rounded">View profile</button>
-              <button onClick={handleUpdateProfile} className="update-btn  text-white rounded">Enhance Your profile</button>
-            </div>
+
             {isUpdateProfileModalOpen && (
                 <div className="fixed inset-0 flex enhanceForm items-center justify-center backdrop-blur-md bg-black/30">
                     <div className="bg-white p-8 rounded-lg shadow-md w-96">

@@ -152,7 +152,7 @@ const Register = ({ onRegisterSuccess }) => {
                     {/* Sign Up Button */}
                     <button
                         onClick={handleRegister}
-                        className={`w-full py-2 mt-4 rounded-lg ${isButtonDisabled ? "bg-gray-600 cursor-not-allowed" : "bg-gray-600 cursor-pointer hover:bg-purple-700"}`}
+                        className={`w-full py-2 mt-4 rounded-lg ${isButtonDisabled ? "bg-gray-600 btn1 cursor-not-allowed" : "bg-gray-600 btn1 hover:bg-purple-700"}`}
                         disabled={isButtonDisabled || isSubmitting}
                     >
                         {isSubmitting ? (
