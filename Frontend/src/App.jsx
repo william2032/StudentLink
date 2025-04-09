@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { Route, BrowserRouter as Router, Routes, useNavigate } from "react-router-dom";
+import {useState} from "react";
+import {Route, BrowserRouter as Router, Routes, useNavigate} from "react-router-dom";
 import Admin from "./components/Admin";
 import Dashboard from "./components/Dashboard.jsx";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import  ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
     const [userName, setUserName] = useState("");
@@ -14,26 +15,29 @@ const App = () => {
         <Router>
             <Routes>
                 {/* Login screen as the main landing page */}
-                <Route path="/" element={<LoginScreen setUserName={setUserName} setStudentId={setStudentId}/>} />
+                <Route path="/" element={<LoginScreen setUserName={setUserName} setStudentId={setStudentId}/>}/>
 
                 {/*admin page*/}
-                <Route path="/admin" element={<Admin/>} />
-                
+                <Route path="/admin" element={
+                    <ProtectedRoute>
+                        <Admin/>
+                    </ProtectedRoute>}/>
+
                 {/* Dashboard with nested routes */}
-                <Route path="/dashboard/*" element={<Dashboard userName={userName} studentId={studentId}/>} />
+                <Route path="/dashboard/*" element={<Dashboard userName={userName} studentId={studentId}/>}/>
 
                 {/* Register page */}
                 <Route
-                 path="/register" 
-                 element={
-                    <Register
-                        onRegisterSuccess={(userName, userEmail, studentId) => {
-                            setUserName(userName);
-                            setEmail(userEmail);
-                            setStudentId(studentId);
-                        }} 
-                    />
-                    } 
+                    path="/register"
+                    element={
+                        <Register
+                            onRegisterSuccess={(userName, userEmail, studentId) => {
+                                setUserName(userName);
+                                setEmail(userEmail);
+                                setStudentId(studentId);
+                            }}
+                        />
+                    }
                 />
             </Routes>
         </Router>
@@ -41,7 +45,7 @@ const App = () => {
 };
 
 // Component to handle login/register navigation
-const LoginScreen = ({ setUserName, setStudentId }) => {
+const LoginScreen = ({setUserName, setStudentId}) => {
     const [showRegister, setShowRegister] = useState(false);
     const navigate = useNavigate();
 
@@ -54,12 +58,13 @@ const LoginScreen = ({ setUserName, setStudentId }) => {
     return (
         <div className="flex items-center justify-center h-screen pt-[90px] p-4">
             {showRegister ? (
-                <Register onRegisterSuccess={() => setShowRegister(false)} onBackToLogin={() => setShowRegister(false)} />
+                <Register onRegisterSuccess={() => setShowRegister(false)}
+                          onBackToLogin={() => setShowRegister(false)}/>
             ) : (
-                <Login 
-                    openRegister={() => navigate("/register")} 
-                    onLogin={handleLogin} 
-                    setUserName={setUserName} 
+                <Login
+                    openRegister={() => navigate("/register")}
+                    onLogin={handleLogin}
+                    setUserName={setUserName}
                     setStudentId={setStudentId}
                 />
             )}
@@ -72,7 +77,7 @@ const RegisterScreen = () => {
     const navigate = useNavigate();
     return (
         <div className="flex items-center justify-center h-full mt-20 pt-[100px] p-4">
-            <Register onRegisterSuccess={() => navigate("/login")} onBackToLogin={() => navigate("/login")} />
+            <Register onRegisterSuccess={() => navigate("/login")} onBackToLogin={() => navigate("/login")}/>
         </div>
     );
 };
