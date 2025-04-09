@@ -71,11 +71,12 @@ const ViewProfileForm = ({handleUpdateProfile, handleCloseModal,studentId,firstn
                         <div className="w-24 h-24 rounded-full overflow-hidden ml-10 mb-8 border border-gray-300">
                             <img src="student.avatar.png" alt="student" />
                         </div>
+                        {fetchstate.dataFetched && (
                         <div className='ml-10 mb-8 flex items-center'>
                             <h4 className='text-purple-500 mr-2'>VERIFIED</h4>
-                            {fetchstate.dataFetched && (
-                            <MdOutlineVerifiedUser className='text-purple-600' size={30}/>)}
+                            <MdOutlineVerifiedUser className='text-purple-600' size={30}/>
                         </div>
+                        )}
                         <div className='ml-10 mb-8'>
                             <h4 className='text-purple-500'>FIRST NAME</h4>
                             <p ><span className="">{firstname || 'username'}</span></p>
