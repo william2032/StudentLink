@@ -232,7 +232,7 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
     };
 
     return (
-        <div className="fixed top-4  userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-200 text-white rounded-lg shadow-lg w-80">
+        <div className="fixed top-4  userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-20 text-white rounded-lg shadow-lg w-80">
             <div className="profile-picture rounded-lg p-2 h-100 text-center">
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-lg text-black font-bold">Profile</h1>
@@ -242,12 +242,12 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
                     </div>
                 </div>
                 <div className="w-24 h-24 rounded-full overflow-hidden ml-26 mb-4 border border-gray-300">
-                    <img src="student.avatar.jpeg" alt="student" />
+                    <img src="student.avatar.png" alt="student" />
                 </div>
-                <h2 className="text-lg text-black font-semibold mb-2">{ username || "John Doe"}</h2>
-                <div className="p-4 flex flex-col space-y-2 mt-10">
-                  <button onClick={handleViewProfile} className=" btn1 text-black w-50 ">View profile</button>
-                  <button onClick={handleUpdateProfile} className=" btn1 text-black">Enhance Your profile</button>
+                <h2 className="text-lg text-black font-semibold mt-8 ">{ username || "John Doe"}</h2>
+                <div className="p-4 flex flex-col sm:flex-row sm:space-x-8 space-y-4 sm:space-y-0 sm:mt-[12vh] justify-center items-center">
+                  <button onClick={handleViewProfile} className=" btn1 px-6 py-2 bg-transparent text-black rounded-2xl shadow hover:bg-blue-600 transition-all duration-300 w-full sm:w-auto ">View profile</button>
+                  <button onClick={handleUpdateProfile} className=" btn1 px-6 py-2 bg-transparent text-black  rounded-2xl shadow hover:bg-blue-600 transition-all duration-300 w-full sm:w-auto">Enhance Your profile</button>
                 </div>
             </div>
 
