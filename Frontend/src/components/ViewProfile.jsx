@@ -45,7 +45,7 @@ const ViewProfileForm = ({handleUpdateProfile, handleCloseModal,studentId,firstn
                 <div className='flex flex-row p-2 bg-white rounded-lg profile'>
                     <div className='basis-1/3 shadow-md'>
                         <div className="w-24 h-24 rounded-full overflow-hidden ml-10 mb-8 border border-gray-300">
-                            <img src="student.avatar.jpeg" alt="student" />
+                            <img src="student.avatar.png" alt="student" />
                         </div>
                         <div className='ml-10 mb-8 flex items-center'>
                             <h4 className='text-purple-500 mr-2'>VERIFIED</h4>
