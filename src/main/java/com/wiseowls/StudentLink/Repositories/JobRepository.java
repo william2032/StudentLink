@@ -5,16 +5,16 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.wiseowls.StudentLink.models.Job;
 
-import org.springframework.stereotype.Repository;
 
 
 @Repository
 public interface JobRepository extends JpaRepository<Job,  Integer> {
          List<Job> findByIsActiveTrue();
-    void deleteById(Integer id);
+         void deleteById( Integer id);
 
     // Custom query to filter jobs based on multiple parameters
     @Query("SELECT j FROM Job j WHERE " +
