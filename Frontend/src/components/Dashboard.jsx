@@ -65,7 +65,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-60 h-200 bg-purple-500 p-5 sidebar text-white rounded-lg flex flex-col fixed left-4 top-4">
+    <div className="w-60 h-screen bg-purple-500 p-5 sidebar text-white rounded-lg flex flex-col fixed left-4 top-4">
       <div className="flex items-center space-x-2 mb-6">
         <FaGraduationCap size={30} />
         <h2 className="">StudentLink</h2>
