@@ -70,7 +70,7 @@ const Admin = () => {
             const data = await response.json();
             setJobs(data);
         } catch (err) {
-            setError('Failed to fetch jobs');
+            setErrorWithTimeout('Failed to fetch jobs');
         }
     };
 
@@ -122,7 +122,7 @@ const Admin = () => {
                 openingsAvailable: ''
             });
         } catch (err) {
-            setError('Failed to save job');
+            setErrorWithTimeout('Failed to save job');
         }
     };
 

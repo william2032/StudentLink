@@ -244,15 +244,15 @@ body {
 .enhanceForm{
   color: #2e2e2e;
 }
-.viewprofile{
+.viewprofile {
   width: 70%;
   height: 75vh;
   color:gray;
 }
 .viewprofile h4{
-  font-family: "Underdog", cursive;
-  font-weight: 400;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
   font-style: normal;
+
 }
 .viewclose{
   width: 5%;

@@ -235,7 +235,7 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
         <div className="fixed top-4  userProfile bg-gradient-to-r from-purple-500 to-purple-400 h-20 text-white rounded-lg shadow-lg w-80">
             <div className="profile-picture rounded-lg p-2 h-100 text-center">
                 <div className="flex justify-between items-center mb-4">
-                    <h1 className="text-lg text-black font-bold">Profile</h1>
+                    <h1 className="text-[18px] text-black font-bold ">Profile</h1>
                     <div className="flex items-center space-x-2 text-gray-500">
                         <FaBell className="cursor-pointer" />
                         <FaCaretDown className="cursor-pointer" />
@@ -262,7 +262,7 @@ const UserProfile = ({ studentId, onUsernameUpdate }) => {
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md  bg-black/30">
                     <div className="bg-white p-2 rounded-lg shadow-md viewprofile">
-                        <h4 className=" text-4xl font-bold mb-6">PROFILE</h4>
+                        <h4 className=" text-[20px] font-semibold  mb-6 ml-6" >PROFILE</h4>
                         <ViewProfileForm 
                           studentId={effectiveStudentId}
                           handleCloseModal={handleCloseViewModal} 
