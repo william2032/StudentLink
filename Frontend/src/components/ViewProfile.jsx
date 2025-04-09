@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MdOutlineVerifiedUser } from "react-icons/md";
 const API_URL = "http://localhost:8080/api/moreinfo";
+const api_url = "http://localhost:8080/api/studentschool";
 
 const ViewProfileForm = ({handleUpdateProfile, handleCloseModal,studentId,firstname,lastname,username,email }) => {
         const [admissionNo, setAdmissionNo] = useState('');
@@ -10,6 +11,9 @@ const ViewProfileForm = ({handleUpdateProfile, handleCloseModal,studentId,firstn
         const [interests, setInterests] = useState('');
         const [interestDescription, setInterestDescription] = useState('');
         const [socialLinks, setSocialLinks] = useState('');
+        const [fetchstate, setfetchstate] = useState({
+            dataFetched: false,
+        });
 
         useEffect(() => {
           const fetchUserData = async () => {
@@ -40,6 +44,26 @@ const ViewProfileForm = ({handleUpdateProfile, handleCloseModal,studentId,firstn
           fetchUserData(); }// Call the function to fetch user data
         }, [studentId]); 
 
+        useEffect(() => {
+            const fetchstudentdata = async () => {
+                try {
+                    const response = await fetch(`${api_url}/${admissionNo}`);
+                    if (!response.ok) {
+                        console.error(`No student data found for studentId: ${studentId}, status: ${response.status}`);
+                        return;
+                    }
+
+                    setfetchstate({ dataFetched: true });
+        
+                } catch (error) {
+                    console.error("Error fetching student data:", error);
+                }
+            }
+            if(admissionNo) {
+                fetchstudentdata();
+            }
+        },[admissionNo]);
+
         return (
             <div>
                 <div className='flex flex-row p-2 bg-white rounded-lg profile'>
@@ -49,7 +73,8 @@ const ViewProfileForm = ({handleUpdateProfile, handleCloseModal,studentId,firstn
                         </div>
                         <div className='ml-10 mb-8 flex items-center'>
                             <h4 className='text-purple-500 mr-2'>VERIFIED</h4>
-                            <MdOutlineVerifiedUser className='text-purple-600' size={30}/>
+                            {fetchstate.dataFetched && (
+                            <MdOutlineVerifiedUser className='text-purple-600' size={30}/>)}
                         </div>
                         <div className='ml-10 mb-8'>
                             <h4 className='text-purple-500'>FIRST NAME</h4>
